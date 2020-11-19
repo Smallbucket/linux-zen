@@ -139,6 +139,53 @@ file /bin/bash
 设置 root 密码
 
     sudo passwd
+    
+### Ubuntu 安全相关命令
+
+
+#### 在Ubuntu中禁用 root 帐户
+
+    sudo passwd -l root
+    
+如果root密码忘了就需要进入单用户模式。进入单用户模式：
+
+1，在开机引导到GRUB等待界面（GRUB loading, please wait…）这里的时候按下ESC键来进入启动菜单，选择相应内核版本的Recovery Mode，按e键进入编辑状态。
+
+2，移动光标，将”ro recovery nomodeset“修改为"rw single init=/bin/bash"以后 按ctrl+X就可以即进入单用户模式，
+
+3，然后我们就可以用命令 passwd 用户名来修改密码了。
+
+见到：root@(none):/#  马上输入”passwd“ 回车！
+
+见到：Enter new UNIX password:  马上输入”123“ 回车！
+
+见到：retype new UNIX password:马上输入”123“ 回车！
+
+新密码变成”123“了。
+
+4. 输入”reboot“ 回车！也可以Ctr Alt Del. 总之重启动就可以了！
+
+#### 禁用 ssh root login
+输入命令：
+
+    grep -i "rootlogin" /etc/ssh/sshd_config
+Root login is disabled, if the PermitRootLogin directive is commented out (# in front) or its value is not set to yes.
+
+sshd_config 为 SSH 的配置文件。
+
+启用 SSH 命令:
+
+    vim /etc/ssh/sshd_config
+Uncomment the line PermitRootLogin and set the value to yes:
+
+    PermitRootLogin yes
+To make the new setting take effect, restart the ssh server:
+
+    systemctl restart sshd.service
+
+
+
+
 
 
 ## 参考资料：      
@@ -147,3 +194,4 @@ file /bin/bash
 
 
 
+    
