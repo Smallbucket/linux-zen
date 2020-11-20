@@ -1,4 +1,3 @@
-> [返回首页](../README.md)     
 
 ## Debian/Ubuntu 命令
 ### deb 包安装方法  
@@ -183,7 +182,19 @@ To make the new setting take effect, restart the ssh server:
 
     systemctl restart sshd.service
 
+#### 查看系统启动项
+列出所有
+systemctl list-unit-files
 
+查看服务状态及路径
+
+systemctl status xxx.service
+
+禁用服务
+
+systemctl disable xxx.service
+
+停
 
 
 
