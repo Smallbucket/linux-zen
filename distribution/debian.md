@@ -177,7 +177,8 @@ To make the new setting take effect, restart the ssh server:
 
 #### 查看系统启动项
 列出所有
-systemctl list-unit-files
+
+    systemctl list-unit-files
 
 查看服务状态及路径
 
@@ -207,10 +208,23 @@ systemctl list-unit-files
     blacklist iwl3945
  重新启动
 
+#### avahi-daemon
+[avahi-daemon是什么](https://www.cnblogs.com/taosim/articles/2639520.html)               
+
+Avahi允许程序在不需要进行手动网络配置的情况 下，在一个本地网络中发布和获知各种服务和主机。例如，当某用户把他的计算机接入到某个局域网时，如果他的机器运行有Avahi服务，则Avahi程式自 动广播，从而发现网络中可用的打印机、共享文件和可相互聊天的其他用户。这有点象他正在接收局域网中的各种网络广告一样。
+
+如果你用不到 把该服务直接关闭
+
+    /etc/init.d/avahi-daemon stop 
+or 
+
+    service avahi-daemon  stop
+
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
-* [Linux软件包管理基本操作入门](https://www.sysgeek.cn/linux-package-management/)     
+* [Linux软件包管理基本操作入门](https://www.sysgeek.cn/linux-package-management/)        
+* [Linux 中如何启用和禁用网卡？](https://zhuanlan.zhihu.com/p/65480107)                 
 
 
 
