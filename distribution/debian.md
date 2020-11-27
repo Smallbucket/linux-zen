@@ -148,21 +148,14 @@ file /bin/bash
     
 如果root密码忘了就需要进入单用户模式。进入单用户模式：
 
-1，在开机引导到GRUB等待界面（GRUB loading, please wait…）这里的时候按下ESC键来进入启动菜单，选择相应内核版本的Recovery Mode，按e键进入编辑状态。
-
-2，移动光标，将”ro recovery nomodeset“修改为"rw single init=/bin/bash"以后 按ctrl+X就可以即进入单用户模式，
-
-3，然后我们就可以用命令 passwd 用户名来修改密码了。
-
-见到：root@(none):/#  马上输入”passwd“ 回车！
-
-见到：Enter new UNIX password:  马上输入”123“ 回车！
-
-见到：retype new UNIX password:马上输入”123“ 回车！
-
-新密码变成”123“了。
-
-4. 输入”reboot“ 回车！也可以Ctr Alt Del. 总之重启动就可以了！
+    1，在开机引导到GRUB等待界面（GRUB loading, please wait…）这里的时候按下ESC键来进入启动菜单，选择相应内核版本的Recovery Mode，按e键进入编辑状态。
+    2，移动光标，将”ro recovery nomodeset“修改为"rw single init=/bin/bash"以后 按ctrl+X就可以即进入单用户模式，
+    3，然后我们就可以用命令 passwd 用户名来修改密码了。
+    见到：root@(none):/#  马上输入”passwd“ 回车！
+    见到：Enter new UNIX password:  马上输入”123“ 回车！
+    见到：retype new UNIX password:马上输入”123“ 回车！
+    新密码变成”123“了。
+    4. 输入”reboot“ 回车！也可以Ctr Alt Del. 总之重启动就可以了！
 
 #### 禁用 ssh root login
 输入命令：
@@ -188,15 +181,31 @@ systemctl list-unit-files
 
 查看服务状态及路径
 
-systemctl status xxx.service
+    systemctl status xxx.service
 
 禁用服务
 
-systemctl disable xxx.service
+    systemctl disable xxx.service
 
-停
+停止服务
+
+    systemctl disable xxx.service
 
 
+#### Ubuntu开机自动禁用无线网络
+将无线网卡驱动加入黑名单，彻底禁用无线网络。
+
+`lshw` 命令可以列出电脑硬件的详细信息，找到 `*-network`部分的，例如： 
+
+    configuration: broadcast=yes driver=iwl3945 latency=0 multicast=
+
+ 无线网卡驱动名称是iwl3945（intel 3945abg无线网卡），将它加入到黑名单就可以了，具体操作如下：
+ 
+    sudo gedit /etc/modprobe.d/blacklist.conf
+ 在文本最后加入 
+ 
+    blacklist iwl3945
+ 重新启动
 
 
 ## 参考资料：      
