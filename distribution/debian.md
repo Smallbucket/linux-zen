@@ -257,6 +257,9 @@ sudo systemctl stop cups
 * [Linux软件包管理基本操作入门](https://www.sysgeek.cn/linux-package-management/)        
 * [Linux 中如何启用和禁用网卡？](https://zhuanlan.zhihu.com/p/65480107)                 
 * [Ubuntu 20.04 手动实现 rc.local](https://blog.csdn.net/lk_luck/article/details/108361857)                            
+* [Ubuntu 20.04 —添加开机启动(服务/脚本)](https://www.cnblogs.com/Areas/p/13439000.html)                   
+* [Ubuntu 设置开机启动命令/脚本](https://blog.csdn.net/MakerCloud/article/details/81257953)                          
+* [如何停止和禁用Linux系统中的不需要的服务](https://www.cnblogs.com/liushui-sky/p/9442187.html)                
 
 
 
