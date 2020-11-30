@@ -220,6 +220,37 @@ or
 
     service avahi-daemon  stop
 
+#### Ubuntu关闭cups
+在/etc/init.d下新建一个脚本文件，例如：myInit.sh,文件的内容如下：
+
+    #!/bin/bash  
+    ### BEGIN INIT INFO  
+    #  
+    # Provides:  location_server  
+    # Required-Start:   $local_fs  $remote_fs  
+    # Required-Stop:    $local_fs  $remote_fs  
+    # Default-Start:    2 3 4 5  
+    # Default-Stop:     0 1 6  
+    # Short-Description: ss-server  initscript  
+    # Description:  This file should be used to construct scripts to be placed in /etc/init.d.  
+    #  
+    ### END INIT INFO  
+上面的脚本文件中的注释也要有，不能省去。
+
+然后再赋予权限：
+
+    sudo chmod 755 myInit.sh
+更新
+
+    sudo update-rc.d myinit.sh defaults 90
+这样再启动时，就会自动执行这个脚本文件关闭cups服务，关闭631端口。
+
+
+
+
+sudo systemctl stop cups
+
+
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
