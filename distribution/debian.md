@@ -261,6 +261,8 @@ sudo systemctl stop cups
 * [Ubuntu 设置开机启动命令/脚本](https://blog.csdn.net/MakerCloud/article/details/81257953)                          
 * [如何停止和禁用Linux系统中的不需要的服务](https://www.cnblogs.com/liushui-sky/p/9442187.html)                
 * [ubuntu加速（关闭不必要的服务）](https://blog.csdn.net/weixin_33753845/article/details/92929572)                       
+* [怎么禁止/开启Ubuntu自动更新升级](https://blog.csdn.net/davidhzq/article/details/102651588)                   
+
 
 
 
