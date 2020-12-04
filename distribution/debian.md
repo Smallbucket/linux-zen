@@ -251,6 +251,59 @@ or
 sudo systemctl stop cups
 
 
+### ufw
+默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
+
+    sudo ufw default allow outgoing
+
+    sudo ufw default deny incoming
+
+默认的策略定义在`/etc/default/ufw`文件中，并且可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
+
+想要列举出你系统上所有的应用配置，输入：
+
+    sudo ufw app list
+想要查找更多关于指定配置和包含规则的信息，使用下面的命令：
+
+    sudo ufw app info 'Nginx Full'
+    
+#### 相关配置文件
+vim /etc/default/ufw
+vim /etc/ufw/ufw.conf
+
+    
+#### How ufw firewall deny outgoing but allow browser?
+The first thing you need to do is to change the default outgoing policy to deny. By default all outgoing traffic is allowed.
+
+    sudo ufw default deny outgoing
+
+Then you must allow outgoing traffic on both port 80 and 443 with these commands:
+
+    sudo ufw allow out to any port 80
+    sudo ufw allow out to any port 443
+
+Finally, since web browsing require access to a DNS server you must also allow port 53:
+
+    sudo ufw allow out to any port 53
+
+Then reload the firewall rules:
+
+    sudo ufw reload
+
+Confirm the changes with: 
+
+    sudo ufw status verbose
+
+
+[如何在 Ubuntu 20.04 上使用 UFW 来设置防火墙](https://zhuanlan.zhihu.com/p/139381645)               
+[How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)               
+
+
+### Ubuntu 安装后操作步骤
+安装中文输入法
+sudo apt-get install ibus-pinyin
+sudo apt install vim
+
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
