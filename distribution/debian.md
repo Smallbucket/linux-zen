@@ -268,8 +268,9 @@ sudo systemctl stop cups
     sudo ufw app info 'Nginx Full'
     
 #### 相关配置文件
-vim /etc/default/ufw
-vim /etc/ufw/ufw.conf
+
+    vim /etc/default/ufw
+    vim /etc/ufw/ufw.conf
 
     
 #### How ufw firewall deny outgoing but allow browser?
@@ -294,16 +295,50 @@ Confirm the changes with:
 
     sudo ufw status verbose
 
+#### 如何在启动时禁用有线网卡 eth0 ?
+
+使用 `lspci` 查到网卡: 
+
+    07:00.0 0200: 10ec:8168 (rev 07)
+        Subsystem: 1028:0572
+        Flags: bus master, fast devsel, latency 0, IRQ 43
+        I/O ports at 2000 [size=256]
+        Memory at c1404000 (64-bit, prefetchable) [size=4K]
+        Memory at c1400000 (64-bit, prefetchable) [size=16K]
+        Capabilities: <access denied>
+        Kernel driver in use: r8169
+打开黑名单配置文件：
+
+    vim /etc/modprobe.d/blacklist.conf
+将网卡驱动添加到黑名单中:
+
+    blacklist r8169
+    
+#### Ubuntu下关闭笔记本自带摄像头   
+临时关闭
+
+    # 禁用即卸载uvcideo驱动    
+    sudo modprobe -rv uvcvideo
+    # 启用即安装uvcvideo驱动
+    sudo modprobe -v uvcvideo
+
+永久关闭
+
+    # 编辑
+    sudo vim /etc/modprobe.d/blacklist.conf
+    # 添加如下内容
+        blacklist uvcvideo
+
 
 [如何在 Ubuntu 20.04 上使用 UFW 来设置防火墙](https://zhuanlan.zhihu.com/p/139381645)               
 [How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)               
 
 
 ### Ubuntu 安装后操作步骤
-安装中文输入法
-sudo apt-get install ibus-pinyin
-sudo apt install vim
 
+    安装中文输入法
+    sudo apt-get install ibus-pinyin
+    sudo apt install vim
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
