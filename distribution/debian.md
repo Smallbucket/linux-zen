@@ -266,11 +266,6 @@ sudo systemctl stop cups
 想要查找更多关于指定配置和包含规则的信息，使用下面的命令：
 
     sudo ufw app info 'Nginx Full'
-    
-#### 相关配置文件
-
-    vim /etc/default/ufw
-    vim /etc/ufw/ufw.conf
 
     
 #### How ufw firewall deny outgoing but allow browser?
@@ -329,6 +324,13 @@ Confirm the changes with:
     # 添加如下内容
         blacklist uvcvideo
 
+Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置，所以如果我们需要修改 Ubuntu 18.04 LTS 的网络设置，需要配置 Netplan 并让其生效。本文详细讲解 Netplan 的配置流程，包括单网卡多 IP 地址、单网卡多网关、多网卡多 IP、静态 IP、DHCP 等的配置。
+    
+#### 相关配置文件
+
+    vim /etc/default/ufw
+    vim /etc/ufw/ufw.conf
+    vim /etc/netplan/*.yaml
 
 [如何在 Ubuntu 20.04 上使用 UFW 来设置防火墙](https://zhuanlan.zhihu.com/p/139381645)               
 [How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)               
