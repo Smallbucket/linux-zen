@@ -292,7 +292,7 @@ Confirm the changes with:
 
 #### 如何在启动时禁用有线网卡 eth0 ?
 
-使用 `lspci` 查到网卡: 
+使用 `lspci -vn` 查到网卡: 
 
     07:00.0 0200: 10ec:8168 (rev 07)
         Subsystem: 1028:0572
@@ -302,6 +302,25 @@ Confirm the changes with:
         Memory at c1400000 (64-bit, prefetchable) [size=16K]
         Capabilities: <access denied>
         Kernel driver in use: r8169
+        
+或者在终端中输入lshw命令可以列出电脑硬件的详细信息:      
+
+    *-network
+        description: Ethernet interface
+        product: 82545EM Gigabit Ethernet Controller (Copper)
+        vendor: Intel Corporation
+        physical id: 1
+        bus info: pci@0000:02:01.0
+        logical name: ens33
+        version: 01
+        serial: 00:0c:29:f0:a3:31
+        size: 1Gbit/s
+        capacity: 1Gbit/s
+        width: 64 bits
+        clock: 66MHz
+        capabilities: bus_master cap_list rom ethernet physical logical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+        configuration: autonegotiation=on broadcast=yes driver=r8169 driverversion=7.3.21-k8-NAPI duplex=full ip=192.168.116.130 latency=0 link=yes mingnt=255 multicast=yes port=twisted pair speed=1Gbit/s
+        
 打开黑名单配置文件：
 
     vim /etc/modprobe.d/blacklist.conf
