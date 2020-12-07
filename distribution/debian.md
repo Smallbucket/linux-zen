@@ -281,6 +281,11 @@ Then you must allow outgoing traffic on both port 80 and 443 with these commands
 Finally, since web browsing require access to a DNS server you must also allow port 53:
 
     sudo ufw allow out to any port 53
+    
+Show number and deleted v6 by number:
+
+    sudo ufw status numbered
+    sudo ufw delete 3
 
 Then reload the firewall rules:
 
