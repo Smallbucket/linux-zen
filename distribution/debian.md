@@ -343,8 +343,145 @@ Confirm the changes with:
     # 添加如下内容
         blacklist uvcvideo
 
+#### Ubuntu 18.04 LTS以上版本 使用 Netplan 配置网络
 Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置，所以如果我们需要修改 Ubuntu 18.04 LTS 的网络设置，需要配置 Netplan 并让其生效。本文详细讲解 Netplan 的配置流程，包括单网卡多 IP 地址、单网卡多网关、多网卡多 IP、静态 IP、DHCP 等的配置。
-    
+
+一、Netplan 配置流程
+
+1、查看配置文件
+
+    ls /etc/netplan/
+
+就可以看到配置文件名称。
+
+2、打开配置文件
+
+    vi /etc/netplan/*.yaml
+
+3、修改配置文件，修改方法见后面详细介绍。
+
+4、测试配置文件
+
+    sudo netplan try
+
+如果没问题，可以继续往下应用配置文件。
+
+5、应用配置文件
+
+    sudo netplan apply
+
+6、验证 IP 地址
+
+    ip a
+
+二、Netplan 配置文件详解,修改netplan配置文件
+
+netplan 支持两个 renderers，分别为
+
+    Network Manager
+    systemd.networkd
+
+1、使用 DHCP：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3://这里是你的网卡名字，可以通过sudo ifconfig -a 查看获得
+          dhcp4: true
+
+2、使用静态 IP：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3:
+          addresses:
+            - 10.10.10.2/24
+          gateway4: 10.10.10.1
+          nameservers:
+              search: [mydomain, otherdomain]
+              addresses: [10.10.10.1, 1.1.1.1]
+
+3、多个网卡 DHCP：
+
+    network:
+      version: 2
+      ethernets:
+        ens30://网卡一名字，可以通过sudo ifconfig -a 查看获得
+          dhcp4: yes
+          dhcp4-overrides:
+            route-metric: 100
+        ens31://网卡二名字，可以通过sudo ifconfig -a 查看获得
+          dhcp4: yes
+          dhcp4-overrides:
+            route-metric: 200
+
+4、连接开放的 WiFi（无密码）：
+
+    network:
+      version: 2
+      wifis:
+        wl0:
+          access-points:
+            opennetwork: {}
+          dhcp4: yes
+
+5、连接 WPA 加密的 WiFi：
+
+    network:
+      version: 2
+      renderer: networkd
+      wifis:
+        wlp2s0b1:
+          dhcp4: no
+          dhcp6: no
+          addresses: [192.168.0.21/24]
+          gateway4: 192.168.0.1
+          nameservers:
+            addresses: [192.168.0.1, 8.8.8.8]
+          access-points:
+            "network_ssid_name":
+              password: "**********"
+
+6、在单网卡上使用多个 IP 地址（同一网段）：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3:
+         addresses:
+           - 10.100.1.38/24 
+           - 10.100.1.39/24
+         gateway4: 10.100.1.1
+
+7、在单网卡使用多个不同网段的 IP 地址：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3:
+         addresses:
+           - 9.0.0.9/24
+           - 10.0.0.10/24
+           - 11.0.0.11/24
+         #gateway4:    # 这里不用设置网关，因为后面用了路由配置。
+         routes:
+           - to: 0.0.0.0/0
+             via: 9.0.0.1
+             metric: 100
+           - to: 0.0.0.0/0
+             via: 10.0.0.1
+             metric: 100
+           - to: 0.0.0.0/0
+             via: 11.0.0.1
+             metric: 100
+
+以上就是ubuntu18.04 LTS 下单网卡多 IP 地址、单网卡多网关多IP段、多网卡多 IP、静态 IP、DHCP 等的NETPLAN配置。如果有问题，肯定是没对齐。注意yaml文件格式对齐很重要。
+
 #### 相关配置文件
 
     vim /etc/default/ufw
