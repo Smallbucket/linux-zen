@@ -294,6 +294,12 @@ Then reload the firewall rules:
 Confirm the changes with: 
 
     sudo ufw status verbose
+    
+另外一种方法：
+
+    sudo ufw deny out to any
+    sudo ufw allow out 53,80,443/tcp
+    sudo ufw allow out 53,80,443/udp
 
 #### 如何在启动时禁用有线网卡 eth0 ?
 
