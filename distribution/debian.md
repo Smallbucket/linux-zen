@@ -7,13 +7,12 @@
     dpkg -I <package.deb>               从 <package.deb> 中提取包裹信息
     dpkg -r <package>                   移除一个已安装的包裹
     dpkg -P <package>                   完全清除一个已安装的包裹。和 remove 不同的是，remove 只是删掉数据和可执行文件，purge 另外还删除所有的配制文件
+    dpkg -l package-name-pattern        列出所有与模式相匹配的软件包。如果您不知道软件包的全名，您可以使用“*package-name-pattern*”。
     dpkg -L <package>                   列出 <package> 安装的所有文件清单。同时请看 dpkg -c 来检查一个 .deb 文件的内容
     dpkg -s <package>                   显示已安装包裹的信息。同时请看 apt-cache 显示 Debian 存档中的包裹信息，以及 dpkg -I 来显示从一个 .deb 文件中提取的包裹信息
+    dpkg -S file                        这个文件属于哪个已安装软件包。
     dpkg-reconfigure <package>          重新配制一个已经安装的包裹，如果它使用的是 debconf (debconf 为包裹安装提供了一个统一的配制界面)
     dpkg –force-all –purge packagename  有些软件很难卸载，而且还阻止了别的软件的应用 ，就可以用这个，不过有点冒险。
-    dpkg -l package-name-pattern        列出所有与模式相匹配的软件包。如果您不知道软件包的全名，您可以使用“*package-name-pattern*”。
-    dpkg -S file                        这个文件属于哪个已安装软件包。
-    dpkg -L package                     列出软件包中的所有文件。
 
 ### 系统命令
 
@@ -26,17 +25,22 @@
     apt-get autoclean                   apt 会把已装或已卸的软件都备份在硬盘上，所以如果需要空间的话，可以让这个命令来删除你已经删掉的软件
     apt-get upgrade                     更新所有已安装的软件包
     apt-get dist-upgrade                将系统升级到新版本
+    
     apt-cache search string             在软件包列表中搜索字符串
     apt-cache showpkg pkgs              显示软件包信息。
     apt-cache dumpavail                 打印可用软件包列表。
     apt-cache show pkgs                 显示软件包记录，类似于dpkg –print-avail。
     apt-cache pkgnames                  打印软件包列表中所有软件包的名称。
-    aptitude                            详细查看已安装或可用的软件包。与apt-get类似，aptitude可以通过命令行方式调用，但仅限于某些命令。最常见的有安装和卸载命令。由于aptitude比apt-get了解更多信息，可以说它更适合用来进行安装和卸载。
+    apt-cache stats                     查看当前 Ubuntu 不同类型包的统计及整体统计信息
+    
+    aptitude                            详细查看已安装或可用的软件包。
     apt-file search filename            查找包含特定文件的软件包（不一定是已安装的），这些文件的文件名中含有指定的字符串。
 
 > apt-cache 是linux下的一个apt软件包管理工具，它可查询apt的二进制软件包缓存文件。
 
 > apt-file是一个独立的软件包。您必须先使用apt-get install来安装它，然後运行apt-file update。如果apt-file search filename输出的内容太多，您可以尝试使用apt-file search filename | grep -w filename（只显示指定字符串作为完整的单词出现在其中的那些文件名）或者类似方法，例如：apt-file search filename | grep /bin/（只显示位于诸如/bin或/usr/bin这些文件夹中的文件，如果您要查找的是某个特定的执行文件的话，这样做是有帮助的）。
+
+> aptitude与apt-get类似，aptitude可以通过命令行方式调用，但仅限于某些命令。最常见的有安装和卸载命令。由于aptitude比apt-get了解更多信息，可以说它更适合用来进行安装和卸载。
 
 ### aptitude 命令
 
@@ -508,10 +512,12 @@ netplan 支持两个 renderers，分别为
 
 ### Ubuntu 安装后操作步骤
 
-1. 安装中文输入法
-2. sudo apt-get install ibus-pinyin
-3. sudo apt install vim
-    
+* 安装中文输入法
+* sudo apt-get install ibus-pinyin
+* sudo apt install vim
+* 安装 npm
+* 卸载 snapd `sudo apt autoremove --purge snapd`
+* 安装网络工具 `sudo apt install net-tools`
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
