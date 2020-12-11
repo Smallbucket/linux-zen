@@ -521,9 +521,9 @@ netplan 支持两个 renderers，分别为
 * 下载安装 sublime
 * 安装 Chrome
 
-`
-https://www.google.cn/chrome/?standalone=1&platform=win64
-`
+        https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+
 
 
 ## 参考资料：      
