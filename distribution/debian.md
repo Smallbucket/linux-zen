@@ -508,9 +508,10 @@ netplan 支持两个 renderers，分别为
 
 ### Ubuntu 安装后操作步骤
 
-    安装中文输入法
-    sudo apt-get install ibus-pinyin
-    sudo apt install vim
+1.安装中文输入法
+2.sudo apt-get install ibus-pinyin
+3.sudo apt install vim
+    
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
