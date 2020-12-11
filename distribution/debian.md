@@ -512,12 +512,20 @@ netplan 支持两个 renderers，分别为
 
 ### Ubuntu 安装后操作步骤
 
+* 安装中文简体、繁体语言
 * 安装中文输入法
-* sudo apt-get install ibus-pinyin
-* sudo apt install vim
+
+        sudo apt-get install ibus-pinyin
+* 安装 vim
+
+        sudo apt install vim
 * 安装 npm
-* 卸载 snapd `sudo apt autoremove --purge snapd`
-* 安装网络工具 `sudo apt install net-tools`
+* 卸载 snapd 
+
+        sudo apt autoremove --purge snapd
+* 安装网络工具 
+
+        sudo apt install net-tools
 * 下载安装 sublime
 * 安装 Chrome
 
