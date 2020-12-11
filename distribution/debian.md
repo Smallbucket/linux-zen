@@ -518,6 +518,7 @@ netplan 支持两个 renderers，分别为
 * 安装 npm
 * 卸载 snapd `sudo apt autoremove --purge snapd`
 * 安装网络工具 `sudo apt install net-tools`
+* 下载安装 sublime
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
