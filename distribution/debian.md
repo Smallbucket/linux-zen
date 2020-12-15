@@ -61,6 +61,32 @@
 * apt 命令的引入就是为了解决命令过于分散的问题，它包括了 apt-get 命令出现以来使用最广泛的功能选项，以及 apt-cache 和 apt-config 命令中很少用到的功能。
 * apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合。
 
+### 查看系统架构
+* uname 命令
+`uname -a` 命令可以直接显示 Linux 系统架构的命令，它几乎可以工作在所有 Linux/Unix 系统当中。
+
+    Linux evasafe-lock 5.4.0-53-generic #59-Ubuntu SMP Wed Oct 21 09:38:44 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+* dpkg 命令
+`dpkg --print-architecture` 的命令可用于查看 Debian/ Ubuntu 操作系统是 32 位还是 64 位，此命令只适用于基于 Debian 和 Ubuntu 的 Linux 发行版。
+
+    amd64
+
+* getconf 命令
+`getconf LONG_BIT` 命令主要用于显示系统变量配置，我们也可使用如下参数来查看 Linux 系统架构：
+
+    64
+
+* arch 命令
+`arch` 命令主要用于显示操作系统架构类型，与 uname -m 命令非常类似。如果输出 x86_64 则表示为 64 位系统，如果输出 i686 或 i386 则表示为 32 位系统。
+
+    x86_64
+
+* file 命令
+file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型（/sbin/init 在 Ubuntu 15.10 里面是链接到/lib/systemd/systemd 的）,输入`file /lib/systemd/systemd`：
+
+    /lib/systemd/systemd: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f0d7528306f37ef94eb4fb1ba44a64e3b547c9a, for GNU/Linux 3.2.0, stripped
+
 
 ## [debian 软件源更新](http://www.cnblogs.com/beanmoon/p/3387652.html)
 修改 /etc/apt/sources.list 之后一般会运行下面两个命令进行更新升级：
