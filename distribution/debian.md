@@ -525,7 +525,13 @@ netplan 支持两个 renderers，分别为
 以上就是ubuntu18.04 LTS 下单网卡多 IP 地址、单网卡多网关多IP段、多网卡多 IP、静态 IP、DHCP 等的NETPLAN配置。如果有问题，肯定是没对齐。注意yaml文件格式对齐很重要。
 
 #### 相关配置文件
+在运行通过终端输入的规则之前，UFW 将运行一个文件 before.rules，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 /etc/ufw/before.rules 这个文件。 同一目录中的 before6.rules 文件用于 IPv6 。
 
+还存在一个 after.rule 和 after6.rule 文件，用于添加在 UFW 运行你通过命令行输入的规则之后需要添加的任何规则。
+
+还有一个配置文件位于 /etc/default/ufw。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。
+
+    /etc/ufw
     vim /etc/default/ufw
     vim /etc/ufw/ufw.conf
     vim /etc/netplan/*.yaml
