@@ -577,6 +577,8 @@ netplan 支持两个 renderers，分别为
 * [如何停止和禁用Linux系统中的不需要的服务](https://www.cnblogs.com/liushui-sky/p/9442187.html)                
 * [ubuntu加速（关闭不必要的服务）](https://blog.csdn.net/weixin_33753845/article/details/92929572)                       
 * [怎么禁止/开启Ubuntu自动更新升级](https://blog.csdn.net/davidhzq/article/details/102651588)                   
+* [systemd-resolve占用53端口的解决方法](https://www.moeelf.com/archives/270.html)                   
+
 
 
 
