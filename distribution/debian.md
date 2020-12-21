@@ -61,6 +61,24 @@
 * apt 命令的引入就是为了解决命令过于分散的问题，它包括了 apt-get 命令出现以来使用最广泛的功能选项，以及 apt-cache 和 apt-config 命令中很少用到的功能。
 * apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合。
 
+### 列出 Ubuntu 和 Debian 上已安装的软件包
+用 apt 命令显示已安装软件包
+
+    apt list --installed
+这个会显示使用 apt 命令安装的所有的软件包。同时也会包含由于依赖而被安装的软件包。也就是说不仅会包含你曾经安装的程序，而且会包含大量库文件和间接安装的软件包。
+
+用 dpkg 命令显示已安装软件包
+
+    dpkg-query -l
+
+显示最近安装的软件包
+
+    grep " install " /var/log/dpkg.log
+这会显示所有的软件安装包，其中包括最近安装的过程中所依赖的软件包。
+
+    grep " install " /var/log/apt/history.log
+这个仅会显示用 apt 命令安装的的程序。但不会显示被依赖安装的软件包
+
 ### 查看系统架构
 * uname 命令         
 `uname -a` 命令可以直接显示 Linux 系统架构的命令，它几乎可以工作在所有 Linux/Unix 系统当中。
