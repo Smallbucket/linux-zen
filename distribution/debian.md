@@ -14,7 +14,7 @@
     dpkg-reconfigure <package>          重新配制一个已经安装的包裹，如果它使用的是 debconf (debconf 为包裹安装提供了一个统一的配制界面)
     dpkg –force-all –purge packagename  有些软件很难卸载，而且还阻止了别的软件的应用 ，就可以用这个，不过有点冒险。
 
-### 系统命令
+### apt-* 系统命令
 
     apt-get update                      在修改/etc/apt/sources.list或者/etc/apt/preferences之後运行该命令。此外您需要定期运行这一命令以确保您的软件包列表是最新的。
     apt-get install packagename         安装一个新软件包
@@ -40,7 +40,11 @@
 
 > apt-file是一个独立的软件包。您必须先使用apt-get install来安装它，然後运行apt-file update。如果apt-file search filename输出的内容太多，您可以尝试使用apt-file search filename | grep -w filename（只显示指定字符串作为完整的单词出现在其中的那些文件名）或者类似方法，例如：apt-file search filename | grep /bin/（只显示位于诸如/bin或/usr/bin这些文件夹中的文件，如果您要查找的是某个特定的执行文件的话，这样做是有帮助的）。
 
-> aptitude与apt-get类似，aptitude可以通过命令行方式调用，但仅限于某些命令。最常见的有安装和卸载命令。由于aptitude比apt-get了解更多信息，可以说它更适合用来进行安装和卸载。
+§ apt 和 apt-get 区别      
+
+* 新版apt软件包提供了apt命令作为面向用户使用的工具。与传统apt-get和aptitude相比，它提供了进度条显示、彩色字符支持等用户友好的新功能。
+* apt 命令的引入就是为了解决命令过于分散的问题，它包括了 apt-get 命令出现以来使用最广泛的功能选项，以及 apt-cache 和 apt-config 命令中很少用到的功能。
+* apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合。
 
 ### aptitude 命令
 
@@ -55,11 +59,7 @@
     aptitude clean                      删除下载的包文件
     aptitude autoclean                  仅删除过期的包文件
 
-§ apt 和 apt-get 区别      
-
-* 新版apt软件包提供了apt命令作为面向用户使用的工具。与传统apt-get和aptitude相比，它提供了进度条显示、彩色字符支持等用户友好的新功能。
-* apt 命令的引入就是为了解决命令过于分散的问题，它包括了 apt-get 命令出现以来使用最广泛的功能选项，以及 apt-cache 和 apt-config 命令中很少用到的功能。
-* apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合。
+> aptitude与apt-get类似，aptitude可以通过命令行方式调用，但仅限于某些命令。最常见的有安装和卸载命令。由于aptitude比apt-get了解更多信息，可以说它更适合用来进行安装和卸载。
 
 ### 列出 Ubuntu 和 Debian 上已安装的软件包
 用 apt 命令显示已安装软件包
@@ -78,6 +78,45 @@
 
     grep " install " /var/log/apt/history.log
 这个仅会显示用 apt 命令安装的的程序。但不会显示被依赖安装的软件包
+
+### 关闭不必要的系统服务
+列出当前服务
+
+    service --status-all
+
+查询服务是否开机启动
+
+    systemctl is-enabled xxxx.service
+
+如果是enable开机自启动，如果是disable不开机启动
+
+设置开机运行服务
+
+    systemctl enable *.service
+
+取消设置开机运行
+
+    systemctl disable *.service 
+
+启动服务
+
+    systemctl start *.service 
+
+停止服务
+
+    systemctl stop *.service 
+
+重启服务
+
+    systemctl restart *.service 
+
+重新加载服务配置文件
+
+    systemctl reload *.service 
+
+查询服务运行状态
+
+    systemctl status *.service 
 
 ### 查看系统架构
 * uname 命令         
@@ -119,7 +158,7 @@ file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型
 * 其实在运行完第一个命令后系统就会提示你进行更新升级。因为修改了源，所有这次更新的改动可能会很大，比如安装某个包可能会删除太多的其他包，所有系统会提示你运行“sudo apt-get dist-upgrade”进行全面升级或使用软件包管理器中的“标记全部软件包以便升级”功能进行升级。两者效果是一样的。
 
 ## debian 网络配置
-> Ubuntu 18.04 LTS 和之前的 Ubuntu 版本不同，采用了全新的 Netplan 来管理网络配置。
+### Ubuntu 18.04 LTS 之前版本网络配置
 
 配置网卡，修改 `/etc/network/interfaces` 添加如下:
 
@@ -141,6 +180,145 @@ file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型
 重启一下网卡。
 
     /etc/init.d/networking restart
+
+### Ubuntu 18.04 LTS以上版本 使用 Netplan 配置网络
+Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置，所以如果我们需要修改 Ubuntu 18.04 LTS 的网络设置，需要配置 Netplan 并让其生效。本文详细讲解 Netplan 的配置流程，包括单网卡多 IP 地址、单网卡多网关、多网卡多 IP、静态 IP、DHCP 等的配置。
+
+一、Netplan 配置流程
+
+1、查看配置文件
+
+    ls /etc/netplan/
+
+就可以看到配置文件名称。
+
+2、打开配置文件
+
+    vi /etc/netplan/*.yaml
+
+3、修改配置文件，修改方法见后面详细介绍。
+
+4、测试配置文件
+
+    sudo netplan try
+
+如果没问题，可以继续往下应用配置文件。
+
+5、应用配置文件
+
+    sudo netplan apply
+
+6、验证 IP 地址
+
+    ip a
+
+二、Netplan 配置文件详解,修改netplan配置文件
+
+netplan 支持两个 renderers，分别为
+
+    Network Manager
+    systemd.networkd
+
+1、使用 DHCP：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3://这里是你的网卡名字，可以通过sudo ifconfig -a 查看获得
+          dhcp4: true
+
+2、使用静态 IP：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3:
+          addresses:
+            - 10.10.10.2/24
+          gateway4: 10.10.10.1
+          nameservers:
+              search: [mydomain, otherdomain]
+              addresses: [10.10.10.1, 1.1.1.1]
+
+3、多个网卡 DHCP：
+
+    network:
+      version: 2
+      ethernets:
+        ens30://网卡一名字，可以通过sudo ifconfig -a 查看获得
+          dhcp4: yes
+          dhcp4-overrides:
+            route-metric: 100
+        ens31://网卡二名字，可以通过sudo ifconfig -a 查看获得
+          dhcp4: yes
+          dhcp4-overrides:
+            route-metric: 200
+
+4、连接开放的 WiFi（无密码）：
+
+    network:
+      version: 2
+      wifis:
+        wl0:
+          access-points:
+            opennetwork: {}
+          dhcp4: yes
+
+5、连接 WPA 加密的 WiFi：
+
+    network:
+      version: 2
+      renderer: networkd
+      wifis:
+        wlp2s0b1:
+          dhcp4: no
+          dhcp6: no
+          addresses: [192.168.0.21/24]
+          gateway4: 192.168.0.1
+          nameservers:
+            addresses: [192.168.0.1, 8.8.8.8]
+          access-points:
+            "network_ssid_name":
+              password: "**********"
+
+6、在单网卡上使用多个 IP 地址（同一网段）：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3:
+         addresses:
+           - 10.100.1.38/24 
+           - 10.100.1.39/24
+         gateway4: 10.100.1.1
+
+7、在单网卡使用多个不同网段的 IP 地址：
+
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        ens3:
+         addresses:
+           - 9.0.0.9/24
+           - 10.0.0.10/24
+           - 11.0.0.11/24
+         #gateway4:    # 这里不用设置网关，因为后面用了路由配置。
+         routes:
+           - to: 0.0.0.0/0
+             via: 9.0.0.1
+             metric: 100
+           - to: 0.0.0.0/0
+             via: 10.0.0.1
+             metric: 100
+           - to: 0.0.0.0/0
+             via: 11.0.0.1
+             metric: 100
+
+以上就是ubuntu18.04 LTS 下单网卡多 IP 地址、单网卡多网关多IP段、多网卡多 IP、静态 IP、DHCP 等的NETPLAN配置。如果有问题，肯定是没对齐。注意yaml文件格式对齐很重要。
 
 ## Debian 系统基本知识
 
@@ -403,144 +581,6 @@ Confirm the changes with:
     # 添加如下内容
         blacklist uvcvideo
 
-#### Ubuntu 18.04 LTS以上版本 使用 Netplan 配置网络
-Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置，所以如果我们需要修改 Ubuntu 18.04 LTS 的网络设置，需要配置 Netplan 并让其生效。本文详细讲解 Netplan 的配置流程，包括单网卡多 IP 地址、单网卡多网关、多网卡多 IP、静态 IP、DHCP 等的配置。
-
-一、Netplan 配置流程
-
-1、查看配置文件
-
-    ls /etc/netplan/
-
-就可以看到配置文件名称。
-
-2、打开配置文件
-
-    vi /etc/netplan/*.yaml
-
-3、修改配置文件，修改方法见后面详细介绍。
-
-4、测试配置文件
-
-    sudo netplan try
-
-如果没问题，可以继续往下应用配置文件。
-
-5、应用配置文件
-
-    sudo netplan apply
-
-6、验证 IP 地址
-
-    ip a
-
-二、Netplan 配置文件详解,修改netplan配置文件
-
-netplan 支持两个 renderers，分别为
-
-    Network Manager
-    systemd.networkd
-
-1、使用 DHCP：
-
-    network:
-      version: 2
-      renderer: networkd
-      ethernets:
-        ens3://这里是你的网卡名字，可以通过sudo ifconfig -a 查看获得
-          dhcp4: true
-
-2、使用静态 IP：
-
-    network:
-      version: 2
-      renderer: networkd
-      ethernets:
-        ens3:
-          addresses:
-            - 10.10.10.2/24
-          gateway4: 10.10.10.1
-          nameservers:
-              search: [mydomain, otherdomain]
-              addresses: [10.10.10.1, 1.1.1.1]
-
-3、多个网卡 DHCP：
-
-    network:
-      version: 2
-      ethernets:
-        ens30://网卡一名字，可以通过sudo ifconfig -a 查看获得
-          dhcp4: yes
-          dhcp4-overrides:
-            route-metric: 100
-        ens31://网卡二名字，可以通过sudo ifconfig -a 查看获得
-          dhcp4: yes
-          dhcp4-overrides:
-            route-metric: 200
-
-4、连接开放的 WiFi（无密码）：
-
-    network:
-      version: 2
-      wifis:
-        wl0:
-          access-points:
-            opennetwork: {}
-          dhcp4: yes
-
-5、连接 WPA 加密的 WiFi：
-
-    network:
-      version: 2
-      renderer: networkd
-      wifis:
-        wlp2s0b1:
-          dhcp4: no
-          dhcp6: no
-          addresses: [192.168.0.21/24]
-          gateway4: 192.168.0.1
-          nameservers:
-            addresses: [192.168.0.1, 8.8.8.8]
-          access-points:
-            "network_ssid_name":
-              password: "**********"
-
-6、在单网卡上使用多个 IP 地址（同一网段）：
-
-    network:
-      version: 2
-      renderer: networkd
-      ethernets:
-        ens3:
-         addresses:
-           - 10.100.1.38/24 
-           - 10.100.1.39/24
-         gateway4: 10.100.1.1
-
-7、在单网卡使用多个不同网段的 IP 地址：
-
-    network:
-      version: 2
-      renderer: networkd
-      ethernets:
-        ens3:
-         addresses:
-           - 9.0.0.9/24
-           - 10.0.0.10/24
-           - 11.0.0.11/24
-         #gateway4:    # 这里不用设置网关，因为后面用了路由配置。
-         routes:
-           - to: 0.0.0.0/0
-             via: 9.0.0.1
-             metric: 100
-           - to: 0.0.0.0/0
-             via: 10.0.0.1
-             metric: 100
-           - to: 0.0.0.0/0
-             via: 11.0.0.1
-             metric: 100
-
-以上就是ubuntu18.04 LTS 下单网卡多 IP 地址、单网卡多网关多IP段、多网卡多 IP、静态 IP、DHCP 等的NETPLAN配置。如果有问题，肯定是没对齐。注意yaml文件格式对齐很重要。
 
 #### 相关配置文件
 在运行通过终端输入的规则之前，UFW 将运行一个文件 before.rules，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 /etc/ufw/before.rules 这个文件。 同一目录中的 before6.rules 文件用于 IPv6 。
