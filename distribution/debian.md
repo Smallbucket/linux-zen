@@ -323,7 +323,9 @@ netplan 支持两个 renderers，分别为
 ## Debian 系统基本知识
 
 ### 运行级别
-debian 的 runlevel级别定义如下：
+Linux 系统任何时候都运行在一个指定的运行级上，并且不同的运行级的程序和服务都不同，所要完成的工作和要达到的目的都不同，系统可以在这些运行级之间进行切换，以完成不同的工作。
+
+debian/ubuntu 的 runlevel级别定义如下：
 
     0 – Halt，关机模式
     1 – Single，单用户模式
@@ -333,6 +335,15 @@ debian 的 runlevel级别定义如下：
     5 - Full multi-user with display manager (GUI)
     6 – Reboot，重启
 可以发现2~5级是没有任何区别的。他们为多用户模式，这和一般的linux不一样。
+
+查看当前系统的运行级别：
+
+    runlevel
+
+
+切换运行级别：
+
+    init [0123456Ss]
 
 ### 服务进程
 
