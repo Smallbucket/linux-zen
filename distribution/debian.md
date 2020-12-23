@@ -80,41 +80,53 @@
 这个仅会显示用 apt 命令安装的的程序。但不会显示被依赖安装的软件包
 
 ### 关闭不必要的系统服务
-列出当前服务
+#### 列出当前服务
 
     service --status-all
 
-查询服务是否开机启动
+#### 查询服务是否开机启动
 
     systemctl is-enabled xxxx.service
 
 如果是enable开机自启动，如果是disable不开机启动
 
-设置开机运行服务
+#### 设置开机运行服务
 
     systemctl enable *.service
+这个命令会在/etc/systemd/system/目录下创建需要的符号链接，表示服务需要进行启动。通过stdout输出的信息可以看到，软连接实际指向的文件为/usr/lib/systemd/system/目录中的文件，实际起作用的也是这个目录中的文件。    
 
-取消设置开机运行
+#### 取消设置开机运行
 
     systemctl disable *.service 
+它实现的方法是将服务对应的软连接从/etc/systemd/system中删除，实际只是删除了软连接，并不会产生其他影响。
 
-启动服务
+#### 屏蔽服务
+
+    systemctl mask *.service 
+执行后会屏蔽这个服务。它和`systemctl disable`的区别在于，前者只是删除了符号链接，后者会建立一个指向`/dev/null`的符号链接，这样，即使有其他服务要启动被mask的服务，仍然无法执行成功。
+
+#### 取消屏蔽
+
+    systemctl unmask *.service 
+如果使用了mask，要想重新启动服务，必须先执行unmask将服务取消屏蔽。mask和unmask是一对操作，用来屏蔽和取消屏蔽服务。
+
+#### 启动服务
 
     systemctl start *.service 
 
-停止服务
+#### 停止服务
 
     systemctl stop *.service 
 
-重启服务
+#### 重启服务
 
     systemctl restart *.service 
 
-重新加载服务配置文件
+#### 重新加载服务配置文件
 
     systemctl reload *.service 
 
-查询服务运行状态
+#### 查询服务运行状态
 
     systemctl status *.service 
 
