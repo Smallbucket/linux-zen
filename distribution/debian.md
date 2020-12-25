@@ -341,6 +341,9 @@ netplan 支持两个 renderers，分别为
 * nmcli 命令：是一个控制 NetworkManager 并报告网络状态的命令行工具。
 * nmtui 命令：是一个与 NetworkManager 交互的、基于 curses 图形库的终端 UI 应用。
 
+
+[polkit](https://www.freedesktop.org/software/polkit/docs/latest/polkit.8.html): Linux授权弹窗
+
 ## Debian 系统基本知识
 
 ### 运行级别
