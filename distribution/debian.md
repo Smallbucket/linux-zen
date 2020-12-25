@@ -196,7 +196,7 @@ file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型
 ### Ubuntu 18.04 LTS以上版本 使用 Netplan 配置网络
 Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置，所以如果我们需要修改 Ubuntu 18.04 LTS 的网络设置，需要配置 Netplan 并让其生效。本文详细讲解 Netplan 的配置流程，包括单网卡多 IP 地址、单网卡多网关、多网卡多 IP、静态 IP、DHCP 等的配置。
 
-一、Netplan 配置流程
+#### Netplan 配置流程
 
 1、查看配置文件
 
@@ -224,7 +224,7 @@ Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置
 
     ip a
 
-二、Netplan 配置文件详解,修改netplan配置文件
+#### Netplan 配置文件详解,修改netplan配置文件
 
 netplan 支持两个 renderers，分别为
 
@@ -331,6 +331,15 @@ netplan 支持两个 renderers，分别为
              metric: 100
 
 以上就是ubuntu18.04 LTS 下单网卡多 IP 地址、单网卡多网关多IP段、多网卡多 IP、静态 IP、DHCP 等的NETPLAN配置。如果有问题，肯定是没对齐。注意yaml文件格式对齐很重要。
+
+
+### 配置网络命令
+启用禁用网卡可以使用以下 5 个方法来完成：
+* ifconfig 命令：用于配置网卡。它可以提供网卡的很多信息。
+* ifdown/up 命令：ifdown 命令用于禁用网卡，ifup 命令用于启用网卡。
+* ip 命令：用于管理网卡，用于替代老旧的、不推荐使用的 ifconfig 命令。它和 ifconfig命令很相似，但是提供了很多 ifconfig 命令所不具有的强大的特性。
+* nmcli 命令：是一个控制 NetworkManager 并报告网络状态的命令行工具。
+* nmtui 命令：是一个与 NetworkManager 交互的、基于 curses 图形库的终端 UI 应用。
 
 ## Debian 系统基本知识
 
