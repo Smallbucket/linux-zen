@@ -344,6 +344,10 @@ netplan 支持两个 renderers，分别为
 
 [polkit](https://www.freedesktop.org/software/polkit/docs/latest/polkit.8.html): Linux授权弹窗
 
+pkaction 命令可以显示polkit操作的描述。
+
+    pkaction --action-id org.freedesktop.NetworkManager.network-control --verbose
+
 ## Debian 系统基本知识
 
 ### 运行级别
