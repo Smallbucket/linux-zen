@@ -156,6 +156,74 @@ file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型
 
         /lib/systemd/systemd: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f0d7528306f37ef94eb4fb1ba44a64e3b547c9a, for GNU/Linux 3.2.0, stripped
 
+## 内核模块
+
+### lsmod
+列出内核已载入模块的状态。
+
+lsmod 以美观的方式列出`/proc/modules`的内容。
+
+### depmod
+分析可加载模块的依赖性，生成modules.dep文件和映射文件。
+
+Linux内核模块可以为其它模块提供提供服务(在代码中使用EXPORT_SYMBOL)，这种服务被称作”symbols”。若第二个模块使用了这个symbol，则该模块很明显依赖于第一个模块。这些依赖关系是非常繁杂的。
+depmod读取在/lib/modules/version 目录下的所有模块，并检查每个模块导出的symbol和需要的symbol，然后创建一个依赖关系列表。默认地，该列表写入到`/lib/moudules/version`目录下的modules.dep文件中。若命令中的filename有指定的话，则仅检查这些指定的模块(不是很有用)。
+
+若命令中提供了version参数，则会使用version所指定的目录生成依赖，而不是当前内核的版本(uname -r 返回的)。
+
+### modprobe
+Linux内核添加删除模块。
+
+modprobe 命令智能地向内核中加载模块或者从内核中移除模块，可载入指定的个别模块，或是载入一组相依的模块。除了可选的`/etc/modprobe.conf`配置文件和`/etc/modprobe.d`目录外。
+modprobe需要一个最新的modules.dep文件，modprobe会根据depmod所产生的依赖关系，决定要载入哪些模块。若在载入过程中出错，modprobe会卸载整组的模块。
+
+在使用这个命令加载模块前先使用`depmod -a`命令生成`modules.dep`文件，该文件位于`/lib/modules/$(uname -r)`目录下。
+
+载入模块的命令:
+
+    (1) 载入指定的模块：modprobe drv.ko 
+    (2) 载入全部模块：modprobe -a
+
+卸载模块的命令：
+
+    modprobe -r drv.ko
+
+#### modinfo
+显示内核模块的信息。
+
+modinfo列出Linux内核中命令行指定的模块的信息。若模块名不是一个文件名，则会在`/lib/modules/version`目录中搜索，就像modprobe一样。默认情况下，为了便于阅读，以下面的格式列出模块的每个属性：
+    
+    fieldname : value。
+
+### insmod
+向Linux内核中插入一个模块。
+
+insmod是一个向内核插入模块的小程序：若文件名是一个连字符’-'，模块从标准输入输入。大多数用户使用modprobe，因为它比较智能化。
+
+### rmmod
+删除内核中的一模块。
+
+rmmod是一个可以从内核中删除模块的小程序，大多数用户使用modprobe -r去删除模块。
+
+§ 卸载驱动
+查看加载的驱动列表
+
+    lsmod
+
+卸载已加载的驱动
+
+    rmmod modname 
+
+如果用以上命令无法卸载，先执行命令`modprobe -r modname`  
+
+
+§ modprobe和insmod的区别是什么呢？
+
+1.modprobe可以解决load module时的依赖关系，比如load moudleA就必须先load mouduleB之类的，它是通过/lib/modules/<kernel-version>/modules.dep文件来查找依赖关系的。而insmod不能解决依赖问题。
+
+2.modprobe默认会去/lib/modules/<kernel-version>/下面查找module，而insmod只在给它的参数中去找module（默认在当前目录找）。这样，有时insmod也有它的有用之处，举个例子吧。
+
+有/root/my-mod.ko这个module，cd /root/，然后用insmod my-mod.ko(insmod /root/my-mod.ko)就可以insert这个module了，但是用modprobe my-mod.ko(modprobe /root/my-mod.ko)却提示"FATAL: Module my-mod.ko not found"，这就是因为modprobe是到/lib/modules/`uname -r`/下去找module的，如果没找到就是这样了。
 
 ## [debian 软件源更新](http://www.cnblogs.com/beanmoon/p/3387652.html)
 修改 /etc/apt/sources.list 之后一般会运行下面两个命令进行更新升级：
@@ -619,7 +687,6 @@ Confirm the changes with:
     sudo vim /etc/modprobe.d/blacklist.conf
     # 添加如下内容
         blacklist uvcvideo
-
 
 #### 相关配置文件
 在运行通过终端输入的规则之前，UFW 将运行一个文件 before.rules，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 /etc/ufw/before.rules 这个文件。 同一目录中的 before6.rules 文件用于 IPv6 。
