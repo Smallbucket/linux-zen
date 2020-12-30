@@ -188,7 +188,7 @@ modprobe需要一个最新的modules.dep文件，modprobe会根据depmod所产�
 
     modprobe -r drv.ko
 
-#### modinfo
+### modinfo
 显示内核模块的信息。
 
 modinfo列出Linux内核中命令行指定的模块的信息。若模块名不是一个文件名，则会在`/lib/modules/version`目录中搜索，就像modprobe一样。默认情况下，为了便于阅读，以下面的格式列出模块的每个属性：
@@ -203,7 +203,7 @@ insmod是一个向内核插入模块的小程序：若文件名是一个连字�
 ### rmmod
 删除内核中的一模块。
 
-rmmod是一个可以从内核中删除模块的小程序，大多数用户使用modprobe -r去删除模块。
+rmmod是一个可以从内核中删除模块的小程序，大多数用户使用`modprobe -r`去删除模块。
 
 § 卸载驱动
 查看加载的驱动列表
