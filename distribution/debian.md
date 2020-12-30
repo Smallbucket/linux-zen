@@ -400,6 +400,12 @@ netplan 支持两个 renderers，分别为
 
 以上就是ubuntu18.04 LTS 下单网卡多 IP 地址、单网卡多网关多IP段、多网卡多 IP、静态 IP、DHCP 等的NETPLAN配置。如果有问题，肯定是没对齐。注意yaml文件格式对齐很重要。
 
+§ 新旧版本对比
+
+* Ubuntu 18.04的DNS解析设置改成了 `systemd-resolved`，不是在原先的配置文件 `/etc/resolv.conf` 设置了。
+* Ubuntu 18.04默认情况下不再安装`ifupdown`，因此命令`ifup`和`ifdown`也不可用。可以使用`ip`命令来实现类似的功能，`ip link set device up` 和 `ip link set device down`。
+* 之前Ubuntu16.04版本里的网卡配置文件 `/etc/network/interfaces` 不起作用了，改成了netplan方式。
+* 如果新的 netplan 目前不能满足用户的网络使用需求，ifupdown 软件包仍然可以在Ubuntu 中使用和支持。ifupdown安装命令：`apt install ifupdown` 。
 
 ### 配置网络命令
 启用禁用网卡可以使用以下 5 个方法来完成：
