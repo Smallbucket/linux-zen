@@ -237,8 +237,15 @@ rmmod是一个可以从内核中删除模块的小程序，大多数用户使用
 * 第二个命令是全面更新发布版，一般会下载几百兆的新软件包。       
 * 其实在运行完第一个命令后系统就会提示你进行更新升级。因为修改了源，所有这次更新的改动可能会很大，比如安装某个包可能会删除太多的其他包，所有系统会提示你运行“sudo apt-get dist-upgrade”进行全面升级或使用软件包管理器中的“标记全部软件包以便升级”功能进行升级。两者效果是一样的。
 
-## debian 网络配置
-### Ubuntu 18.04 LTS 之前版本网络配置
+## debian/Ubuntu 网络配置
+NetworkManager是一项系统网络服务，用于管理您的网络设备和连接，并在可用时尝试保持网络连接处于活动状态。 它管理以太网，WiFi，移动宽带（WWAN）和PPPoE设备，同时还提供与各种不同VPN服务的VPN集成。
+
+默认情况下，Ubuntu Core上的网络管理由systemd的networkd和netplan处理。 但是，安装NetworkManager时，它将通过创建一个netplan配置文件来控制系统中的所有网络设备，在其中将其自身设置为默认网络渲染器。
+
+[NetworkManager 文档](https://wiki.gnome.org/Projects/NetworkManager)        
+
+### Ubuntu 18.04 LTS 之前版本使用 ifupdown 配置网络
+ubuntu 本身支持linux的网络底层设置命令：ifconfig,route,ip 等命令，但为了让网络设置更加简单,Debian 提供了一个标准的高级网络设置工具,包含 ifup 和ifdown 程序和 `/etc/network/interfaces` 文件。 如果你选择用 ifupdown 来配置你的网络,那么就不要同时使用底层工具去配置。这也意味着你不应该用其他高级配置工具,如whereami、divine、intuitively 等。他们调用的也是底层配置工具。ifupdown 程序在设计的时候,是假设仅有这样一个程序会被用来设置网络接口的。
 
 配置网卡，修改 `/etc/network/interfaces` 添加如下:
 
@@ -262,7 +269,14 @@ rmmod是一个可以从内核中删除模块的小程序，大多数用户使用
     /etc/init.d/networking restart
 
 ### Ubuntu 18.04 LTS以上版本 使用 Netplan 配置网络
-Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置，所以如果我们需要修改 Ubuntu 18.04 LTS 的网络设置，需要配置 Netplan 并让其生效。本文详细讲解 Netplan 的配置流程，包括单网卡多 IP 地址、单网卡多网关、多网卡多 IP、静态 IP、DHCP 等的配置。
+Ubuntu 18.04 LTS 之后的版本都采用全新的 Netplan 来管理网络配置，所以如果我们需要修改 Ubuntu 18.04 LTS 的网络设置，需要配置 Netplan 并让其生效。
+
+#### netplan 的工作方式
+netplan 从配置文件 `/etc/netplan/*.yaml` 读取网络配置，启动后 netplan 在 /run 目录中生成特定网卡名称后缀的配置文件，然后将网卡设备的控制权移交给特定的网络守护程序。
+
+netplan 目前支持以下两种服务：
+* NetworkManager
+* Systemd-networkd
 
 #### Netplan 配置流程
 
@@ -400,6 +414,9 @@ netplan 支持两个 renderers，分别为
 
 以上就是ubuntu18.04 LTS 下单网卡多 IP 地址、单网卡多网关多IP段、多网卡多 IP、静态 IP、DHCP 等的NETPLAN配置。如果有问题，肯定是没对齐。注意yaml文件格式对齐很重要。
 
+[Ubuntu 禁用 Netplan 改用 ifupdown 配置网络](https://www.hostarr.com/disable-netplan-and-enable-ifupdown-in-ubuntu/)           
+
+
 § 新旧版本对比
 
 * Ubuntu 18.04的DNS解析设置改成了 `systemd-resolved`，不是在原先的配置文件 `/etc/resolv.conf` 设置了。
@@ -415,6 +432,12 @@ netplan 支持两个 renderers，分别为
 * nmcli 命令：是一个控制 NetworkManager 并报告网络状态的命令行工具。
 * nmtui 命令：是一个与 NetworkManager 交互的、基于 curses 图形库的终端 UI 应用。
 
+其他命令
+
+networkctl           
+networkctl status ens33
+
+networkd.conf        networkd.conf.d      networkd-dispatcher  network_namespaces   networks
 
 [polkit](https://www.freedesktop.org/software/polkit/docs/latest/polkit.8.html): Linux授权弹窗
 
