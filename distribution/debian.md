@@ -242,6 +242,8 @@ NetworkManager是一项系统网络服务，用于管理您的网络设备和连
 
 默认情况下，Ubuntu Core上的网络管理由systemd的networkd和netplan处理。 但是，安装NetworkManager时，它将通过创建一个netplan配置文件来控制系统中的所有网络设备，在其中将其自身设置为默认网络渲染器。
 
+Ubuntu Core中的默认netplan配置文件将网络设备的管理留给networkd。 但是，在安装network-manager时，它将创建新的netplan配置文件，将其自身设置为默认的网络渲染器并控制所有设备。
+
 [NetworkManager 文档](https://wiki.gnome.org/Projects/NetworkManager)        
 
 ### Ubuntu 18.04 LTS 之前版本使用 ifupdown 配置网络
