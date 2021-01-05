@@ -697,13 +697,31 @@ Confirm the changes with:
         capabilities: bus_master cap_list rom ethernet physical logical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
         configuration: autonegotiation=on broadcast=yes driver=r8169 driverversion=7.3.21-k8-NAPI duplex=full ip=192.168.116.130 latency=0 link=yes mingnt=255 multicast=yes port=twisted pair speed=1Gbit/s
         
+在卸载或将任何模块列入黑名单之前，最好先查看其他模块是否依赖于该模块：
+
+    modinfo -F depends usbcore
+        
 打开黑名单配置文件：
 
     vim /etc/modprobe.d/blacklist.conf
 将网卡驱动添加到黑名单中:
 
     blacklist r8169
+
+完成后，更新initramfs并重新启动系统：
+
+    # update-initramfs -u
+    # reboot
     
+重新启动后使用lsmod查看是否存在模块。如果其他模块依赖于要尝试将其列入黑名单的模块，如上述示例，则需要将所有依赖的模块列入黑名单，否则，您已列入黑名单的初始模块仍然会加载。幸运的是，有一个技巧可以将所有模块(包括其依赖项)列入黑名单。
+
+如果由于某些原因无法将模块及其所有依赖项列入黑名单，请使该模块无法加载，从而导致所有依赖模块停止加载。将以下行添加到您的/etc/modprobe.d/blacklist.conf，usbcore包括其所有相关模块完全列入黑名单：
+
+    install usbcore /bin/true
+更新initramfs并重新启动：
+
+    # update-initramfs -u   
+
 #### Ubuntu下关闭笔记本自带摄像头   
 临时关闭
 
