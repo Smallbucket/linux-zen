@@ -70,6 +70,24 @@ auth       sufficient pam_wheel.so trust use_uid
 这些都是典型的使用 GNU 的 AUTOCONF 和 AUTOMAKE 产生的程序的安装步骤。
 
 ***
+## initrd和initramfs的区别
+首先要介绍 `kernel` 启动 init 的两种方案。
+* 第一种是 ramdisk，就是把一块内存（ram）当做磁盘（disk）去挂载，然后找到ram里的init进行执行。
+* 第二种是 ramfs，直接在ram上挂载文件系统，执行文件系统中的init。
+
+initrd（init ramdisk）就是ramdisk的实现，initramfs就是ramfs的实现。
+> Note：tmpfs，是ramfs的增强版方案。rootfs，是ramfs/tmpfs的一个特殊实例。
+
+所以initramfs也可以是tmpfs/rootfs的实现。
+
+
+kernel 2.6 以来都是 initramfs 了，只是很多还沿袭传统使用 initrd 的名字。
+
+initramfs 的工作方式更加简单直接一些，启动的时候加载内核和 initramfs 到内存执行，内核初始化之后，切换到用户态执行 initramfs 的程序/脚本，加载需要的驱动模块、必要配置等，然后加载 rootfs 切换到真正的 rootfs 上去执行后续的 init 过程。
+
+initrd 是2.4 及更早的用法（现在你能见到的 initrd 文件实际差不多都是 initramfs 了），运行过程大概是内核启动，执行一些 initrd 的内容，加载模块啥的，然后交回控制权给内核，最后再切到用户态去运行用户态的启动流程。
+
+从格式看，老的 initrd 是一个压缩的内存文件系统。现在的 initramfs 是一个 gzip 压缩的 cpio 文件系统打包，如果遇到什么紧急情况需要处理的时候，你可以建立一个临时目录，把 initramfs 解压之后，直接 cpio -idv 解压出来，改之后再用 cpio 和 gzip 封上即可。虽然大家都喜欢用 tar 打包，但掌握点 cpio 在关键时刻还是可以救命的。
 
 ***
 
