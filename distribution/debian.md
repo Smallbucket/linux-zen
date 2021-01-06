@@ -765,6 +765,7 @@ Confirm the changes with:
 * 安装 vim
 
         sudo apt install vim
+        考入配置文件.vimrc、插件.vim/
 * 安装 npm
 * 卸载 snapd 
 
