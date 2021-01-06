@@ -792,9 +792,7 @@ Confirm the changes with:
 * [ubuntu加速（关闭不必要的服务）](https://blog.csdn.net/weixin_33753845/article/details/92929572)                       
 * [怎么禁止/开启Ubuntu自动更新升级](https://blog.csdn.net/davidhzq/article/details/102651588)                   
 * [systemd-resolve占用53端口的解决方法](https://www.moeelf.com/archives/270.html)                   
-* [如何在Ubuntu/Debian Linux上将模块列入黑名单](https://ubuntuqa.com/article/9930.html)                 
-
-
+* [如何在Ubuntu/Debian Linux上将模块列入黑名单](https://ubuntuqa.com/article/9930.html) 
 
 
     
