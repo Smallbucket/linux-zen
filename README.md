@@ -96,7 +96,9 @@ Linux 性能观察工具
 
 ## 如何使用?
 * [Linux 基础知识](./doc/index.md)       
-* [Linux 常用命令](./doc/command.md)       
+* [Linux 常用命令](./doc/command.md)                            
+* [Redhad/CentOS 常用命令](./distribution/redhat.md)         
+* [Debian/Ubuntu 常用命令](./distribution/debian.md)   
 * [Shell 使用](./doc/shell/index.md)       
 * [Makefile](./doc/makefile.md)             
 
