@@ -1,14 +1,14 @@
 
-- [linux 基础知识](#base)                   
-  - [linux 启动过程](#startup)              
+- [Linux 基础知识](#base)                   
+  - [Linux 启动过程](#startup)              
 - [文件](./file.md)     
 - [loop设备](./lodevice.md)                            
 - [Linux 分区](./partition.md)         
 
 
-## <a id="base">linux 基础知识</a>
+## <a id="base">Linux 基础知识</a>
 
-### <a id="startup">linux 启动过程</a>
+### <a id="startup">Linux 启动过程</a>
 1. 读取 MBR 的信息,启动 Boot Manager。Windows 使用 NTLDR 作为 Boot Manager,如果您的系统中安装多个版本的 Windows,您就需要在 NTLDR 中选择您要进入的系统。Linux 通常使用功能强大,配置灵活的 GRUB 作为 Boot Manager。
 2. 加载系统内核,启动 init 进程。init 进程是 Linux 的根进程,所有的系统进程都是它的子进程。
 3. init 进程读取 /etc/inittab 文件中的信息,并进入预设的运行级别,按顺序运行该运行级别对应文件夹下的脚本。脚本通常以 start 参数启动,并指向一个系统中的程序。通常情况下, /etc/rcS.d/ 目录下的启动脚本首先被执行,然后是/etc/rcN.d/ 目录。例如您设定的运行级别为 3,那么它对应的启动目录为 /etc/rc3.d/ 。
@@ -61,6 +61,9 @@ auth       required   pam_wheel.so group=wheel
 auth       sufficient pam_wheel.so trust use_uid
 ```
 
+SHLVL 是记录多个 Bash 进程实例嵌套深度的累加器，而 BASH_SUBSHELL 是记录一个 Bash 进程实例中多个子 Shell（subshell）嵌套深度的累加器。
+
+[SHLVL 和 BASH_SUBSHELL 两个变量的区别](https://www.cnblogs.com/ziyunfei/p/4803832.html)           
 
 ***
 
