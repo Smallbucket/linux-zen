@@ -736,6 +736,27 @@ Confirm the changes with:
     sudo vim /etc/modprobe.d/blacklist.conf
     # 添加如下内容
         blacklist uvcvideo
+        
+#### 禁止 Babel 在用户目录生成 .babel.json 文件
+
+通过在应用程序设置中设置环境变量
+
+    BABEL_DISABLE_CACHE = 1
+来禁用babel缓存来解决该问题。
+
+或者 改变 package.json 的设置:
+
+    ...
+    "start": "babel-node ./src/index.js",
+to
+
+    ...
+    "start": "BABEL_DISABLE_CACHE=1 babel-node ./src/index.js",
+
+参见：         
+[Babel 环境变量](https://babeljs.io/docs/en/babel-register#environment-variables)         
+[why babel stores .babel.json in USERPROFILE path](https://stackoverflow.com/questions/32757306/why-babel-stores-babel-json-in-userprofile-path)           
+[Clearing Node.js' cache when loading non-js files e.g. graphql language defenitions](https://stackoverflow.com/questions/42781043/clearing-node-js-cache-when-loading-non-js-files-e-g-graphql-language-defeniti)                   
 
 #### 相关配置文件
 在运行通过终端输入的规则之前，UFW 将运行一个文件 before.rules，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 /etc/ufw/before.rules 这个文件。 同一目录中的 before6.rules 文件用于 IPv6 。
