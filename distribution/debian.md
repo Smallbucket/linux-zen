@@ -786,12 +786,12 @@ to
 * 安装 vim
 
         sudo apt install vim
-        考入配置文件.vimrc、插件.vim/
-* 安装 npm
+        考入配置文件.vimrc、插件.vim/，研究.viminfo
+* 安装 npm（指定版本）
 * 卸载 snapd 
 
         sudo apt autoremove --purge snapd
-* 安装网络工具 
+* 安装网络工具
 
         sudo apt install net-tools
 * 下载安装 sublime
@@ -799,8 +799,9 @@ to
 
         https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
         sudo dpkg -i google-chrome-stable_current_amd64.deb
+设置 Chrome
 
-
+> 预先安装 sysv-rc-conf 测试
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
