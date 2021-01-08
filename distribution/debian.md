@@ -801,7 +801,7 @@ to
         sudo dpkg -i google-chrome-stable_current_amd64.deb
 设置 Chrome
 
-> 预先安装 sysv-rc-conf 测试
+> 预先安装 sysv-rc-conf 测试，点一下个工具，查看下历史。
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
