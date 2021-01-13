@@ -627,8 +627,11 @@ UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian
 默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
 
     sudo ufw default allow outgoing
-
     sudo ufw default deny incoming
+    
+如果你对ufw的使用还不太了解，看看[How To Set Up a Firewall with UFW on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04)这篇文章，入门是没问题的。
+
+ufw的功能还不止这些，看看晋级的文章[UFW Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)会让你有个大的提升。
 
 默认的策略定义在`/etc/default/ufw`文件中，并且可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
 
@@ -639,7 +642,8 @@ UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian
 
     sudo ufw app info 'Nginx Full'
 
-    
+
+### 问题
 #### How ufw firewall deny outgoing but allow browser?
 The first thing you need to do is to change the default outgoing policy to deny. By default all outgoing traffic is allowed.
 
@@ -812,6 +816,12 @@ to
 
 > 预先安装 sysv-rc-conf 测试，点一下个工具，查看下历史。数据库，Nginx，黑名单
 
+## 问题
+#### `.sudo_as_admin_successful` 文件是干什么用的？
+在用户的家目录下有个`.sudo_as_admin_successful`文件，这是个隐藏文件，通常看不到，执行命令`ls -a`可看到，那么，这个文件是怎么生成的？有什么作用？
+
+看看这个论坛[Is it possible to stop .sudo_as_admin_successful being created?](https://askubuntu.com/questions/813942/is-it-possible-to-stop-sudo-as-admin-successful-being-created)的说明，另外提到了[Getting rid of .sudo_as_admin_successful](https://shallowsky.com/blog/linux/sudo_as_admin_spew.html)这篇文章，看了之后会有所启发。
+
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
 * [Linux软件包管理基本操作入门](https://www.sysgeek.cn/linux-package-management/)        
@@ -824,6 +834,6 @@ to
 * [怎么禁止/开启Ubuntu自动更新升级](https://blog.csdn.net/davidhzq/article/details/102651588)                   
 * [systemd-resolve占用53端口的解决方法](https://www.moeelf.com/archives/270.html)                   
 * [如何在Ubuntu/Debian Linux上将模块列入黑名单](https://ubuntuqa.com/article/9930.html) 
-
+* [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)            
 
     
