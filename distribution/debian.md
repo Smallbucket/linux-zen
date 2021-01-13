@@ -1,5 +1,7 @@
 
-## Debian/Ubuntu 命令
+# Debian/Ubuntu 使用
+
+## 命令
 ### deb 包安装方法  
  
     dpkg -i <package.deb>               安装一个 Debian 软件包
@@ -616,7 +618,9 @@ or
 sudo systemctl stop cups
 
 
-### ufw
+## ufw(Uncomplicated FireWall)
+UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian 或 Ubuntu 中管理防火墙规则的前端。 UFW 通过命令行使用（尽管它有可用的 GUI），它的目的是使防火墙配置简单（即不复杂uncomplicated）。
+
 默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
 
     sudo ufw default allow outgoing
@@ -665,6 +669,26 @@ Confirm the changes with:
     sudo ufw deny out to any
     sudo ufw allow out 53,80,443/tcp
     sudo ufw allow out 53,80,443/udp
+
+#### 相关配置文件
+在运行通过终端输入的规则之前，UFW 将运行一个文件 before.rules，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 /etc/ufw/before.rules 这个文件。 同一目录中的 before6.rules 文件用于 IPv6 。
+
+还存在一个 after.rule 和 after6.rule 文件，用于添加在 UFW 运行你通过命令行输入的规则之后需要添加的任何规则。
+
+还有一个配置文件位于 /etc/default/ufw。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。
+
+    /etc/ufw
+    vim /etc/default/ufw
+    vim /etc/ufw/ufw.conf
+    vim /etc/netplan/*.yaml
+    
+### 参考资料
+[在 Ubuntu 中用 UFW 配置防火墙](https://linux.cn/article-8087-1.html)                     
+[如何在 Ubuntu 20.04 上使用 UFW 来设置防火墙](https://zhuanlan.zhihu.com/p/139381645)               
+[How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)               
+[How to configure networking with Netplan on Ubuntu](https://vitux.com/how-to-configure-networking-with-netplan-on-ubuntu/)                
+[HowTo: UFW ) Block Outgoing Ports Except Those Needed + More](https://ubuntuforums.org/showthread.php?t=1893751)                
+
 
 #### 如何在启动时禁用有线网卡 eth0 ?
 
@@ -757,24 +781,6 @@ to
 [Babel 环境变量](https://babeljs.io/docs/en/babel-register#environment-variables)         
 [why babel stores .babel.json in USERPROFILE path](https://stackoverflow.com/questions/32757306/why-babel-stores-babel-json-in-userprofile-path)           
 [Clearing Node.js' cache when loading non-js files e.g. graphql language defenitions](https://stackoverflow.com/questions/42781043/clearing-node-js-cache-when-loading-non-js-files-e-g-graphql-language-defeniti)                   
-
-#### 相关配置文件
-在运行通过终端输入的规则之前，UFW 将运行一个文件 before.rules，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 /etc/ufw/before.rules 这个文件。 同一目录中的 before6.rules 文件用于 IPv6 。
-
-还存在一个 after.rule 和 after6.rule 文件，用于添加在 UFW 运行你通过命令行输入的规则之后需要添加的任何规则。
-
-还有一个配置文件位于 /etc/default/ufw。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。
-
-    /etc/ufw
-    vim /etc/default/ufw
-    vim /etc/ufw/ufw.conf
-    vim /etc/netplan/*.yaml
-
-[如何在 Ubuntu 20.04 上使用 UFW 来设置防火墙](https://zhuanlan.zhihu.com/p/139381645)               
-[How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)               
-[How to configure networking with Netplan on Ubuntu](https://vitux.com/how-to-configure-networking-with-netplan-on-ubuntu/)                
-[HowTo: UFW ) Block Outgoing Ports Except Those Needed + More](https://ubuntuforums.org/showthread.php?t=1893751)                
-
 
 
 ### Ubuntu 安装后操作步骤
