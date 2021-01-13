@@ -1,6 +1,9 @@
 
 # Debian/Ubuntu 使用
 
+- [ufw](#ufw)           
+
+
 ## 命令
 ### deb 包安装方法  
  
@@ -618,7 +621,7 @@ or
 sudo systemctl stop cups
 
 
-## ufw(Uncomplicated FireWall)
+## <a id="ufw">ufw(Uncomplicated FireWall)</a>
 UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian 或 Ubuntu 中管理防火墙规则的前端。 UFW 通过命令行使用（尽管它有可用的 GUI），它的目的是使防火墙配置简单（即不复杂uncomplicated）。
 
 默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
