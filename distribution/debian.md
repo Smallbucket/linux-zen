@@ -1,10 +1,11 @@
 
 # Debian/Ubuntu 使用
 
-- [ufw](#ufw)           
+- [命令](#command)      
+- [防火墙](#ufw)           
 
 
-## 命令
+## <a id="command">命令</a>
 ### deb 包安装方法  
  
     dpkg -i <package.deb>               安装一个 Debian 软件包
@@ -621,7 +622,7 @@ or
 sudo systemctl stop cups
 
 
-## <a id="ufw">ufw(Uncomplicated FireWall)</a>
+## <a id="ufw">防火墙</a>
 UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian 或 Ubuntu 中管理防火墙规则的前端。 UFW 通过命令行使用（尽管它有可用的 GUI），它的目的是使防火墙配置简单（即不复杂uncomplicated）。
 
 默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
@@ -631,7 +632,9 @@ UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian
     
 如果你对ufw的使用还不太了解，看看[How To Set Up a Firewall with UFW on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04)这篇文章，入门是没问题的。
 
-ufw的功能还不止这些，看看晋级的文章[UFW Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)会让你有个大的提升。
+当然，ufw的功能远不止这些，这篇晋级的文章[UFW Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)会让你有个大的提升。
+
+Linux 上的软件或应用基本上离不开配置文件，ufw 当然也不例外。
 
 默认的策略定义在`/etc/default/ufw`文件中，并且可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
 
