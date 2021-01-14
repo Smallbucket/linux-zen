@@ -712,6 +712,7 @@ Confirm the changes with:
 ### Allowing outgoing connections to a particular IP with ufw? [来源](https://serverfault.com/questions/649870/allowing-outgoing-connections-to-a-particular-ip-with-ufw)
 Here's to anyone wondering how this can be done:
 1) Open `/etc/ufw/before.rules` and insert this rule above `COMMIT` on the last line
+:
 
     -A ufw-before-output -m owner --uid-owner {user} -p {protocol} --dport {port} -d {ip} -j ACCEPT
 Fill in the values for each as so:
@@ -729,7 +730,10 @@ An example:
 
     # don't delete the 'COMMIT' line or these rules won't be processed
     COMMIT
-2) Restart ufw service ufw restart
+2) Restart ufw 
+:
+
+    service ufw restart
 
 Should all correctly work after! Ensure you don't put two ports in one like like "-dport 6666,5555" - it usually errors!
     
