@@ -709,6 +709,29 @@ Confirm the changes with:
     sudo ufw allow out 53,80,443/tcp
     sudo ufw allow out 53,80,443/udp
 
+### Allowing outgoing connections to a particular IP with ufw? [来源](https://serverfault.com/questions/649870/allowing-outgoing-connections-to-a-particular-ip-with-ufw)
+Here's to anyone wondering how this can be done:
+1) Open `/etc/ufw/before.rules` and insert this rule above `COMMIT` on the last line
+
+    -A ufw-before-output -m owner --uid-owner {user} -p {protocol} --dport {port} -d {ip} -j ACCEPT
+Fill in the values for each as so:
+
+* {user} - user you want to allow this (www-data)
+* {protocol} - udp or tcp
+* {port} - on what port you want to allow it
+* {ip} - IP Address you want to allow.
+
+An example:
+
+    # server
+    -A ufw-before-output -m owner --uid-owner www-data -p udp --dport 6666 -d 255.255.255.255 -j ACCEPT # gameserver
+    -A ufw-before-output -m owner --uid-owner www-data -p tcp --dport 3306 -d 255.255.255.255 -j ACCEPT # mysql
+
+    # don't delete the 'COMMIT' line or these rules won't be processed
+    COMMIT
+2) Restart ufw service ufw restart
+
+Should all correctly work after! Ensure you don't put two ports in one like like "-dport 6666,5555" - it usually errors!
     
 ### 参考资料
 [在 Ubuntu 中用 UFW 配置防火墙](https://linux.cn/article-8087-1.html)                     
