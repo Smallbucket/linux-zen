@@ -2,7 +2,7 @@
 # Debian/Ubuntu 使用
 
 - [命令](#command)      
-- [防火墙](#ufw)           
+- [防火墙(ufw)](#ufw)           
 
 
 ## <a id="command">命令</a>
@@ -622,21 +622,23 @@ or
 sudo systemctl stop cups
 
 
-## <a id="ufw">防火墙</a>
+## <a id="ufw">防火墙(ufw)</a>
 UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian 或 Ubuntu 中管理防火墙规则的前端。 UFW 通过命令行使用（尽管它有可用的 GUI），它的目的是使防火墙配置简单（即不复杂uncomplicated）。
 
+### 使用命令
 默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
 
     sudo ufw default allow outgoing
     sudo ufw default deny incoming
     
-如果你对ufw的使用还不太了解，看看[How To Set Up a Firewall with UFW on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04)这篇文章，入门是没问题的。
-
-当然，ufw的功能远不止这些，这篇晋级的文章[UFW Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)会让你有个大的提升。
+如果你对ufw的使用还不太了解，看看[How To Set Up a Firewall with UFW on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04)这篇文章，入门是没问题的。当然，ufw的功能远不止这些，这篇晋级的文章[UFW Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)会让你有个大的提升。
 
 Linux 上的软件或应用基本上离不开配置文件，ufw 当然也不例外。
 
-默认的策略定义在`/etc/default/ufw`文件中，并且可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
+### 配置文件
+虽然可以通过命令行添加简单的规则，但仍有可能需要添加或删除更高级或特定的规则。在运行通过终端输入的规则之前，UFW 将运行一个文件 `before.rules`，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 `/etc/ufw/before.rules` 这个文件。 同一目录中的 `before6.rules` 文件用于 IPv6 。还存在一个 `after.rule` 和 `after6.rule` 文件，用于添加在 UFW 运行你通过命令行输入的规则之后需要添加的任何规则。
+
+默认的策略定义在 `/etc/default/ufw`。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
 
 想要列举出你系统上所有的应用配置，输入：
 
@@ -644,7 +646,6 @@ Linux 上的软件或应用基本上离不开配置文件，ufw 当然也不例�
 想要查找更多关于指定配置和包含规则的信息，使用下面的命令：
 
     sudo ufw app info 'Nginx Full'
-
 
 ### 问题
 #### How ufw firewall deny outgoing but allow browser?
