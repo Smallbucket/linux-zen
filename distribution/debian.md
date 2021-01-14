@@ -625,7 +625,7 @@ sudo systemctl stop cups
 ## <a id="ufw">防火墙(ufw)</a>
 UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian 或 Ubuntu 中管理防火墙规则的前端。 UFW 通过命令行使用（尽管它有可用的 GUI），它的目的是使防火墙配置简单（即不复杂uncomplicated）。
 
-### 使用命令
+### ufw 使用
 默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
 
     sudo ufw default allow outgoing
@@ -636,16 +636,44 @@ UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian
 Linux 上的软件或应用基本上离不开配置文件，ufw 当然也不例外。
 
 ### 配置文件
+vim /etc/ufw/ufw.conf
 虽然可以通过命令行添加简单的规则，但仍有可能需要添加或删除更高级或特定的规则。在运行通过终端输入的规则之前，UFW 将运行一个文件 `before.rules`，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 `/etc/ufw/before.rules` 这个文件。 同一目录中的 `before6.rules` 文件用于 IPv6 。还存在一个 `after.rule` 和 `after6.rule` 文件，用于添加在 UFW 运行你通过命令行输入的规则之后需要添加的任何规则。
 
 默认的策略定义在 `/etc/default/ufw`。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
 
+### 相关命令
+    
 想要列举出你系统上所有的应用配置，输入：
 
     sudo ufw app list
 想要查找更多关于指定配置和包含规则的信息，使用下面的命令：
 
     sudo ufw app info 'Nginx Full'
+
+### 日志
+启动日志命令：
+
+    sudo ufw logging on
+可以通过运行 `sudo ufw logging low|medium|high` 设计日志级别，可以选择 low、 medium 或者 high。默认级别是 low。
+
+常规日志类似于下面这样，位于 /var/logs/ufw：
+
+    Sep 16 15:08:14 <hostname> kernel: [UFW BLOCK] IN=eth0 OUT= MAC=00:00:00:00:00:00:00:00:00:00:00:00:00:00 SRC=123.45.67.89 DST=987.65.43.21 LEN=40 TOS=0x00 PREC=0x00 TTL=249 ID=8475 PROTO=TCP SPT=48247 DPT=22 WINDOW=1024 RES=0x00 SYN URGP=0
+前面的值列出了你的服务器的日期、时间、主机名。剩下的重要信息包括：
+
+* [UFW BLOCK]：这是记录事件的描述开始的位置。在此例中，它表示阻止了连接。
+* IN：如果它包含一个值，那么代表该事件是传入事件
+* OUT：如果它包含一个值，那么代表事件是传出事件
+* MAC：目的地和源 MAC 地址的组合
+* SRC：包源的 IP
+* DST：包目的地的 IP
+* LEN：数据包长度
+* TTL：数据包 TTL，或称为 time to live。 在找到目的地之前，它将在路由器之间跳跃，直到它过期。
+* PROTO：数据包的协议
+* SPT：包的源端口
+* DPT：包的目标端口
+* WINDOW：发送方可以接收的数据包的大小
+* SYN URGP：指示是否需要三次握手。 0 表示不需要。
 
 ### 问题
 #### How ufw firewall deny outgoing but allow browser?
@@ -681,17 +709,6 @@ Confirm the changes with:
     sudo ufw allow out 53,80,443/tcp
     sudo ufw allow out 53,80,443/udp
 
-#### 相关配置文件
-在运行通过终端输入的规则之前，UFW 将运行一个文件 before.rules，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 /etc/ufw/before.rules 这个文件。 同一目录中的 before6.rules 文件用于 IPv6 。
-
-还存在一个 after.rule 和 after6.rule 文件，用于添加在 UFW 运行你通过命令行输入的规则之后需要添加的任何规则。
-
-还有一个配置文件位于 /etc/default/ufw。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。
-
-    /etc/ufw
-    vim /etc/default/ufw
-    vim /etc/ufw/ufw.conf
-    vim /etc/netplan/*.yaml
     
 ### 参考资料
 [在 Ubuntu 中用 UFW 配置防火墙](https://linux.cn/article-8087-1.html)                     
