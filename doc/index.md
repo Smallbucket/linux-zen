@@ -1,14 +1,15 @@
 
 - [Linux 基础知识](#base)                   
   - [Linux 启动过程](#startup)              
+- [Linux 基本目录规范 XDG](#xdg)             
 - [文件](./file.md)     
 - [loop设备](./lodevice.md)                            
 - [Linux 分区](./partition.md)         
 
 
-## <a id="base">Linux 基础知识</a>
+# <a id="base">Linux 基础知识</a>
 
-### <a id="startup">Linux 启动过程</a>
+## <a id="startup">Linux 启动过程</a>
 1. 读取 MBR 的信息,启动 Boot Manager。Windows 使用 NTLDR 作为 Boot Manager,如果您的系统中安装多个版本的 Windows,您就需要在 NTLDR 中选择您要进入的系统。Linux 通常使用功能强大,配置灵活的 GRUB 作为 Boot Manager。
 2. 加载系统内核,启动 init 进程。init 进程是 Linux 的根进程,所有的系统进程都是它的子进程。
 3. init 进程读取 /etc/inittab 文件中的信息,并进入预设的运行级别,按顺序运行该运行级别对应文件夹下的脚本。脚本通常以 start 参数启动,并指向一个系统中的程序。通常情况下, /etc/rcS.d/ 目录下的启动脚本首先被执行,然后是/etc/rcN.d/ 目录。例如您设定的运行级别为 3,那么它对应的启动目录为 /etc/rc3.d/ 。
@@ -65,14 +66,71 @@ SHLVL 是记录多个 Bash 进程实例嵌套深度的累加器，而 BASH_SUBSH
 
 [SHLVL 和 BASH_SUBSHELL 两个变量的区别](https://www.cnblogs.com/ziyunfei/p/4803832.html)           
 
-***
+
+## <a id="xdg">Linux 基本目录规范 XDG</a>
+XDG 基准目录规范（X Desktop Group Base Directory Specification）的目的就是为了解决主目录下被各种. 文件/文件夹（dotfiles）这类的隐藏文件充斥的问题。
+
+该规范定义了一套指向应用程序的环境变量，这些变量指明的就是这些程序应该存储的基准目录。而变量的具体值取决于用户，若用户未指定，将由程序本身指向一个默认目录，该默认目录也应该遵从标准，而不是用户主目录。
+
+### 环境变量清单：用户层面变量（User-Level Variables）
+#### $XDG_DATA_HOME
+`$XDG_DATA_HOME` 定义了应存储用户特定的数据文件的基准目录。默认值是 `$HOME/.local/share`。
+
+使用场景：
+
+* 用户下载的插件；
+* 程序产生的数据库；
+* 用户输入历史、书签、邮件等。
+
+#### $XDG_CONFIG_HOME
+`$XDG_CONFIG_HOME` 定义了应存储用户特定的配置文件的基准目录。默认值是 `$HOME/.config`。
+
+使用场景：
+
+* 用户配置。
+> 一般来说，这个地方可以在程序初始化的时候存储一个默认的配置文件供加载和修改。
+
+#### $XDG_CACHE_HOME
+`$XDG_CACHE_HOME` 定义了应存储用户特定的非重要性数据文件的基准目录。默认值是 `$HOME/.cache`。
+
+使用场景：
+
+* 缓存的缩略图、歌曲文件、视频文件等。
+> 程序应该做到哪怕这个目录被用户删了也能正常运行。
+
+#### $XDG_RUNTIME_DIR
+`$XDG_RUNTIME_DIR` 定义了应存储用户特定的非重要性运行时文件和一些其他文件对象。
+
+使用场景：
+
+* 套接字 (socket)、命名管道 (named pipes) 等。
+> 该目录必须由用户拥有，并且该用户必须是唯一具有读写访问权限的。 目录的 Unix 访问模式必须是 0700。
+
+### 环境变量清单：系统层面变量（System-Level Variables）
+#### $XDG_CONFIG_DIRS
+`$XDG_CONFIG_DIRS` 定义了一套按照偏好顺序的基准目录集，用来搜索除了 `$XDG_CONFIG_HOME` 目录之外的配置文件。该目录中的文件夹应该用冒号（:）隔开。默认值是 `/etc/xdg`。
+
+使用场景：
+
+* 可以被用户特定的配置文件所覆盖的系统层面的配置文件。
+> 一般来说，应用程序安装的时候可以加载配置文件到这个目录。
+
+#### $XDG_DATA_DIRS
+`$XDG_DATA_DIRS` 定义了一套按照偏好顺序的基准目录集，用来搜索除了 `$XDG_DATA_HOME` 目录之外的数据文件。该目录中的文件夹应该用冒号（:）隔开。默认值是 `/usr/local/share/:/usr/share/`。
+
+使用场景：
+
+* 可以被所有用户使用的插件或者主题。
+> 一般来说，应用程序安装的时候可以加载插件、主题等文件到这个目录。
+
+### 参考资料：
+[消灭泛滥的点文件：XDG 基准目录规范](https://songkeys.github.io/posts/xdc-spec/)           
 
 
-***
 ## Linux 源码安装
 这些都是典型的使用 GNU 的 AUTOCONF 和 AUTOMAKE 产生的程序的安装步骤。
 
-***
+
 ## initrd和initramfs的区别
 首先要介绍 `kernel` 启动 init 的两种方案。
 * 第一种是 ramdisk，就是把一块内存（ram）当做磁盘（disk）去挂载，然后找到ram里的init进行执行。
