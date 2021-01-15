@@ -763,7 +763,9 @@ But this will resolve the hostname to an IP and use that for the rule, so if the
 ### 参考资料
 [在 Ubuntu 中用 UFW 配置防火墙](https://linux.cn/article-8087-1.html)                     
 [如何在 Ubuntu 20.04 上使用 UFW 来设置防火墙](https://zhuanlan.zhihu.com/p/139381645)               
-[How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)               
+[How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)
+[ubuntu Firewall 官方文档](https://help.ubuntu.com/community/Firewall)                  
+[ubuntu UFW 官方文档](https://help.ubuntu.com/community/UFW)            
 
 
 #### 如何在启动时禁用有线网卡 eth0 ?
