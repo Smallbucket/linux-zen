@@ -676,7 +676,7 @@ vim /etc/ufw/ufw.conf
 * SYN URGP：指示是否需要三次握手。 0 表示不需要。
 
 ### 问题
-#### How ufw firewall deny outgoing but allow browser?
+#### How ufw firewall deny outgoing but allow browser?[来源](https://askubuntu.com/questions/1005312/ufw-firewall-deny-outgoing-but-allow-browser)
 The first thing you need to do is to change the default outgoing policy to deny. By default all outgoing traffic is allowed.
 
     sudo ufw default deny outgoing
@@ -709,10 +709,10 @@ Confirm the changes with:
     sudo ufw allow out 53,80,443/tcp
     sudo ufw allow out 53,80,443/udp
 
-### Allowing outgoing connections to a particular IP with ufw? [来源](https://serverfault.com/questions/649870/allowing-outgoing-connections-to-a-particular-ip-with-ufw)
+### Allowing outgoing connections to a particular IP with ufw. [来源](https://serverfault.com/questions/649870/allowing-outgoing-connections-to-a-particular-ip-with-ufw)
 Here's to anyone wondering how this can be done:
-1) Open `/etc/ufw/before.rules` and insert this rule above `COMMIT` on the last line
-:
+1) Open `/etc/ufw/before.rules` and insert this rule above `COMMIT` on the last line          
+code:
 
     -A ufw-before-output -m owner --uid-owner {user} -p {protocol} --dport {port} -d {ip} -j ACCEPT
 Fill in the values for each as so:
@@ -730,12 +730,20 @@ An example:
 
     # don't delete the 'COMMIT' line or these rules won't be processed
     COMMIT
-2) Restart ufw 
-:
+2) Restart ufw           
+code:
 
     service ufw restart
 
 Should all correctly work after! Ensure you don't put two ports in one like like "-dport 6666,5555" - it usually errors!
+
+#### UFW: Allow traffic only from a domain with dynamic IP address. [来源](https://unix.stackexchange.com/questions/91701/ufw-allow-traffic-only-from-a-domain-with-dynamic-ip-address)
+I don't believe this is possible with ufw. ufw is just a frontend to iptables which also lacks this feature, so one approach would be to create a crontab entry which would periodically run and check if the IP address has changed. If it has then it will update it.
+
+You might be tempted to do this:
+
+    $ iptables -A INPUT -p tcp --src mydomain.dyndns.org --dport 22 -j ACCEPT
+But this will resolve the hostname to an IP and use that for the rule, so if the IP later changes this rule will become invalid.
     
 ### 参考资料
 [在 Ubuntu 中用 UFW 配置防火墙](https://linux.cn/article-8087-1.html)                     
