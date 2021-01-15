@@ -638,7 +638,14 @@ UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian
 Linux 上的软件或应用基本上离不开配置文件，ufw 当然也不例外。
 
 ### 配置文件
-vim /etc/ufw/ufw.conf
+ufw 常用的配置文件：
+
+* /etc/default/ufw: The main configuration file with pre-defined rules.
+* /etc/ufw/before[6].rules: In this file rules are calculated before adding via ufw command.
+* /etc/ufw/after[6].rules: In this file rules are calculated after adding via ufw command.
+* /etc/ufw/sysctl.conf: This file is used to tune kernel network.
+* /etc/ufw/ufw.conf: This file enable the ufw on boot.
+
 虽然可以通过命令行添加简单的规则，但仍有可能需要添加或删除更高级或特定的规则。在运行通过终端输入的规则之前，UFW 将运行一个文件 `before.rules`，它允许回环接口、ping 和 DHCP 等服务。要添加或改变这些规则，编辑 `/etc/ufw/before.rules` 这个文件。 同一目录中的 `before6.rules` 文件用于 IPv6 。还存在一个 `after.rule` 和 `after6.rule` 文件，用于添加在 UFW 运行你通过命令行输入的规则之后需要添加的任何规则。
 
 默认的策略定义在 `/etc/default/ufw`。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
