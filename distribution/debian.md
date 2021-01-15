@@ -424,6 +424,8 @@ netplan 支持两个 renderers，分别为
 
 [Ubuntu 禁用 Netplan 改用 ifupdown 配置网络](https://www.hostarr.com/disable-netplan-and-enable-ifupdown-in-ubuntu/)           
 
+[How to configure networking with Netplan on Ubuntu](https://vitux.com/how-to-configure-networking-with-netplan-on-ubuntu/)                
+
 
 § 新旧版本对比
 
@@ -709,7 +711,7 @@ Confirm the changes with:
     sudo ufw allow out 53,80,443/tcp
     sudo ufw allow out 53,80,443/udp
 
-### Allowing outgoing connections to a particular IP with ufw. [来源](https://serverfault.com/questions/649870/allowing-outgoing-connections-to-a-particular-ip-with-ufw)
+#### Allowing outgoing connections to a particular IP with ufw. [来源](https://serverfault.com/questions/649870/allowing-outgoing-connections-to-a-particular-ip-with-ufw)
 Here's to anyone wondering how this can be done:
 1) Open `/etc/ufw/before.rules` and insert this rule above `COMMIT` on the last line          
 code:
@@ -744,13 +746,17 @@ You might be tempted to do this:
 
     $ iptables -A INPUT -p tcp --src mydomain.dyndns.org --dport 22 -j ACCEPT
 But this will resolve the hostname to an IP and use that for the rule, so if the IP later changes this rule will become invalid.
+
+#### How UFW To Block Outgoing Ports Except Those Needed?[来源](https://ubuntuforums.org/showthread.php?t=1893751)
+
+    sudo ufw deny out to any
+    sudo ufw allow out 20,21,53,80,123,442/tcp
+    sudo ufw allow out 20,21,53,80,123,442/udp
     
 ### 参考资料
 [在 Ubuntu 中用 UFW 配置防火墙](https://linux.cn/article-8087-1.html)                     
 [如何在 Ubuntu 20.04 上使用 UFW 来设置防火墙](https://zhuanlan.zhihu.com/p/139381645)               
 [How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)               
-[How to configure networking with Netplan on Ubuntu](https://vitux.com/how-to-configure-networking-with-netplan-on-ubuntu/)                
-[HowTo: UFW ) Block Outgoing Ports Except Those Needed + More](https://ubuntuforums.org/showthread.php?t=1893751)                
 
 
 #### 如何在启动时禁用有线网卡 eth0 ?
