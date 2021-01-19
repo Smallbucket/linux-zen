@@ -4,6 +4,19 @@
 - [命令](#command)         
   - [安装命令](#install_command)      
 - [防火墙(ufw)](#ufw)           
+- [搭建 C/C++ 开发环境](#cc++)               
+
+
+Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（减去2000），YY 表示发布的月份。Ubuntu 没有像其它软件一样有 1.0 版本，是因为其第一个版本是发布于 2004 年。Ubuntu中，每个版本都有一个更为特色的名字，这个名字由一个形容词和一个动物名称组成，并且，形容词和名词的首字母都是一致的。从D版本开始又增加了一个规则，首字母要顺延上个版本，如果当前版本是 D ，下个版本就要以 E 来起头。Ubuntu历史版本与代号查看[官网](https://wiki.ubuntu.com/DevelopmentCodeNames)。
+
+查看当前版本及代号命令：
+
+    root@host:~# lsb_release -a
+    No LSB modules are available.
+    Distributor ID:	Ubuntu
+    Description:	Ubuntu 20.04 LTS
+    Release:	20.04
+    Codename:	focal
 
 
 ## <a id="command">命令</a>
@@ -41,6 +54,7 @@
     apt-cache show pkgs                 显示软件包记录，类似于dpkg –print-avail。
     apt-cache pkgnames                  打印软件包列表中所有软件包的名称。
     apt-cache stats                     查看当前 Ubuntu 不同类型包的统计及整体统计信息
+    apt-cache depends build-essential   查看该软件包的依赖关系
     
     aptitude                            详细查看已安装或可用的软件包。
     apt-file search filename            查找包含特定文件的软件包（不一定是已安装的），这些文件的文件名中含有指定的字符串。
@@ -786,6 +800,10 @@ But this will resolve the hostname to an IP and use that for the rule, so if the
 [ubuntu UFW 官方文档](https://help.ubuntu.com/community/UFW)            
 
 
+### <a id="cc++">搭建 C/C++ 开发环境</a>
+
+
+
 #### 如何在启动时禁用有线网卡 eth0 ?
 
 使用 `lspci -vn` 查到网卡: 
@@ -910,6 +928,7 @@ to
 在用户的家目录下有个`.sudo_as_admin_successful`文件，这是个隐藏文件，通常看不到，执行命令`ls -a`可看到，那么，这个文件是怎么生成的？有什么作用？
 
 看看这个论坛[Is it possible to stop .sudo_as_admin_successful being created?](https://askubuntu.com/questions/813942/is-it-possible-to-stop-sudo-as-admin-successful-being-created)的说明，另外提到了[Getting rid of .sudo_as_admin_successful](https://shallowsky.com/blog/linux/sudo_as_admin_spew.html)这篇文章，看了之后会有所启发。
+
 
 ## 参考资料：      
 * [Linux中apt与apt-get命令的区别与解释](https://www.sysgeek.cn/apt-vs-apt-get/)      
