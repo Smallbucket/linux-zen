@@ -1,12 +1,15 @@
 
 # Debian/Ubuntu 使用
-
-- [命令](#command)      
+        
+- [命令](#command)         
+  - [安装命令](#install_command)      
 - [防火墙(ufw)](#ufw)           
 
 
 ## <a id="command">命令</a>
-### deb 包安装方法  
+
+### <a id="install_command">安装命令</a>
+#### deb 包安装方法  
  
     dpkg -i <package.deb>               安装一个 Debian 软件包
     dpkg -c <package.deb>               列出 <package.deb> 的内容
@@ -20,7 +23,7 @@
     dpkg-reconfigure <package>          重新配制一个已经安装的包裹，如果它使用的是 debconf (debconf 为包裹安装提供了一个统一的配制界面)
     dpkg –force-all –purge packagename  有些软件很难卸载，而且还阻止了别的软件的应用 ，就可以用这个，不过有点冒险。
 
-### apt-* 系统命令
+#### apt-* 系统命令
 
     apt-get update                      在修改/etc/apt/sources.list或者/etc/apt/preferences之後运行该命令。此外您需要定期运行这一命令以确保您的软件包列表是最新的。
     apt-get install packagename         安装一个新软件包
@@ -52,7 +55,7 @@
 * apt 命令的引入就是为了解决命令过于分散的问题，它包括了 apt-get 命令出现以来使用最广泛的功能选项，以及 apt-cache 和 apt-config 命令中很少用到的功能。
 * apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合。
 
-### aptitude 命令
+#### aptitude 命令
 
     aptitude update                     更新可用的包列表
     aptitude upgrade                    升级可用的包
@@ -161,6 +164,21 @@
 file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型（/sbin/init 在 Ubuntu 15.10 里面是链接到/lib/systemd/systemd 的）,输入`file /lib/systemd/systemd`：
 
         /lib/systemd/systemd: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f0d7528306f37ef94eb4fb1ba44a64e3b547c9a, for GNU/Linux 3.2.0, stripped
+
+### 一些有用的家伙
+
+#### grub
+查询 grub 版本
+
+    grub-install --version
+
+grub 的配置文件
+
+* `/etc/default/grub` is where you can set simple options for many GRUB settings. It is parsed as a shell script.
+* `/etc/grub.d` contains shell scripts which generate GRUB configuration (based on settings on /etc/default/grub). `update-grub` (aka grub-mkconfig) runs these scripts to generate actual GRUB configuration.
+* `/boot/grub2/grub.cfg` is where the generated configuration is saved for GRUB to use.
+
+> 通常，要设置GRUB选项，请编辑 `/etc/default/grub`。如果需要生成其他GRUB条目或更改生成的条目，请在`/etc/grub.d`中添加或更改脚本。不要手动编辑`/boot/grub2/grub.cfg`。
 
 ## 内核模块
 
@@ -906,5 +924,5 @@ to
 * [systemd-resolve占用53端口的解决方法](https://www.moeelf.com/archives/270.html)                   
 * [如何在Ubuntu/Debian Linux上将模块列入黑名单](https://ubuntuqa.com/article/9930.html) 
 * [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)            
-
+* [GNU Textinfo manual](https://www.gnu.org/software/texinfo/manual/texinfo)                             
     
