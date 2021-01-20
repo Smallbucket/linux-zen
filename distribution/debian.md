@@ -2,7 +2,8 @@
 # Debian/Ubuntu 使用
         
 - [命令](#command)         
-  - [安装命令](#install_command)      
+  - [安装](#install_command)       
+  - [grub](#grub)         
 - [防火墙(ufw)](#ufw)           
 - [搭建 C/C++ 开发环境](#cc++)               
 
@@ -21,7 +22,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
 
 ## <a id="command">命令</a>
 
-### <a id="install_command">安装命令</a>
+### <a id="install_command">安装</a>
 #### deb 包安装方法  
  
     dpkg -i <package.deb>               安装一个 Debian 软件包
@@ -84,7 +85,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
 
 > aptitude与apt-get类似，aptitude可以通过命令行方式调用，但仅限于某些命令。最常见的有安装和卸载命令。由于aptitude比apt-get了解更多信息，可以说它更适合用来进行安装和卸载。
 
-### 列出 Ubuntu 和 Debian 上已安装的软件包
+#### 列出 Ubuntu 和 Debian 上已安装的软件包
 用 apt 命令显示已安装软件包
 
     apt list --installed
@@ -179,9 +180,8 @@ file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型
 
         /lib/systemd/systemd: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f0d7528306f37ef94eb4fb1ba44a64e3b547c9a, for GNU/Linux 3.2.0, stripped
 
-### 一些有用的家伙
 
-#### grub
+### <a id="grub">grub</a>
 查询 grub 版本
 
     grub-install --version
@@ -193,6 +193,11 @@ grub 的配置文件
 * `/boot/grub2/grub.cfg` is where the generated configuration is saved for GRUB to use.
 
 > 通常，要设置GRUB选项，请编辑 `/etc/default/grub`。如果需要生成其他GRUB条目或更改生成的条目，请在`/etc/grub.d`中添加或更改脚本。不要手动编辑`/boot/grub2/grub.cfg`。
+
+#### 参考资料
+[GNU GRUB Manual 2.04](https://www.gnu.org/software/grub/manual/grub/grub.html#Simple-configuration)                    
+[An introduction to GRUB2 configuration for your Linux machine](https://opensource.com/article/17/3/introduction-grub2-configuration-linux)            
+
 
 ## 内核模块
 
