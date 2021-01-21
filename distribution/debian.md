@@ -202,6 +202,18 @@ grub 的配置文件
 > 通常，要设置GRUB选项，请编辑 `/etc/default/grub`。如果需要生成其他GRUB条目或更改生成的条目，请在`/etc/grub.d`中添加或更改脚本。不要手动编辑`/boot/grub2/grub.cfg`。
 
 #### 给 grub 设置密码
+
+启用Grub 2密码保护需要执行三个步骤。 
+
+* 必须标识授权用户，
+* 必须指定其密码，
+* 并且必须标识要保护的菜单项。 
+用户和密码被手动添加到`/etc/grub.d/00_header`文件中。由于该文件是系统文件，因此必须由具有管理权限（root）的Ubuntu用户进行编辑。 运行update-grub时，用户/密码信息会自动添加到GRUB 2菜单配置文件（grub.cfg）。
+
+要编辑`/etc/grub.d/00_header`、`/etc/grub.d/10_linux`和`/etc/grub.d/30_os-prober`文件，请使用文本编辑器（例如gedit）以root身份打开它们：
+
+超级用户/用户信息和密码不必包含在/etc/grub.d/00_header文件中。 该信息可以放在任何/etc/grub.d文件中，只要该文件已合并到grub.cfg中即可。 用户可能希望将此数据输入到自定义文件中，例如/etc/grub.d/40_custom，因此，如果更新Grub软件包，则不会覆盖该数据。 如果将信息放置在自定义文件中，请勿包含“cat << EOF”和“EOF”行，因为将从这些文件中自动添加内容。
+
 首先我们为Grub的配置文件生成一个暗文密码。 输入命令：
 
     grub-mkpasswd-pbkdf2
@@ -226,6 +238,8 @@ grub 的配置文件
 
 配置了超级用户后，Grub会自动阻止人们编辑引导条目或在没有密码的情况下访问Grub命令行。
 
+
+
 是否想用密码保护一个特定的启动项，以便没有提供密码就无法启动它？
 
 #### 密码保护启动项
@@ -242,6 +256,22 @@ grub 的配置文件
 
 
 如果将Grub设置为显示启动菜单，则在不输入超级用户密码的情况下，您将无法编辑启动项或使用命令行模式。
+
+#### 保护菜单项
+GRUB 2菜单可以包含受保护和不受保护的项目。保护菜单项的格式包括将用户访问信息添加到菜单条目标题行。
+
+* 存在 `--unrestricted` 选项会禁用密码保护。
+* `--users` 选项可指定用户启用密码保护。超级用户始终具有访问权限。例如`--users ""`仅授权超级用户
+* `--users Jane` 授权超级用户和 Jane
+* `--users Jane,Sergio` 授权超级用户，Jane 和 Sergio
+示例：
+
+| -------- | ------------------------------------------------------------ |
+| All Users (No menuentry protection): | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --unrestricted { |
+| Superuser Only: | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --users "" { |
+| Superuser + Jane: | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --users Jane { |
+| Superuser + Jane + Sergio: | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --users Jane,Sergio { |
+
 
 #### 警告和注意事项
 创建受密码保护的GRUB 2菜单时出错，可能会导致系统无法启动。 要使用破损的密码还原系统，请使用LiveCD或其他OS访问和编辑GRUB 2配置文件。
@@ -866,11 +896,11 @@ But this will resolve the hostname to an IP and use that for the rule, so if the
 ### <a id="cc++">搭建 C/C++ 开发环境</a>
 安装以下集合以在Ubuntu Linux上编译 c/c++ 程序，包括：
 
-* libc6-dev  C standard library.
-* gcc  C compiler.
-* g++  C++ compiler.
-* make  GNU make utility to maintain groups of programs.
-* dpkg-dev  Debian package development tools
+* libc6-dev C standard library.
+* gcc C compiler.
+* g++ C++ compiler.
+* make GNU make utility to maintain groups of programs.
+* dpkg-dev Debian package development tools
 
 #### 如何在启动时禁用有线网卡 eth0 ?
 
