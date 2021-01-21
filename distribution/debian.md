@@ -3,6 +3,10 @@
         
 - [命令](#command)         
   - [安装](#install_command)       
+    - [deb 包安装方法](#command_deb)       
+    - [apt 系统命令](#command_apt)               
+    - [aptitude 命令](#command_aptitude)          
+    - [列出上已安装的软件包](#command_list)          
   - [grub](#grub)         
 - [防火墙(ufw)](#ufw)           
 - [搭建 C/C++ 开发环境](#cc++)               
@@ -23,7 +27,8 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
 ## <a id="command">命令</a>
 
 ### <a id="install_command">安装</a>
-#### deb 包安装方法  
+
+#### <a id="command_deb">deb 包安装方法</a>
  
     dpkg -i <package.deb>               安装一个 Debian 软件包
     dpkg -c <package.deb>               列出 <package.deb> 的内容
@@ -37,7 +42,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
     dpkg-reconfigure <package>          重新配制一个已经安装的包裹，如果它使用的是 debconf (debconf 为包裹安装提供了一个统一的配制界面)
     dpkg –force-all –purge packagename  有些软件很难卸载，而且还阻止了别的软件的应用 ，就可以用这个，不过有点冒险。
 
-#### apt-* 系统命令
+#### <a id="command_apt">apt 系统命令</a>
 
     apt-get update                      在修改/etc/apt/sources.list或者/etc/apt/preferences之後运行该命令。此外您需要定期运行这一命令以确保您的软件包列表是最新的。
     apt-get install packagename         安装一个新软件包
@@ -70,7 +75,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
 * apt 命令的引入就是为了解决命令过于分散的问题，它包括了 apt-get 命令出现以来使用最广泛的功能选项，以及 apt-cache 和 apt-config 命令中很少用到的功能。
 * apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合。
 
-#### aptitude 命令
+#### <a id="command_aptitude">aptitude 命令</a>
 
     aptitude update                     更新可用的包列表
     aptitude upgrade                    升级可用的包
@@ -85,7 +90,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
 
 > aptitude与apt-get类似，aptitude可以通过命令行方式调用，但仅限于某些命令。最常见的有安装和卸载命令。由于aptitude比apt-get了解更多信息，可以说它更适合用来进行安装和卸载。
 
-#### 列出 Ubuntu 和 Debian 上已安装的软件包
+#### <a id="command_list">列出已安装的软件包</a>
 用 apt 命令显示已安装软件包
 
     apt list --installed
