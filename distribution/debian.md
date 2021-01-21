@@ -194,9 +194,54 @@ grub 的配置文件
 
 > 通常，要设置GRUB选项，请编辑 `/etc/default/grub`。如果需要生成其他GRUB条目或更改生成的条目，请在`/etc/grub.d`中添加或更改脚本。不要手动编辑`/boot/grub2/grub.cfg`。
 
+#### 给 grub 设置密码
+首先我们为Grub的配置文件生成一个暗文密码。 输入命令：
+
+    grub-mkpasswd-pbkdf2
+它会提示您输入密码，并返回一个长字符串。
+
+接着在 grub 的配置文件中配置用户和密码：
+
+    sudo vim /etc/grub.d/40_custom
+
+打开40_custom文件，在这里应该放置自己的自定义设置。 如果将它们添加到其他位置，则它们可能会被较新版本的Grub覆盖。
+
+    set superusers=”name”
+    password_pbkdf2 name [long string from earlier]
+
+密码也可以用明文表示，只是这样就不安全了，例如：
+
+    password jim insecure
+
+保存后运行以下命令更改才会生效：
+
+    sudo update-grub
+
+配置了超级用户后，Grub会自动阻止人们编辑引导条目或在没有密码的情况下访问Grub命令行。
+
+是否想用密码保护一个特定的启动项，以便没有提供密码就无法启动它？
+
+#### 密码保护启动项
+
+首先，我们需要确定包含要修改的启动项的文件。 键入`sudo ls /etc/grub.d/` 查看可用文件列表。
+
+    00_header	        10_linux_zfs	30_os-prober	  41_custom
+    05_debian_theme     20_linux_xen	30_uefi-firmware  README
+    10_linux	        20_memtest86+	40_custo
+
+假设我们要用密码保护我们的Linux系统。 Linux启动项是由10_linux文件生成的，因此我们将使用`sudo nano /etc/grub.d/10_linux`命令将其打开。 编辑此文件时要小心！ 如果您忘记了密码或输入了错误的密码，除非您从实时CD引导并首先修改Grub设置，否则您将无法引导至Linux。
+
+这是一个很长的文件，其中包含许多内容，因此我们将按Ctrl-W搜索所需的行。 在搜索提示下键入menuentry，然后按Enter。 您会看到一行以printf开头的行。
+
+
+如果将Grub设置为显示启动菜单，则在不输入超级用户密码的情况下，您将无法编辑启动项或使用命令行模式。
+
+
 #### 参考资料
 [GNU GRUB Manual 2.04](https://www.gnu.org/software/grub/manual/grub/grub.html#Simple-configuration)                    
+[Ubuntu Grub2 Passwords](https://help.ubuntu.com/community/Grub2/Passwords)               
 [An introduction to GRUB2 configuration for your Linux machine](https://opensource.com/article/17/3/introduction-grub2-configuration-linux)            
+[How to Password Protect Ubuntu’s Boot Loader](https://www.howtogeek.com/102009/how-to-password-protect-ubuntus-boot-loader/)                       
 
 
 ## 内核模块
