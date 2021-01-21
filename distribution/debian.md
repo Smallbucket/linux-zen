@@ -243,6 +243,12 @@ grub 的配置文件
 
 如果将Grub设置为显示启动菜单，则在不输入超级用户密码的情况下，您将无法编辑启动项或使用命令行模式。
 
+#### 警告和注意事项
+创建受密码保护的GRUB 2菜单时出错，可能会导致系统无法启动。 要使用破损的密码还原系统，请使用LiveCD或其他OS访问和编辑GRUB 2配置文件。
+
+* 如果启用了密码保护，则只有指定的超级用户才能通过按“e”编辑Grub 2菜单项，或通过按“c”访问GRUB 2命令行。
+* 如果将GRUB 2设置为自动启动到受密码保护的菜单项，则用户没有选择退出密码提示以选择另一个菜单项的选项。 在这种情况下，按住SHIFT键将不会显示菜单。用户必须输入正确的用户名和密码。如果不能，则必须通过LiveCD或其他方式来编辑配置文件以解决该问题。
+* 使用GRUB 2密码进行试验的用户应保留至少一个不受保护的菜单项，并将超时设置为至少1秒，直到测试完成。这将允许启动以纠正有问题的设置。
 
 #### 参考资料
 [GNU GRUB Manual 2.04](https://www.gnu.org/software/grub/manual/grub/grub.html#Simple-configuration)                    
@@ -858,8 +864,13 @@ But this will resolve the hostname to an IP and use that for the rule, so if the
 
 
 ### <a id="cc++">搭建 C/C++ 开发环境</a>
+安装以下集合以在Ubuntu Linux上编译 c/c++ 程序，包括：
 
-
+* libc6-dev  C standard library.
+* gcc  C compiler.
+* g++  C++ compiler.
+* make  GNU make utility to maintain groups of programs.
+* dpkg-dev  Debian package development tools
 
 #### 如何在启动时禁用有线网卡 eth0 ?
 
