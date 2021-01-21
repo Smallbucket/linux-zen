@@ -266,6 +266,7 @@ GRUB 2菜单可以包含受保护和不受保护的项目。保护菜单项的�
 * `--users Jane,Sergio` 授权超级用户，Jane 和 Sergio
 示例：
 
+| 实现功能 | 代码 |
 | -------- | ------------------------------------------------------------ |
 | All Users (No menuentry protection): | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --unrestricted { |
 | Superuser Only: | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --users "" { |
