@@ -74,6 +74,38 @@ No parameter expansion, command substitution, arithmetic expansion, or pathname 
 
 If the redirection operator is <<-, then all leading tab characters are stripped from input lines and the line containing delimiter. This allows here-documents within shell scripts to be indented in a natural fashion.
 
+`cat <<EOF` 使用示例:
+
+Assign multi-line string to a shell variable
+
+    $ sql=$(cat <<EOF
+    SELECT foo, bar FROM db
+    WHERE foo='baz'
+    EOF
+    )
+The $sql variable now holds the new-line characters too. You can verify with echo -e "$sql".
+
+Pass multi-line string to a file in Bash
+
+    $ cat <<EOF > print.sh
+    #!/bin/bash
+    echo \$PWD
+    echo $PWD
+    EOF
+The `print.sh` file now contains:
+
+    #!/bin/bash
+    echo $PWD
+    echo /home/user
+
+Pass multi-line string to a pipe in Bash
+
+    $ cat <<EOF | grep 'b' | tee b.txt
+    foo
+    bar
+    baz
+    EOF
+The `b.txt` file contains `bar` and `baz` lines. The same output is printed to `stdout`.
 
 ### <a id="base_initrd">initrd 和 initramfs 的区别</a>
 首先要介绍 `kernel` 启动 init 的两种方案。
