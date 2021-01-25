@@ -1,7 +1,7 @@
 
 - [Linux 基础知识](#base)                   
   - [Linux 启动过程](#startup)              
-- [Linux 基本目录规范 XDG](#xdg)             
+- [Linux 基本目录规范(XDG)](#xdg)             
 - [文件](./file.md)     
 - [loop设备](./lodevice.md)                            
 - [Linux 分区](./partition.md)         
@@ -45,6 +45,25 @@ Non-login shells
 * $$ 是脚本运行的当前进程ID号
 * $? 是显示最后命令的退出状态，0表示没有错误，其他表示有错误
 
+### cat <<EOF 与 cat <<-EOF 的区别
+这称为heredoc格式，用于将字符串提供给stdin。
+
+从 `man bash` 中摘录：
+```
+Here Documents
+This type of redirection instructs the shell to read input from the current source until a line containing only word (with no trailing blanks) is seen.
+
+All of the lines read up to that point are then used as the standard input for a command.
+
+The format of here-documents is:
+
+          <<[-]word
+                  here-document
+          delimiter
+No parameter expansion, command substitution, arithmetic expansion, or pathname expansion is performed on word. If any characters in word are quoted, the delimiter is the result of quote removal on word, and the lines in the here-document are not expanded. If word is unquoted, all lines of the here-document are subjected to parameter expansion, command substitution, and arithmetic expansion. In the latter case, the character sequence \<newline> is ignored, and \ must be used to quote the characters \, $, and `.
+
+If the redirection operator is <<-, then all leading tab characters are stripped from input lines and the line containing delimiter. This allows here-documents within shell scripts to be indented in a natural fashion.
+```
 
 sudo 免密码    
 ```shell
