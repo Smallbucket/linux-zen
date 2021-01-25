@@ -75,7 +75,7 @@ No parameter expansion, command substitution, arithmetic expansion, or pathname 
 
 If the redirection operator is <<-, then all leading tab characters are stripped from input lines and the line containing delimiter. This allows here-documents within shell scripts to be indented in a natural fashion.
 
-**`cat <<EOF` 使用示例:**
+**使用示例:**
 
 Assign multi-line string to a shell variable
 
@@ -84,7 +84,7 @@ Assign multi-line string to a shell variable
     WHERE foo='baz'
     EOF
     )
-The $sql variable now holds the new-line characters too. You can verify with echo -e "$sql".
+The `$sql` variable now holds the new-line characters too. You can verify with `echo -e "$sql"`.
 
 Pass multi-line string to a file in Bash
 
