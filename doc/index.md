@@ -1,6 +1,9 @@
 
 - [Linux 基础知识](#base)                   
-  - [Linux 启动过程](#startup)              
+  - [Linux 启动过程](#startup)            
+  - [Login shells 与 Nonlogin shells 执行过程](#base_shell)          
+  - [linux 中变量的含义](#base_var)          
+  - [cat <<[-]EOF 的含义](#base_eof)       
 - [Linux 基本目录规范(XDG)](#xdg)             
 - [文件](./file.md)     
 - [loop设备](./lodevice.md)                            
@@ -16,7 +19,7 @@
 4. 根据 /etc/rcS.d/ 文件夹中对应的脚本启动 Xwindow 服务器 xorg。Xwindow 为 Linux 下的图形用户界面系统。
 5. 启动登录管理器,等待用户登录。Ubuntu 系统默认使用 GDM 作为登录管理器,您在登录管理器界面中输入用户名和密码后,便可以登录系统。(您可以在 /etc/rc3.d/ 文件夹中找到一个名为 S13gdm 的链接)
 
-#### Login shells 与 Nonlogin shells 执行过程
+### <a id="base_shell">Login shells 与 Nonlogin shells 执行过程</a>
 
 Login shells
 
@@ -34,7 +37,7 @@ Non-login shells
 
 .bash_logout 在每次登陆shell退出时被读取并执行。
 
-#### linux 中变量的含义
+### <a id="base_var">linux 中变量的含义</a>
 
 * $# 是传给脚本的参数个数
 * $0 是脚本本身的名字
@@ -45,12 +48,12 @@ Non-login shells
 * $$ 是脚本运行的当前进程ID号
 * $? 是显示最后命令的退出状态，0表示没有错误，其他表示有错误
 
-### cat <<EOF 与 cat <<-EOF 的区别
+### <a id="base_eof">cat <<[-]EOF 的含义</a>
 这称为heredoc格式，用于将字符串提供给stdin。
 
 从 `man bash` 中摘录：
-```
-Here Documents
+
+>> Here Documents
 This type of redirection instructs the shell to read input from the current source until a line containing only word (with no trailing blanks) is seen.
 
 All of the lines read up to that point are then used as the standard input for a command.
@@ -63,7 +66,7 @@ The format of here-documents is:
 No parameter expansion, command substitution, arithmetic expansion, or pathname expansion is performed on word. If any characters in word are quoted, the delimiter is the result of quote removal on word, and the lines in the here-document are not expanded. If word is unquoted, all lines of the here-document are subjected to parameter expansion, command substitution, and arithmetic expansion. In the latter case, the character sequence \<newline> is ignored, and \ must be used to quote the characters \, $, and `.
 
 If the redirection operator is <<-, then all leading tab characters are stripped from input lines and the line containing delimiter. This allows here-documents within shell scripts to be indented in a natural fashion.
-```
+
 
 sudo 免密码    
 ```shell
