@@ -61,6 +61,7 @@ SHLVL 是记录多个 Bash 进程实例嵌套深度的累加器，而 BASH_SUBSH
 从 `man bash` 中摘录：
 
 **Here Documents**                     
+
 This type of redirection instructs the shell to read input from the current source until a line containing only word (with no trailing blanks) is seen.
 
 All of the lines read up to that point are then used as the standard input for a command.
@@ -74,7 +75,7 @@ No parameter expansion, command substitution, arithmetic expansion, or pathname 
 
 If the redirection operator is <<-, then all leading tab characters are stripped from input lines and the line containing delimiter. This allows here-documents within shell scripts to be indented in a natural fashion.
 
-`cat <<EOF` 使用示例:
+**`cat <<EOF` 使用示例:**
 
 Assign multi-line string to a shell variable
 
@@ -105,7 +106,7 @@ Pass multi-line string to a pipe in Bash
     bar
     baz
     EOF
-The `b.txt` file contains `bar` and `baz` lines. The same output is printed to `stdout`.
+The *`b.txt`* file contains *`bar`* and *`baz`* lines. The same output is printed to *`stdout`*.
 
 ### <a id="base_initrd">initrd 和 initramfs 的区别</a>
 首先要介绍 `kernel` 启动 init 的两种方案。
