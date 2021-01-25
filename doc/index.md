@@ -53,7 +53,7 @@ Non-login shells
 
 从 `man bash` 中摘录：
 
->> Here Documents
+**Here Documents**                     
 This type of redirection instructs the shell to read input from the current source until a line containing only word (with no trailing blanks) is seen.
 
 All of the lines read up to that point are then used as the standard input for a command.
