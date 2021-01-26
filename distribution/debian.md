@@ -8,6 +8,7 @@
     - [aptitude 命令](#command_aptitude)          
     - [列出上已安装的软件包](#command_list)          
   - [grub](#grub)         
+  - [内核模块](#module)              
 - [debian/ubuntu 软件源更新](#update)            
 - [防火墙(ufw)](#ufw)           
 - [搭建 C/C++ 开发环境](#cc++)               
@@ -289,14 +290,14 @@ GRUB 2菜单可以包含受保护和不受保护的项目。保护菜单项的�
 [How to Password Protect Ubuntu’s Boot Loader](https://www.howtogeek.com/102009/how-to-password-protect-ubuntus-boot-loader/)                       
 
 
-## 内核模块
+### <a id="module">内核模块<a/>
 
-### lsmod
+#### lsmod
 列出内核已载入模块的状态。
 
 lsmod 以美观的方式列出`/proc/modules`的内容。
 
-### depmod
+#### depmod
 分析可加载模块的依赖性，生成modules.dep文件和映射文件。
 
 Linux内核模块可以为其它模块提供提供服务(在代码中使用EXPORT_SYMBOL)，这种服务被称作”symbols”。若第二个模块使用了这个symbol，则该模块很明显依赖于第一个模块。这些依赖关系是非常繁杂的。
@@ -304,7 +305,7 @@ depmod读取在/lib/modules/version 目录下的所有模块，并检查每个�
 
 若命令中提供了version参数，则会使用version所指定的目录生成依赖，而不是当前内核的版本(uname -r 返回的)。
 
-### modprobe
+#### modprobe
 Linux内核添加删除模块。
 
 modprobe 命令智能地向内核中加载模块或者从内核中移除模块，可载入指定的个别模块，或是载入一组相依的模块。除了可选的`/etc/modprobe.conf`配置文件和`/etc/modprobe.d`目录外。
@@ -321,19 +322,19 @@ modprobe需要一个最新的modules.dep文件，modprobe会根据depmod所产�
 
     modprobe -r drv.ko
 
-### modinfo
+#### modinfo
 显示内核模块的信息。
 
 modinfo列出Linux内核中命令行指定的模块的信息。若模块名不是一个文件名，则会在`/lib/modules/version`目录中搜索，就像modprobe一样。默认情况下，为了便于阅读，以下面的格式列出模块的每个属性：
     
     fieldname : value。
 
-### insmod
+#### insmod
 向Linux内核中插入一个模块。
 
 insmod是一个向内核插入模块的小程序：若文件名是一个连字符’-'，模块从标准输入输入。大多数用户使用modprobe，因为它比较智能化。
 
-### rmmod
+#### rmmod
 删除内核中的一模块。
 
 rmmod是一个可以从内核中删除模块的小程序，大多数用户使用`modprobe -r`去删除模块。
