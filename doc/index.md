@@ -5,7 +5,8 @@
   - [linux 中变量的含义](#base_var)          
   - [cat <<[-]EOF 的含义](#base_eof)         
   - [initrd 和 initramfs 的区别](#base_initrd)              
-  - [su 和 sudo](#base_su)          
+  - [su 和 sudo](#base_su)           
+- [源码的编译安装和卸载](#configure)        
 - [Linux 基本目录规范(XDG)](#xdg)             
 - [文件](./file.md)     
 - [loop设备](./lodevice.md)                            
@@ -145,7 +146,7 @@ auth       required   pam_wheel.so group=wheel
 auth       sufficient pam_wheel.so trust use_uid
 ```
 
-## 源码的编译安装和卸载
+## <a id="configure">源码的编译安装和卸载</a>
 源码的安装一般由3个步骤组成：
 
 * 配置(configure)
