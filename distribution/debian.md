@@ -1,15 +1,16 @@
 
 # Debian/Ubuntu 使用
-        
-- [命令](#command)         
-  - [安装](#install_command)       
-    - [deb 包安装方法](#command_deb)       
-    - [apt 系统命令](#command_apt)               
-    - [aptitude 命令](#command_aptitude)          
-    - [列出上已安装的软件包](#command_list)          
-  - [grub](#grub)         
-  - [内核模块](#module)              
+               
+- [安装命令](#install_command)       
+  - [deb 包安装方法](#command_deb)       
+  - [apt 系统命令](#command_apt)               
+  - [aptitude 命令](#command_aptitude)          
+  - [列出上已安装的软件包](#command_list)          
+- [系统服务](#service)            
+- [grub](#grub)         
+- [内核模块](#module)              
 - [debian/ubuntu 软件源更新](#update)            
+- [debian/Ubuntu 网络配置](#net)          
 - [防火墙(ufw)](#ufw)           
 - [搭建 C/C++ 开发环境](#cc++)               
 
@@ -25,12 +26,9 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
     Release:	20.04
     Codename:	focal
 
+## <a id="install_command">安装命令</a>
 
-## <a id="command">命令</a>
-
-### <a id="install_command">安装</a>
-
-#### <a id="command_deb">deb 包安装方法</a>
+### <a id="command_deb">deb 包安装方法</a>
  
     dpkg -i <package.deb>               安装一个 Debian 软件包
     dpkg -c <package.deb>               列出 <package.deb> 的内容
@@ -44,7 +42,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
     dpkg-reconfigure <package>          重新配制一个已经安装的包裹，如果它使用的是 debconf (debconf 为包裹安装提供了一个统一的配制界面)
     dpkg –force-all –purge packagename  有些软件很难卸载，而且还阻止了别的软件的应用 ，就可以用这个，不过有点冒险。
 
-#### <a id="command_apt">apt 系统命令</a>
+### <a id="command_apt">apt 系统命令</a>
 
     apt-get update                      在修改/etc/apt/sources.list或者/etc/apt/preferences之後运行该命令。此外您需要定期运行这一命令以确保您的软件包列表是最新的。
     apt-get install packagename         安装一个新软件包
@@ -77,7 +75,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
 * apt 命令的引入就是为了解决命令过于分散的问题，它包括了 apt-get 命令出现以来使用最广泛的功能选项，以及 apt-cache 和 apt-config 命令中很少用到的功能。
 * apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合。
 
-#### <a id="command_aptitude">aptitude 命令</a>
+### <a id="command_aptitude">aptitude 命令</a>
 
     aptitude update                     更新可用的包列表
     aptitude upgrade                    升级可用的包
@@ -92,7 +90,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
 
 > aptitude与apt-get类似，aptitude可以通过命令行方式调用，但仅限于某些命令。最常见的有安装和卸载命令。由于aptitude比apt-get了解更多信息，可以说它更适合用来进行安装和卸载。
 
-#### <a id="command_list">列出已安装的软件包</a>
+### <a id="command_list">列出已安装的软件包</a>
 用 apt 命令显示已安装软件包
 
     apt list --installed
@@ -110,7 +108,7 @@ Ubuntu 发布版本的官方名称是 `Ubuntu X.YY` ，其中 X 表示年份（�
     grep " install " /var/log/apt/history.log
 这个仅会显示用 apt 命令安装的的程序。但不会显示被依赖安装的软件包
 
-### 关闭不必要的系统服务
+### <a id="service">系统服务</a>
 #### 列出当前服务
 
     service --status-all
@@ -188,7 +186,7 @@ file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型
         /lib/systemd/systemd: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f0d7528306f37ef94eb4fb1ba44a64e3b547c9a, for GNU/Linux 3.2.0, stripped
 
 
-### <a id="grub">grub</a>
+## <a id="grub">grub</a>
 GRUB为其菜单和终端提供基本的密码保护。 用户可以设置密码来保护整个菜单或特定菜单项。 所有用户或仅选定用户都需要密码。 密码可以加密或未加密格式存储。 
 
 查询 grub 版本
@@ -203,7 +201,7 @@ grub 的配置文件
 
 > 通常，要设置GRUB选项，请编辑 `/etc/default/grub`。如果需要生成其他GRUB条目或更改生成的条目，请在`/etc/grub.d`中添加或更改脚本。不要手动编辑`/boot/grub2/grub.cfg`。
 
-#### 给 grub 设置密码
+### 给 grub 设置密码
 
 启用Grub 2密码保护需要执行三个步骤。 
 
@@ -244,7 +242,7 @@ grub 的配置文件
 
 是否想用密码保护一个特定的启动项，以便没有提供密码就无法启动它？
 
-#### 密码保护启动项
+### 密码保护启动项
 
 首先，我们需要确定包含要修改的启动项的文件。 键入`sudo ls /etc/grub.d/` 查看可用文件列表。
 
@@ -259,7 +257,7 @@ grub 的配置文件
 
 如果将Grub设置为显示启动菜单，则在不输入超级用户密码的情况下，您将无法编辑启动项或使用命令行模式。
 
-#### 保护菜单项
+### 保护菜单项
 GRUB 2菜单可以包含受保护和不受保护的项目。保护菜单项的格式包括将用户访问信息添加到菜单条目标题行。
 
 * 存在 `--unrestricted` 选项会禁用密码保护。
@@ -276,28 +274,28 @@ GRUB 2菜单可以包含受保护和不受保护的项目。保护菜单项的�
 | Superuser + Jane + Sergio: | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --users Jane,Sergio { |
 
 
-#### 警告和注意事项
+### 警告和注意事项
 创建受密码保护的GRUB 2菜单时出错，可能会导致系统无法启动。 要使用破损的密码还原系统，请使用LiveCD或其他OS访问和编辑GRUB 2配置文件。
 
 * 如果启用了密码保护，则只有指定的超级用户才能通过按“e”编辑Grub 2菜单项，或通过按“c”访问GRUB 2命令行。
 * 如果将GRUB 2设置为自动启动到受密码保护的菜单项，则用户没有选择退出密码提示以选择另一个菜单项的选项。 在这种情况下，按住SHIFT键将不会显示菜单。用户必须输入正确的用户名和密码。如果不能，则必须通过LiveCD或其他方式来编辑配置文件以解决该问题。
 * 使用GRUB 2密码进行试验的用户应保留至少一个不受保护的菜单项，并将超时设置为至少1秒，直到测试完成。这将允许启动以纠正有问题的设置。
 
-#### 参考资料
+### 参考资料
 [GNU GRUB Manual 2.04](https://www.gnu.org/software/grub/manual/grub/grub.html#Simple-configuration)                    
 [Ubuntu Grub2 Passwords](https://help.ubuntu.com/community/Grub2/Passwords)               
 [An introduction to GRUB2 configuration for your Linux machine](https://opensource.com/article/17/3/introduction-grub2-configuration-linux)            
 [How to Password Protect Ubuntu’s Boot Loader](https://www.howtogeek.com/102009/how-to-password-protect-ubuntus-boot-loader/)                       
 
 
-### <a id="module">内核模块<a/>
+## <a id="module">内核模块<a/>
 
-#### lsmod
+### lsmod
 列出内核已载入模块的状态。
 
 lsmod 以美观的方式列出`/proc/modules`的内容。
 
-#### depmod
+### depmod
 分析可加载模块的依赖性，生成modules.dep文件和映射文件。
 
 Linux内核模块可以为其它模块提供提供服务(在代码中使用EXPORT_SYMBOL)，这种服务被称作”symbols”。若第二个模块使用了这个symbol，则该模块很明显依赖于第一个模块。这些依赖关系是非常繁杂的。
@@ -305,7 +303,7 @@ depmod读取在/lib/modules/version 目录下的所有模块，并检查每个�
 
 若命令中提供了version参数，则会使用version所指定的目录生成依赖，而不是当前内核的版本(uname -r 返回的)。
 
-#### modprobe
+### modprobe
 Linux内核添加删除模块。
 
 modprobe 命令智能地向内核中加载模块或者从内核中移除模块，可载入指定的个别模块，或是载入一组相依的模块。除了可选的`/etc/modprobe.conf`配置文件和`/etc/modprobe.d`目录外。
@@ -322,19 +320,19 @@ modprobe需要一个最新的modules.dep文件，modprobe会根据depmod所产�
 
     modprobe -r drv.ko
 
-#### modinfo
+### modinfo
 显示内核模块的信息。
 
 modinfo列出Linux内核中命令行指定的模块的信息。若模块名不是一个文件名，则会在`/lib/modules/version`目录中搜索，就像modprobe一样。默认情况下，为了便于阅读，以下面的格式列出模块的每个属性：
     
     fieldname : value。
 
-#### insmod
+### insmod
 向Linux内核中插入一个模块。
 
 insmod是一个向内核插入模块的小程序：若文件名是一个连字符’-'，模块从标准输入输入。大多数用户使用modprobe，因为它比较智能化。
 
-#### rmmod
+### rmmod
 删除内核中的一模块。
 
 rmmod是一个可以从内核中删除模块的小程序，大多数用户使用`modprobe -r`去删除模块。
@@ -419,7 +417,7 @@ rmmod是一个可以从内核中删除模块的小程序，大多数用户使用
 [debian软件源source.list文件格式说明](http://www.cnblogs.com/beanmoon/p/3387652.html)          
 
 
-## debian/Ubuntu 网络配置
+## <a id="net">debian/Ubuntu 网络配置<a/>
 NetworkManager是一项系统网络服务，用于管理您的网络设备和连接，并在可用时尝试保持网络连接处于活动状态。 它管理以太网，WiFi，移动宽带（WWAN）和PPPoE设备，同时还提供与各种不同VPN服务的VPN集成。
 
 默认情况下，Ubuntu Core上的网络管理由systemd的networkd和netplan处理。 但是，安装NetworkManager时，它将通过创建一个netplan配置文件来控制系统中的所有网络设备，在其中将其自身设置为默认网络渲染器。
