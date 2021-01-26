@@ -7,7 +7,7 @@
   - [aptitude 命令](#command_aptitude)          
   - [列出上已安装的软件包](#command_list)          
 - [系统服务](#service)            
-- [grub](#grub)         
+- [Grub](#grub)         
 - [内核模块](#module)              
 - [debian/ubuntu 软件源更新](#update)            
 - [debian/Ubuntu 网络配置](#net)          
@@ -186,8 +186,8 @@ file 命令可以配合 /sbin/init 这个特殊参数来查看系统架构类型
         /lib/systemd/systemd: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f0d7528306f37ef94eb4fb1ba44a64e3b547c9a, for GNU/Linux 3.2.0, stripped
 
 
-## <a id="grub">grub</a>
-GRUB为其菜单和终端提供基本的密码保护。 用户可以设置密码来保护整个菜单或特定菜单项。 所有用户或仅选定用户都需要密码。 密码可以加密或未加密格式存储。 
+## <a id="grub">Grub</a>
+`GRUB` 为其菜单和终端提供基本的密码保护。 用户可以设置密码来保护整个菜单或特定菜单项。 所有用户或仅选定用户都需要密码。 密码可以加密或未加密格式存储。 
 
 查询 grub 版本
 
