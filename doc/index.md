@@ -170,17 +170,17 @@ auth       sufficient pam_wheel.so trust use_uid
 当然要卸载程序，也可以在原来的make目录下用一次make uninstall，但前提是Makefile文件有uninstall命令。
 
 ### make install PREFIX=path
-这里PREFIX必须大写，其实绝大部分情况下 make install 都不能再指定 PREFIX 了，因为大部分程序都会 configure 时得到的 prefix 写入 config.h，然后在编译时编译到可执行文件内部，以便在执行时读取资源文件等。
+这里`PREFIX`必须大写，其实绝大部分情况下 `make install` 都不能再指定 `PREFIX` 了，因为大部分程序都会 `configure` 时得到的 `prefix` 写入 `config.h`，然后在编译时编译到可执行文件内部，以便在执行时读取资源文件等。
 
-这样在编译完毕后，就不能再修改 prefix 了。只有运行时不需要资源文件的小工具，才可能在安装的时候随意选择 PREFIX，或者具有 loader 的大程序，在执行时通过 loader 传入路径……
+这样在编译完毕后，就不能再修改 `prefix` 了。只有运行时不需要资源文件的小工具，才可能在安装的时候随意选择 `PREFIX`，或者具有 loader 的大程序，在执行时通过 loader 传入路径……
 
 ### 关于卸载
-如果没有配置--prefix选项，源码包也没有提供make uninstall，则可以通过以下方式可以完整卸载：
+如果没有配置`--prefix`选项，源码包也没有提供`make uninstall`，则可以通过以下方式可以完整卸载：
 
 一个临时目录重新安装一遍，如：
 
     $ ./configure --prefix=/tmp/to_remove && make install
-然后遍历/tmp/to_remove的文件，删除对应安装位置的文件即可（因为/tmp/to_remove里的目录结构就是没有配置--prefix选项时的目录结构）。
+然后遍历`/tmp/to_remove`的文件，删除对应安装位置的文件即可（因为/tmp/to_remove里的目录结构就是没有配置--prefix选项时的目录结构）。
 
 ## <a id="xdg">Linux 基本目录规范 XDG</a>
 XDG 基准目录规范（X Desktop Group Base Directory Specification）的目的就是为了解决主目录下被各种. 文件/文件夹（dotfiles）这类的隐藏文件充斥的问题。
