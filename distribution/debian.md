@@ -8,6 +8,7 @@
     - [aptitude 命令](#command_aptitude)          
     - [列出上已安装的软件包](#command_list)          
   - [grub](#grub)         
+- [debian/ubuntu 软件源更新](#update)            
 - [防火墙(ufw)](#ufw)           
 - [搭建 C/C++ 开发环境](#cc++)               
 
@@ -357,8 +358,8 @@ rmmod是一个可以从内核中删除模块的小程序，大多数用户使用
 
 有/root/my-mod.ko这个module，cd /root/，然后用insmod my-mod.ko(insmod /root/my-mod.ko)就可以insert这个module了，但是用modprobe my-mod.ko(modprobe /root/my-mod.ko)却提示"FATAL: Module my-mod.ko not found"，这就是因为modprobe是到/lib/modules/`uname -r`/下去找module的，如果没找到就是这样了。
 
-## [debian 软件源更新](http://www.cnblogs.com/beanmoon/p/3387652.html)
-修改 /etc/apt/sources.list 之后一般会运行下面两个命令进行更新升级：
+## <a id="update">debian/ubuntu 软件源更新</a>
+修改 `/etc/apt/sources.list` 之后一般会运行下面两个命令进行更新升级：
 
         sudo apt-get update
         sudo apt-get dist-upgrade
@@ -368,6 +369,54 @@ rmmod是一个可以从内核中删除模块的小程序，大多数用户使用
 * 第一个命令仅仅更新的软件包列表信息，所以很快就能完成。     
 * 第二个命令是全面更新发布版，一般会下载几百兆的新软件包。       
 * 其实在运行完第一个命令后系统就会提示你进行更新升级。因为修改了源，所有这次更新的改动可能会很大，比如安装某个包可能会删除太多的其他包，所有系统会提示你运行“sudo apt-get dist-upgrade”进行全面升级或使用软件包管理器中的“标记全部软件包以便升级”功能进行升级。两者效果是一样的。
+
+常用软件源：
+
+中科大源
+
+    ##中科大源
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+
+163源
+
+    ##163源
+    deb http://mirrors.163.com/ubuntu/ bionic main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-backports main restricted universe multiverse
+
+清华源
+
+    ##清华源
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+
+### 参考资料
+[debian软件源source.list文件格式说明](http://www.cnblogs.com/beanmoon/p/3387652.html)          
+
 
 ## debian/Ubuntu 网络配置
 NetworkManager是一项系统网络服务，用于管理您的网络设备和连接，并在可用时尝试保持网络连接处于活动状态。 它管理以太网，WiFi，移动宽带（WWAN）和PPPoE设备，同时还提供与各种不同VPN服务的VPN集成。
