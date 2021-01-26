@@ -12,6 +12,7 @@
 - [debian/ubuntu 软件源更新](#update)            
 - [debian/Ubuntu 网络配置](#net)          
 - [防火墙(ufw)](#ufw)           
+- [基础使用](#base_use)               
 - [搭建 C/C++ 开发环境](#cc++)               
 
 
@@ -629,174 +630,6 @@ pkaction 命令可以显示polkit操作的描述。
 
     pkaction --action-id org.freedesktop.NetworkManager.network-control --verbose
 
-## Debian 系统基本知识
-
-### 运行级别
-Linux 系统任何时候都运行在一个指定的运行级上，并且不同的运行级的程序和服务都不同，所要完成的工作和要达到的目的都不同，系统可以在这些运行级之间进行切换，以完成不同的工作。
-
-debian/ubuntu 的 runlevel级别定义如下：
-
-    0 – Halt，关机模式
-    1 – Single，单用户模式
-    2 - Full multi-user with display manager (GUI)
-    3 - Full multi-user with display manager (GUI)
-    4 - Full multi-user with display manager (GUI)
-    5 - Full multi-user with display manager (GUI)
-    6 – Reboot，重启
-可以发现2~5级是没有任何区别的。他们为多用户模式，这和一般的linux不一样。
-
-查看当前系统的运行级别：
-
-    runlevel
-
-
-切换运行级别：
-
-    init [0123456Ss]
-
-### 服务进程
-
-sysv-rc-conf 是一个服务管理程序。
-
-update-rc.d 类似与 RHEL 中的 chkconfig。
-
-invoke-rc.d 类似与 RHEL 中的 service。
-
-
-### 环境变量
-
-历史记录数
-
-    echo $HISTSIZE
-可以修改该参数，但重启电脑后失效，如需长久有效，在 /etc/profile 文件中配置。
-
-
-### 实用命令
-
-查看内核版本
-```
-cat /etc/issue
-cat /proc/version
-uname -a
-file /bin/bash
-file /bin/bash
-```
-
-设置 root 密码
-
-    sudo passwd
-    
-### Ubuntu 安全相关命令
-
-
-#### 在Ubuntu中禁用 root 帐户
-
-    sudo passwd -l root
-    
-如果root密码忘了就需要进入单用户模式。进入单用户模式：
-
-    1，在开机引导到GRUB等待界面（GRUB loading, please wait…）这里的时候按下ESC键来进入启动菜单，选择相应内核版本的Recovery Mode，按e键进入编辑状态。
-    2，移动光标，将”ro recovery nomodeset“修改为"rw single init=/bin/bash"以后 按ctrl+X就可以即进入单用户模式，
-    3，然后我们就可以用命令 passwd 用户名来修改密码了。
-    见到：root@(none):/#  马上输入”passwd“ 回车！
-    见到：Enter new UNIX password:  马上输入”123“ 回车！
-    见到：retype new UNIX password:马上输入”123“ 回车！
-    新密码变成”123“了。
-    4. 输入”reboot“ 回车！也可以Ctr Alt Del. 总之重启动就可以了！
-
-#### 禁用 ssh root login
-输入命令：
-
-    grep -i "rootlogin" /etc/ssh/sshd_config
-Root login is disabled, if the PermitRootLogin directive is commented out (# in front) or its value is not set to yes.
-
-sshd_config 为 SSH 的配置文件。
-
-启用 SSH 命令:
-
-    vim /etc/ssh/sshd_config
-Uncomment the line PermitRootLogin and set the value to yes:
-
-    PermitRootLogin yes
-To make the new setting take effect, restart the ssh server:
-
-    systemctl restart sshd.service
-
-#### 查看系统启动项
-列出所有
-
-    systemctl list-unit-files
-
-查看服务状态及路径
-
-    systemctl status xxx.service
-
-禁用服务
-
-    systemctl disable xxx.service
-
-停止服务
-
-    systemctl disable xxx.service
-
-
-#### Ubuntu开机自动禁用无线网络
-将无线网卡驱动加入黑名单，彻底禁用无线网络。
-
-`lshw` 命令可以列出电脑硬件的详细信息，找到 `*-network`部分的，例如： 
-
-    configuration: broadcast=yes driver=iwl3945 latency=0 multicast=
-
- 无线网卡驱动名称是iwl3945（intel 3945abg无线网卡），将它加入到黑名单就可以了，具体操作如下：
- 
-    sudo gedit /etc/modprobe.d/blacklist.conf
- 在文本最后加入 
- 
-    blacklist iwl3945
- 重新启动
-
-#### avahi-daemon
-[avahi-daemon是什么](https://www.cnblogs.com/taosim/articles/2639520.html)               
-
-Avahi允许程序在不需要进行手动网络配置的情况 下，在一个本地网络中发布和获知各种服务和主机。例如，当某用户把他的计算机接入到某个局域网时，如果他的机器运行有Avahi服务，则Avahi程式自 动广播，从而发现网络中可用的打印机、共享文件和可相互聊天的其他用户。这有点象他正在接收局域网中的各种网络广告一样。
-
-如果你用不到 把该服务直接关闭
-
-    /etc/init.d/avahi-daemon stop 
-or 
-
-    service avahi-daemon  stop
-
-#### Ubuntu关闭cups
-在/etc/init.d下新建一个脚本文件，例如：myInit.sh,文件的内容如下：
-
-    #!/bin/bash  
-    ### BEGIN INIT INFO  
-    #  
-    # Provides:  location_server  
-    # Required-Start:   $local_fs  $remote_fs  
-    # Required-Stop:    $local_fs  $remote_fs  
-    # Default-Start:    2 3 4 5  
-    # Default-Stop:     0 1 6  
-    # Short-Description: ss-server  initscript  
-    # Description:  This file should be used to construct scripts to be placed in /etc/init.d.  
-    #  
-    ### END INIT INFO  
-上面的脚本文件中的注释也要有，不能省去。
-
-然后再赋予权限：
-
-    sudo chmod 755 myInit.sh
-更新
-
-    sudo update-rc.d myinit.sh defaults 90
-这样再启动时，就会自动执行这个脚本文件关闭cups服务，关闭631端口。
-
-
-
-
-sudo systemctl stop cups
-
 
 ## <a id="ufw">防火墙(ufw)</a>
 UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian 或 Ubuntu 中管理防火墙规则的前端。 UFW 通过命令行使用（尽管它有可用的 GUI），它的目的是使防火墙配置简单（即不复杂uncomplicated）。
@@ -940,6 +773,206 @@ But this will resolve the hostname to an IP and use that for the rule, so if the
 [How to Enable, Deny, Allow, Delete Rules on Ubuntu UFW Firewall ](https://linoxide.com/firewall/guide-ufw-firewall-ubuntu-16-10/)
 [ubuntu Firewall 官方文档](https://help.ubuntu.com/community/Firewall)                  
 [ubuntu UFW 官方文档](https://help.ubuntu.com/community/UFW)            
+
+## <a id="base_use">基础使用</a>
+
+### 运行级别
+Linux 系统任何时候都运行在一个指定的运行级上，并且不同的运行级的程序和服务都不同，所要完成的工作和要达到的目的都不同，系统可以在这些运行级之间进行切换，以完成不同的工作。
+
+debian/ubuntu 的 runlevel级别定义如下：
+
+    0 – Halt，关机模式
+    1 – Single，单用户模式
+    2 - Full multi-user with display manager (GUI)
+    3 - Full multi-user with display manager (GUI)
+    4 - Full multi-user with display manager (GUI)
+    5 - Full multi-user with display manager (GUI)
+    6 – Reboot，重启
+可以发现2~5级是没有任何区别的。他们为多用户模式，这和一般的linux不一样。
+
+查看当前系统的运行级别：
+
+    runlevel
+
+
+切换运行级别：
+
+    init [0123456Ss]
+
+### 快捷方式
+
+#### 编写桌面启动程序
+Ubuntu 的桌面程序保存在路径 `/uar/share/applications` 下，以 `.desktop` 为后缀名。所以要创建新的桌面程序，只需在该路径下创建对应的 `.desktop` 文件，再复制到桌面即可。当然，还需作一些设置，详见后文。
+
+`.desktop` 文件可以新建也可以复制一份作一些修改。格式如下：
+
+    [Desktop Entry]
+    Name=Firefox Developer
+    GenericName=Firefox Developer Edition
+    Exec=/home/username/soft/firefox/firefox/firefox
+    Terminal=false
+    Icon=/home/username/soft/firefox/firefox/browser/chrome/icons/default/default64.png
+    Type=Application
+    Categories=Application;Network;X-Developer;
+    Comment=Firefox Developer Edition Web Browser.
+
+重点参数的说明：
+
+| 参数 |	描述  |
+| ---- | ------------------- |
+|NAME|	桌面显示的名称|
+|Exec|	应用的启动路径，和解压路径对应|
+|Terminal|	是否启用命令行窗口，否|
+|Icon|	应用的图标地址|
+|Type|	设为Application，规定类型为应用程序|
+
+#### 创建桌面快捷方式
+* 在 `/uar/share/applications` 路径下，选中要创建快捷方式的文件，右击复制到桌面。
+* 接着设置权限及其启动方式，“右键——>属性——>权限“:勾选允许文件作为程序执行。
+* 设置好后关闭设置窗口，再“右键——>允许启动“，就得到一个桌面快捷启动方式了。
+
+### 服务进程
+
+sysv-rc-conf 是一个服务管理程序。
+
+update-rc.d 类似与 RHEL 中的 chkconfig。
+
+invoke-rc.d 类似与 RHEL 中的 service。
+
+
+### 环境变量
+
+历史记录数
+
+    echo $HISTSIZE
+可以修改该参数，但重启电脑后失效，如需长久有效，在 /etc/profile 文件中配置。
+
+
+### 实用命令
+
+查看内核版本
+```
+cat /etc/issue
+cat /proc/version
+uname -a
+file /bin/bash
+file /bin/bash
+```
+
+设置 root 密码
+
+    sudo passwd
+    
+### Ubuntu 安全相关命令
+
+
+#### 在Ubuntu中禁用 root 帐户
+
+    sudo passwd -l root
+    
+如果root密码忘了就需要进入单用户模式。进入单用户模式：
+
+    1，在开机引导到GRUB等待界面（GRUB loading, please wait…）这里的时候按下ESC键来进入启动菜单，选择相应内核版本的Recovery Mode，按e键进入编辑状态。
+    2，移动光标，将”ro recovery nomodeset“修改为"rw single init=/bin/bash"以后 按ctrl+X就可以即进入单用户模式，
+    3，然后我们就可以用命令 passwd 用户名来修改密码了。
+    见到：root@(none):/#  马上输入”passwd“ 回车！
+    见到：Enter new UNIX password:  马上输入”123“ 回车！
+    见到：retype new UNIX password:马上输入”123“ 回车！
+    新密码变成”123“了。
+    4. 输入”reboot“ 回车！也可以Ctr Alt Del. 总之重启动就可以了！
+
+#### 禁用 ssh root login
+输入命令：
+
+    grep -i "rootlogin" /etc/ssh/sshd_config
+Root login is disabled, if the PermitRootLogin directive is commented out (# in front) or its value is not set to yes.
+
+sshd_config 为 SSH 的配置文件。
+
+启用 SSH 命令:
+
+    vim /etc/ssh/sshd_config
+Uncomment the line PermitRootLogin and set the value to yes:
+
+    PermitRootLogin yes
+To make the new setting take effect, restart the ssh server:
+
+    systemctl restart sshd.service
+
+#### 查看系统启动项
+列出所有
+
+    systemctl list-unit-files
+
+查看服务状态及路径
+
+    systemctl status xxx.service
+
+禁用服务
+
+    systemctl disable xxx.service
+
+停止服务
+
+    systemctl disable xxx.service
+
+
+#### Ubuntu开机自动禁用无线网络
+将无线网卡驱动加入黑名单，彻底禁用无线网络。
+
+`lshw` 命令可以列出电脑硬件的详细信息，找到 `*-network`部分的，例如： 
+
+    configuration: broadcast=yes driver=iwl3945 latency=0 multicast=
+
+ 无线网卡驱动名称是iwl3945（intel 3945abg无线网卡），将它加入到黑名单就可以了，具体操作如下：
+ 
+    sudo gedit /etc/modprobe.d/blacklist.conf
+ 在文本最后加入 
+ 
+    blacklist iwl3945
+ 重新启动
+
+#### avahi-daemon
+[avahi-daemon是什么](https://www.cnblogs.com/taosim/articles/2639520.html)               
+
+Avahi允许程序在不需要进行手动网络配置的情况 下，在一个本地网络中发布和获知各种服务和主机。例如，当某用户把他的计算机接入到某个局域网时，如果他的机器运行有Avahi服务，则Avahi程式自 动广播，从而发现网络中可用的打印机、共享文件和可相互聊天的其他用户。这有点象他正在接收局域网中的各种网络广告一样。
+
+如果你用不到 把该服务直接关闭
+
+    /etc/init.d/avahi-daemon stop 
+or 
+
+    service avahi-daemon  stop
+
+#### Ubuntu关闭cups
+在/etc/init.d下新建一个脚本文件，例如：myInit.sh,文件的内容如下：
+
+    #!/bin/bash  
+    ### BEGIN INIT INFO  
+    #  
+    # Provides:  location_server  
+    # Required-Start:   $local_fs  $remote_fs  
+    # Required-Stop:    $local_fs  $remote_fs  
+    # Default-Start:    2 3 4 5  
+    # Default-Stop:     0 1 6  
+    # Short-Description: ss-server  initscript  
+    # Description:  This file should be used to construct scripts to be placed in /etc/init.d.  
+    #  
+    ### END INIT INFO  
+上面的脚本文件中的注释也要有，不能省去。
+
+然后再赋予权限：
+
+    sudo chmod 755 myInit.sh
+更新
+
+    sudo update-rc.d myinit.sh defaults 90
+这样再启动时，就会自动执行这个脚本文件关闭cups服务，关闭631端口。
+
+
+
+
+sudo systemctl stop cups
 
 
 ### <a id="cc++">搭建 C/C++ 开发环境</a>
