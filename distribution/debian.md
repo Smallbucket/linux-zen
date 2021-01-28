@@ -8,6 +8,10 @@
   - [列出上已安装的软件包](#command_list)          
 - [系统服务](#service)            
 - [Grub](#grub)         
+  - [给 grub 设置密码](#grub_password)             
+  - [密码保护启动项](#grub_option)           
+  - [保护菜单项](#grub_menuentry)            
+  - [警告和注意事项](#grub_warning)             
 - [内核模块](#module)              
 - [debian/ubuntu 软件源更新](#update)            
 - [debian/Ubuntu 网络配置](#net)          
@@ -209,7 +213,7 @@ grub 的配置文件
 
 > 通常，要设置GRUB选项，请编辑 `/etc/default/grub`。如果需要生成其他GRUB条目或更改生成的条目，请在`/etc/grub.d`中添加或更改脚本。不要手动编辑`/boot/grub2/grub.cfg`。
 
-### 给 grub 设置密码
+### <a id="grub_password">给 grub 设置密码</a>
 
 启用Grub 2密码保护需要执行三个步骤。 
 
@@ -250,12 +254,12 @@ grub 的配置文件
 
 是否想用密码保护一个特定的启动项，以便没有提供密码就无法启动它？
 
-### 密码保护启动项
+### <a id="grub_option">密码保护启动项</a>
 
 首先，我们需要确定包含要修改的启动项的文件。 键入`sudo ls /etc/grub.d/` 查看可用文件列表。
 
     00_header	        10_linux_zfs	30_os-prober	  41_custom
-    05_debian_theme     20_linux_xen	30_uefi-firmware  README
+    05_debian_theme         20_linux_xen	30_uefi-firmware  README
     10_linux	        20_memtest86+	40_custo
 
 假设我们要用密码保护我们的Linux系统。 Linux启动项是由10_linux文件生成的，因此我们将使用`sudo nano /etc/grub.d/10_linux`命令将其打开。 编辑此文件时要小心！ 如果您忘记了密码或输入了错误的密码，除非您从实时CD引导并首先修改Grub设置，否则您将无法引导至Linux。
@@ -265,7 +269,7 @@ grub 的配置文件
 
 如果将Grub设置为显示启动菜单，则在不输入超级用户密码的情况下，您将无法编辑启动项或使用命令行模式。
 
-### 保护菜单项
+### <a id="grub_menuentry">保护菜单项</a>
 GRUB 2菜单可以包含受保护和不受保护的项目。保护菜单项的格式包括将用户访问信息添加到菜单条目标题行。
 
 * 存在 `--unrestricted` 选项会禁用密码保护。
@@ -282,7 +286,7 @@ GRUB 2菜单可以包含受保护和不受保护的项目。保护菜单项的�
 | Superuser + Jane + Sergio: | menuentry 'Ubuntu, with Linux 3.2.0-24-generic' --class ubuntu -class os --users Jane,Sergio { |
 
 
-### 警告和注意事项
+### <a id="grub_warning">警告和注意事项</a>
 创建受密码保护的GRUB 2菜单时出错，可能会导致系统无法启动。 要使用破损的密码还原系统，请使用LiveCD或其他OS访问和编辑GRUB 2配置文件。
 
 * 如果启用了密码保护，则只有指定的超级用户才能通过按“e”编辑Grub 2菜单项，或通过按“c”访问GRUB 2命令行。
