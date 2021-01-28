@@ -12,7 +12,14 @@
 - [debian/ubuntu 软件源更新](#update)            
 - [debian/Ubuntu 网络配置](#net)          
 - [防火墙(ufw)](#ufw)           
+  - [ufw 使用](#ufw_use)                        
+  - [配置文件](#ufw_config)                    
+  - [操作命令](#ufw_commond)              
+  - [日志](#ufw_log)            
+  - [问题](#ufw_question)            
 - [基础使用](#base_use)               
+  - [运行级别](#runlevel)                     
+  - [快捷方式](#shortcut)              
 - [搭建 C/C++ 开发环境](#cc++)               
 
 
@@ -634,7 +641,7 @@ pkaction 命令可以显示polkit操作的描述。
 ## <a id="ufw">防火墙(ufw)</a>
 UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian 或 Ubuntu 中管理防火墙规则的前端。 UFW 通过命令行使用（尽管它有可用的 GUI），它的目的是使防火墙配置简单（即不复杂uncomplicated）。
 
-### ufw 使用
+### <a id="ufw_use">ufw 使用</a>
 默认情况下，UFW 阻塞了所有进来的连接，并且允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你打开端口。运行在服务器上的应用和服务可以访问外面的世界。
 
     sudo ufw default allow outgoing
@@ -644,7 +651,7 @@ UFW(uncomplicated firewall)，即简单防火墙，是一个 Arch Linux、Debian
 
 Linux 上的软件或应用基本上离不开配置文件，ufw 当然也不例外。
 
-### 配置文件
+### <a id="ufw_config">配置文件</a>
 ufw 常用的配置文件：
 
 * /etc/default/ufw: The main configuration file with pre-defined rules.
@@ -657,7 +664,7 @@ ufw 常用的配置文件：
 
 默认的策略定义在 `/etc/default/ufw`。 从此处可以禁用或启用 IPv6，可以设置默认规则，并可以设置 UFW 以管理内置防火墙链。可以通过使用`sudo ufw default <policy> <chain>`命令来修改。
 
-### 相关命令
+### <a id="ufw_commond">操作命令</a>
     
 想要列举出你系统上所有的应用配置，输入：
 
@@ -666,7 +673,7 @@ ufw 常用的配置文件：
 
     sudo ufw app info 'Nginx Full'
 
-### 日志
+### <a id="ufw_log">日志</a>
 启动日志命令：
 
     sudo ufw logging on
@@ -691,7 +698,7 @@ ufw 常用的配置文件：
 * WINDOW：发送方可以接收的数据包的大小
 * SYN URGP：指示是否需要三次握手。 0 表示不需要。
 
-### 问题
+### <a id="ufw_question">问题</a>
 #### How ufw firewall deny outgoing but allow browser?[来源](https://askubuntu.com/questions/1005312/ufw-firewall-deny-outgoing-but-allow-browser)
 The first thing you need to do is to change the default outgoing policy to deny. By default all outgoing traffic is allowed.
 
@@ -776,7 +783,7 @@ But this will resolve the hostname to an IP and use that for the rule, so if the
 
 ## <a id="base_use">基础使用</a>
 
-### 运行级别
+### <a id="runlevel">运行级别</a>
 Linux 系统任何时候都运行在一个指定的运行级上，并且不同的运行级的程序和服务都不同，所要完成的工作和要达到的目的都不同，系统可以在这些运行级之间进行切换，以完成不同的工作。
 
 debian/ubuntu 的 runlevel级别定义如下：
@@ -799,7 +806,7 @@ debian/ubuntu 的 runlevel级别定义如下：
 
     init [0123456Ss]
 
-### 快捷方式
+### <a id="shortcut">快捷方式</a>
 
 #### 编写桌面启动程序
 Ubuntu 的桌面程序保存在路径 `/uar/share/applications` 下，以 `.desktop` 为后缀名。所以要创建新的桌面程序，只需在该路径下创建对应的 `.desktop` 文件，再复制到桌面即可。当然，还需作一些设置，详见后文。
