@@ -75,8 +75,28 @@ ctags的功能：扫描指定的源文件，找出其中所包含的语法元素
 
 指定生成的标签文件名，默认是tags. tagfile指定为 - 的话，输出到标准输出。
 
+### Tag文件的作用
+一般用于编辑器的代码跳转和查找，比如vim 和emacs。
 
-### vim 中使用 ctags
+### Tag文件格式
+ctags生成的tag格式: 
+
+    {tagname}<Tab>{tagfile}<Tab>{tagaddress}
+
+示例：
+
+    main    main.c  /^main(argc, argv)$/
+
+
+
+### Vim 中使用 ctags
+
+vim 支持的tag文件格式，必须是下面三种的一种：
+
+    {tagname} {TAB} {tagfile} {TAB} {tagaddress}
+    {tagfile}:{tagname} {TAB} {tagfile} {TAB} {tagaddress}
+    {tagname} {TAB} {tagfile} {TAB} {tagaddress} {term} {field} ..
+
 #### vim 中配置 ctags
 生成 tags 文件：
 
@@ -95,6 +115,9 @@ ctags的功能：扫描指定的源文件，找出其中所包含的语法元素
     set tags=tags;
     set autochdir
 > 注意第一个命令里的分号是必不可少的。
+
+
+在~/.vimrc中加入 set tags+=./tags 这样vim就可以用当前路径下的tag文件来定位和跳转了 具体跳转方式，在vim中查看文档 :h tags
 
 #### vim 快捷键
 
