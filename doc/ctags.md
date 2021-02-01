@@ -91,11 +91,24 @@ ctags生成的tag格式:
 
 ### Vim 中使用 ctags
 
-vim 支持的tag文件格式，必须是下面三种的一种：
+vim 支持的tag文件格式：
 
-    {tagname} {TAB} {tagfile} {TAB} {tagaddress}
-    {tagfile}:{tagname} {TAB} {tagfile} {TAB} {tagaddress}
-    {tagname} {TAB} {tagfile} {TAB} {tagaddress} {term} {field} ..
+    {tagname}<Tab>{tagfile}<Tab>{tagaddress}
+    {tagname}<Tab>{tagfile}<Tab>{tagaddress}[;"<Tab>{tagfield}..]
+    
+* {tagname}
+Any identifier, not containing white space..
+
+EXCEPTION: Universal Ctags violates this item of the proposal; tagname may contain spaces. However, tabs are not allowed.
+
+* <Tab>
+Exactly one TAB character (although many versions of Vi can handle any amount of white space).
+
+* {tagfile}
+The name of the file where {tagname} is defined, relative to the current directory (or location of the tags file?).
+
+* {tagaddress}
+Any Ex command. When executed, it behaves like ‘magic’ was not set.   
 
 #### vim 中配置 ctags
 生成 tags 文件：
