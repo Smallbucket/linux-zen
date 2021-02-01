@@ -149,5 +149,3 @@ int main(void)
 ```
 写好保存后回到正常模式，把光标停留在 printf 函数上， 然后按 `Ctrl＋]`，vim 会自动跳到 Linux 系统函数 printf() 处，这时我们能查看printf()的源码了。按 `Ctrl＋o/` 回到上一步。
 
-
-
