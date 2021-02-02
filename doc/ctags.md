@@ -36,7 +36,14 @@ ctags的功能：扫描指定的源文件，找出其中所包含的语法元素
 
 ### ctags 命令示例
 
-    ctags -R --languages=c++ --langmap=c++:+.inl -h +.inl --c++-kinds=+px--fields=+aiKSz --extra=+q --exclude=lex.yy.cc --exclude=copy_lex.yy.cc
+    ctags -R 
+        --languages=c++ 
+        --langmap=c++:+.inl 
+        -h +.inl 
+        --c++-kinds=+px
+        --fields=+aiKSz 
+        --extra=+q 
+        --exclude=lex.yy.cc --exclude=copy_lex.yy.cc
 命令解释：
 
 * -R
