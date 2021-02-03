@@ -15,7 +15,7 @@ C程序的结构如下：
 | 结构名称 | 代码示例 |
 | --------- | ---------------------- |
 | Header | #include <stdio.h> |
-| main() | int main { |
-| Variable Declaration | int a = 10; |
-| Body | printf("%d", a) |
-| Return | return 0;<br>} |
+| main() | int main <br>{ |
+| Variable Declaration | &nbsp;&nbsp;&nbsp;&nbsp;int a = 10; |
+| Body | &nbsp;&nbsp;&nbsp;&nbsp;printf("%d", a) |
+| Return | &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>} |
