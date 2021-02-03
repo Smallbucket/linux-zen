@@ -73,8 +73,8 @@ C中预处理器的一些有趣事实：
 #define max 100
 int main()
 {
-	printf("max is %d", max);
-	return 0;
+  printf("max is %d", max);
+  return 0;
 }
 ```
 
@@ -85,10 +85,10 @@ int main()
 #define INCREMENT(x) ++x
 int main()
 {
-	char *ptr = "GeeksQuiz";
-	int x = 10;
-	printf("%s ", INCREMENT(ptr));
-	printf("%d", INCREMENT(x));
-	return 0;
+  char *ptr = "GeeksQuiz";
+  int x = 10;
+  printf("%s ", INCREMENT(ptr));
+  printf("%d", INCREMENT(x));
+  return 0;
 }
 ```
