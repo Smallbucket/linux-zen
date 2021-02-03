@@ -18,6 +18,21 @@ C是一种过程编程语言。它最初由丹尼斯·里奇（Dennis Ritchie）
 |2017|	C17|
 |TBD|	C2x|
 
+
+Benefits of C language
+
+* As a middle-level language, C combines the features of both high-level and low-level languages. It can be used for low-level programming, such as scripting for drivers and kernels and it also supports functions of high-level programming languages, such as scripting for software applications etc.
+* C is a structured programming language which allows a complex program to be broken into simpler programs called functions. It also allows free movement of data across these functions.
+* Various features of C including direct access to machine level hardware APIs, the presence of C compilers, deterministic resource use and dynamic memory allocation make C language an optimum choice for scripting applications and drivers of embedded systems.
+* C language is case-sensitive which means lowercase and uppercase letters are treated differently.
+* C is highly portable and is used for scripting system applications which form a major part of Windows, UNIX, and Linux operating system.
+* C is a general-purpose programming language and can efficiently work on enterprise applications, games, graphics, and applications requiring calculations, etc.
+* C language has a rich library which provides a number of built-in functions. It also offers dynamic memory allocation.
+* C implements algorithms and data structures swiftly, facilitating faster computations in programs. This has enabled the use of C in applications requiring higher degrees of calculations like MATLAB and Mathematica.
+
+Riding on these advantages, C became dominant and spread quickly beyond Bell Labs replacing many well-known languages of that time, such as ALGOL, B, PL/I, FORTRAN, etc. C language has become available on a very wide range of platforms, from embedded microcontrollers to supercomputers.
+
+
 ## C程序的结构
 经过以上讨论，我们可以正式评估C程序的结构。 通过结构，意味着任何程序都只能以这种结构编写。 因此，以任何其他结构编写C程序都将导致编译错误。
 
