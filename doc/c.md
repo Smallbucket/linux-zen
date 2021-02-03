@@ -67,7 +67,7 @@ C中预处理器的一些有趣事实：
 2）当我们对常量使用define时，预处理器会生成一个C程序，在其中搜索定义的常量，并将匹配的标记替换为给定的表达式。 
 
 
-### 简单的值替换
+#### 简单的值替换
 ```C
 #include<stdio.h>
 #define max 100
@@ -78,7 +78,7 @@ int main()
 }
 ```
 
-### 宏函数替换
+#### 宏函数替换
 只是简单的替换，不考虑语法
 ```C
 #include <stdio.h>
@@ -106,10 +106,12 @@ int main()
 // Output: 16
 ```
 宏定义改为以下声明就对了
+```C
+#define MULTIPLY(a, b) (a)*(b)
+```
 
-    #define MULTIPLY(a, b) (a)*(b)
-
-字符串连接
+#### 字符串连接
+使用 `##` 符号连接
 ```C
 #include <stdio.h>
 #define merge(a, b) a##b
@@ -120,7 +122,7 @@ int main()
 
 ```
 
-转为字符串
+#### 转为字符串
 ```C
 #include <stdio.h>
 #define get(a) #a
@@ -132,7 +134,7 @@ int main()
 
 ```
 
-多行
+#### 宏定义占用多行
 ```C
 #include <stdio.h>
 #define PRINT(i, limit) while (i < limit) \
@@ -148,8 +150,8 @@ int main()
 }
 ```
 
-使用内链函数代替有参数的宏函数             
-错误的
+#### 使用内联函数代替有参数的宏函数      
+定义有参数的宏函数，有时替换会出现问题。例如：
 ```C
 #include <stdio.h>
 
@@ -163,7 +165,7 @@ int main()
 }
 //36
 ```
-正确的
+输出的结果不是我们想要的，改为：
 ```C
 #include <stdio.h>
 
@@ -177,7 +179,7 @@ return 0;
 //`
 ```
 
-带条件的宏
+#### 带条件的宏
 ```C
 int main()
 {
@@ -187,24 +189,7 @@ int main()
 }
 ```
 
-头文件可能被直接或间接包含多次，这导致重新声明相同变量/函数的问题。 为避免此问题，使用了诸如`define`，`ifdef`和`ifndef`之类的指令。
-
-
-有一些标准宏可用于打印程序文件（__FILE__），编译日期（__DATE__），编译时间（__TIME__）和C代码中的行号（__LINE__）。
-```C
-#include <stdio.h>
-
-int main()
-{
-  printf("Current File :%s\n", __FILE__ );
-  printf("Current Date :%s\n", __DATE__ );
-  printf("Current Time :%s\n", __TIME__ );
-  printf("Line Number :%d\n", __LINE__ );
-  return 0;
-}
-```
-
-移除宏
+### 移除宏
 ```C
 #include <stdio.h>
 #define LIMIT 100
@@ -218,5 +203,21 @@ int main()
   return 0;
 }
 //This code is contributed by Santanu
+```
+
+头文件可能被直接或间接包含多次，这导致重新声明相同变量/函数的问题。 为避免此问题，使用了诸如`define`，`ifdef`和`ifndef`之类的指令。
+
+有一些标准宏可用于打印程序文件（`__FILE__`），编译日期（`__DATE__`），编译时间（`__TIME__`）和C代码中的行号（`__LINE__`）。
+```C
+#include <stdio.h>
+
+int main()
+{
+  printf("Current File :%s\n", __FILE__ );
+  printf("Current Date :%s\n", __DATE__ );
+  printf("Current Time :%s\n", __TIME__ );
+  printf("Line Number :%d\n", __LINE__ );
+  return 0;
+}
 ```
 
