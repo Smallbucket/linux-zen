@@ -196,6 +196,23 @@ int main()
 	printf("Current Date :%s\n", __DATE__ );
 	printf("Current Time :%s\n", __TIME__ );
 	printf("Line Number :%d\n", __LINE__ );
-return 0;
+	return 0;
 }
 ```
+
+移除宏
+```C
+#include <stdio.h>
+#define LIMIT 100
+int main()
+{
+	printf("%d",LIMIT);
+	//removing defined macro LIMIT
+	#undef LIMIT
+	//Next line causes error as LIMIT is not defined
+	printf("%d",LIMIT);
+	return 0;
+}
+//This code is contributed by Santanu
+```
+
