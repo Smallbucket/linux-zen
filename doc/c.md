@@ -107,7 +107,7 @@ int main()
 ```
 宏定义改为以下声明就对了
 
-#define MULTIPLY(a, b) (a)*(b)
+    #define MULTIPLY(a, b) (a)*(b)
 
 字符串连接
 ```C
@@ -148,7 +148,7 @@ int main()
 }
 ```
 
-使用内链函数代替有参数的宏函数
+使用内链函数代替有参数的宏函数             
 错误的
 ```C
 #include <stdio.h>
