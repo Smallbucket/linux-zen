@@ -10,12 +10,30 @@ C是一种过程编程语言。它最初由丹尼斯·里奇（Dennis Ritchie）
 
 C程序的结构如下：
 
-表：C 语言程序结构
+##### 表：C 语言程序结构
 
 | 结构名称 | 代码示例 |
 | --------- | ---------------------- |
 | Header | #include <stdio.h> |
-| main() | int main <br>{ |
+| main() | int main() <br>{ |
 | Variable Declaration | &nbsp;&nbsp;&nbsp;&nbsp;int a = 10; |
 | Body | &nbsp;&nbsp;&nbsp;&nbsp;printf("%d", a) |
 | Return | &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>} |
+
+结构说明：
+
+1， 包含头文件：第一个也是最重要的组成部分是C程序中包含头文件。
+
+头文件是扩展名为.h的文件，其中包含C函数声明和宏定义，这些声明将在多个源文件之间共享。
+
+常用的一些C头文件：
+
+* stddef.h –定义几个有用的类型和宏。
+* stdint.h –定义精确的宽度整数类型。
+* stdio.h –定义核心输入和输出功能
+* stdlib.h –定义数字转换函数，伪随机网络生成器，内存分配
+* string.h –定义字符串处理函数
+* math.h –定义常见的数学函数
+
+
+
