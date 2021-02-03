@@ -75,3 +75,34 @@ int main()
 	return 0;
 }
 ```
+
+宏函数替换(只是简单的替换，不考虑语法)
+```C
+#include <stdio.h>
+#define INCREMENT(x) ++x
+int main()
+{
+	char *ptr = "GeeksQuiz";
+	int x = 10;
+	printf("%s ", INCREMENT(ptr));
+	printf("%d", INCREMENT(x));
+	return 0;
+}
+```
+
+宏简单替换不考虑原始结构
+```C
+#include <stdio.h>
+#define MULTIPLY(a, b) a*b
+int main()
+{
+	// The macro is expanded as 2 + 3 * 3 + 5, not as 5*8
+	printf("%d", MULTIPLY(2+3, 3+5));
+	return 0;
+}
+// Output: 16
+// 改为
+#define MULTIPLY(a, b) (a)*(b)
+```
+
+
