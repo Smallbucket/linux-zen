@@ -18,4 +18,4 @@ C程序的结构如下：
 | main() | int main { |
 | Variable Declaration | int a = 10; |
 | Body | printf("%d", a) |
-| Return | return 0;\n} |
+| Return | return 0;<br>} |
