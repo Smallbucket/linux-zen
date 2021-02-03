@@ -65,3 +65,30 @@ C中预处理器的一些有趣事实：
 1）当使用`include`指令时，包含的头文件（经过预处理）的内容被复制到当前文件中。尖括号`<`和`>`指示预处理器查看包含所有头文件的标准文件夹。 用双引`"`和`"`指示预处理器查看当前文件夹（当前目录）。
 
 2）当我们对常量使用define时，预处理器会生成一个C程序，在其中搜索定义的常量，并将匹配的标记替换为给定的表达式。 
+
+
+### 简单的值替换
+```C
+#include<stdio.h>
+#define max 100
+int main()
+{
+	printf("max is %d", max);
+	return 0;
+}
+```
+
+### 宏函数替换
+只是简单的替换，不考虑语法
+```C
+#include <stdio.h>
+#define INCREMENT(x) ++x
+int main()
+{
+	char *ptr = "GeeksQuiz";
+	int x = 10;
+	printf("%s ", INCREMENT(ptr));
+	printf("%d", INCREMENT(x));
+	return 0;
+}
+```
