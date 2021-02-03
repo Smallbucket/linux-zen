@@ -105,4 +105,80 @@ int main()
 #define MULTIPLY(a, b) (a)*(b)
 ```
 
+字符串连接
+```C
+#include <stdio.h>
+#define merge(a, b) a##b
+int main()
+{
+	printf("%d ", merge(12, 34));
+}
 
+```
+
+转为字符串
+```C
+#include <stdio.h>
+#define get(a) #a
+int main()
+{
+	// GeeksQuiz is changed to "GeeksQuiz"
+	printf("%s", get(GeeksQuiz));
+}
+
+```
+
+多行
+```C
+#include <stdio.h>
+#define PRINT(i, limit) while (i < limit) \
+			{ \
+				printf("GeeksQuiz "); \
+				i++; \
+			}
+int main()
+{
+	int i = 0;
+	PRINT(i, 3);
+	return 0;
+}
+```
+
+使用内链函数代替有参数的宏函数
+错误的
+```C
+#include <stdio.h>
+
+#define square(x) x*x
+int main()
+{
+	// Expanded as 36/6*6
+	int x = 36/square(6); 
+	printf("%d", x);
+	return 0;
+}
+//36
+```
+正确的
+```C
+#include <stdio.h>
+
+static inline int square(int x) { return x*x; }
+int main()
+{
+int x = 36/square(6);
+printf("%d", x);
+return 0;
+}
+//`
+```
+
+带条件的宏
+```C
+int main()
+{
+#if VERBOSE >= 2
+	printf("Trace Message");
+#endif
+}
+```
