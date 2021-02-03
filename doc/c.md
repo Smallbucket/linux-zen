@@ -66,7 +66,7 @@ C中预处理器的一些有趣事实：
 
 
 简单宏值替换
-```SHELL
+```C
 #include<stdio.h>
 #define max 100
 int main()
