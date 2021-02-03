@@ -131,3 +131,92 @@ int main()
 }
 
 ```
+
+多行
+```C
+#include <stdio.h>
+#define PRINT(i, limit) while (i < limit) \
+                        { \
+                          printf("GeeksQuiz "); \
+                          i++; \
+                        }
+int main()
+{
+  int i = 0;
+  PRINT(i, 3);
+  return 0;
+}
+```
+
+使用内链函数代替有参数的宏函数
+错误的
+```C
+#include <stdio.h>
+
+#define square(x) x*x
+int main()
+{
+  // Expanded as 36/6*6
+  int x = 36/square(6); 
+  printf("%d", x);
+  return 0;
+}
+//36
+```
+正确的
+```C
+#include <stdio.h>
+
+static inline int square(int x) { return x*x; }
+int main()
+{
+int x = 36/square(6);
+printf("%d", x);
+return 0;
+}
+//`
+```
+
+带条件的宏
+```C
+int main()
+{
+#if VERBOSE >= 2
+  printf("Trace Message");
+#endif
+}
+```
+
+头文件可能被直接或间接包含多次，这导致重新声明相同变量/函数的问题。 为避免此问题，使用了诸如`define`，`ifdef`和`ifndef`之类的指令。
+
+
+有一些标准宏可用于打印程序文件（__FILE__），编译日期（__DATE__），编译时间（__TIME__）和C代码中的行号（__LINE__）。
+```C
+#include <stdio.h>
+
+int main()
+{
+  printf("Current File :%s\n", __FILE__ );
+  printf("Current Date :%s\n", __DATE__ );
+  printf("Current Time :%s\n", __TIME__ );
+  printf("Line Number :%d\n", __LINE__ );
+  return 0;
+}
+```
+
+移除宏
+```C
+#include <stdio.h>
+#define LIMIT 100
+int main()
+{
+  printf("%d",LIMIT);
+  //removing defined macro LIMIT
+  #undef LIMIT
+  //Next line causes error as LIMIT is not defined
+  printf("%d",LIMIT);
+  return 0;
+}
+//This code is contributed by Santanu
+```
+
