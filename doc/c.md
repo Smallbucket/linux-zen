@@ -92,3 +92,42 @@ int main()
   return 0;
 }
 ```
+
+替换时也不考虑原始结构
+```C
+#include <stdio.h>
+#define MULTIPLY(a, b) a*b
+int main()
+{
+  // The macro is expanded as 2 + 3 * 3 + 5, not as 5*8
+  printf("%d", MULTIPLY(2+3, 3+5));
+  return 0;
+}
+// Output: 16
+```
+宏定义改为以下声明就对了
+
+#define MULTIPLY(a, b) (a)*(b)
+
+字符串连接
+```C
+#include <stdio.h>
+#define merge(a, b) a##b
+int main()
+{
+  printf("%d ", merge(12, 34));
+}
+
+```
+
+转为字符串
+```C
+#include <stdio.h>
+#define get(a) #a
+int main()
+{
+  // GeeksQuiz is changed to "GeeksQuiz"
+  printf("%s", get(GeeksQuiz));
+}
+
+```
