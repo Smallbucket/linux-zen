@@ -182,3 +182,20 @@ int main()
 #endif
 }
 ```
+
+头文件可能被直接或间接包含多次，这导致重新声明相同变量/函数的问题。 为避免此问题，使用了诸如`define`，`ifdef`和`ifndef`之类的指令。
+
+
+有一些标准宏可用于打印程序文件（__FILE__），编译日期（__DATE__），编译时间（__TIME__）和C代码中的行号（__LINE__）。
+```C
+#include <stdio.h>
+
+int main()
+{
+	printf("Current File :%s\n", __FILE__ );
+	printf("Current Date :%s\n", __DATE__ );
+	printf("Current Time :%s\n", __TIME__ );
+	printf("Line Number :%d\n", __LINE__ );
+return 0;
+}
+```
