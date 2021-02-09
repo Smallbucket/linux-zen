@@ -324,4 +324,8 @@ int main(int argc, char * const argv[])
 由于main函数具有int的返回类型，因此程序员必须在代码中始终具有return语句。 返回的数字用于通知调用程序该程序执行的结果是什么。返回0表示没有问题。
 
 
+## 参考资料
+[GNU's C Language Extensions](https://www.drdobbs.com/gnus-c-language-extensions/184401956)              
+[C programming tutorial](https://linuxconfig.org/c-programming-tutorial)                 
+[C Programming Language](https://www.geeksforgeeks.org/c-programming-language/)            
 
