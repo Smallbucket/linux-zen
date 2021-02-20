@@ -335,6 +335,25 @@ int i;
 typeof(i) j;
 ```
 
+* Case Ranges
+
+GCC允许在 switch语句的case中指定连续范围。
+```C
+int array1[8]={0, 0, 1, 1, 1, 2, 2, 2};
+
+int array1[8]={[2 ... 4]=1, [5 ... 7]=2};
+```
+“...”两边的空格是必需的。
+
+* Designated Initializers
+
+标准C要求数组初始化完整且按顺序指定。 ISO C和GNU扩展允许指定数组并以任何顺序出现。例如，这两个初始化是相同的：
+```C
+int array1[8]={0, 0, 0, 3, 0, 5, 0, 0};
+
+int array1[8]={[3]=3, [5]=5};
+```
+
 ## 参考资料
 [GNU's C Language Extensions](https://www.drdobbs.com/gnus-c-language-extensions/184401956)              
 [C programming tutorial](https://linuxconfig.org/c-programming-tutorial)                 
