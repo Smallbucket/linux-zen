@@ -324,6 +324,17 @@ int main(int argc, char * const argv[])
 由于main函数具有int的返回类型，因此程序员必须在代码中始终具有return语句。 返回的数字用于通知调用程序该程序执行的结果是什么。返回0表示没有问题。
 
 
+
+## GCC 提供的一些额外特性
+
+* Type Referencing with typeof
+
+typeof运算符使您可以通过变量本身来引用变量的类型。 它类似于sizeof运算符，该运算符返回给定变量的大小（以字节为单位）。 考虑以下声明片段：
+```C
+int i;
+typeof(i) j;
+```
+
 ## 参考资料
 [GNU's C Language Extensions](https://www.drdobbs.com/gnus-c-language-extensions/184401956)              
 [C programming tutorial](https://linuxconfig.org/c-programming-tutorial)                 
