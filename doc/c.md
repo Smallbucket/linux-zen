@@ -325,7 +325,7 @@ int main(int argc, char * const argv[])
 
 
 
-## GCC 提供的一些额外特性
+## GCC 提供的一些扩展特性
 
 * Type Referencing with typeof
 
@@ -334,16 +334,25 @@ typeof运算符使您可以通过变量本身来引用变量的类型。 它类�
 int i;
 typeof(i) j;
 ```
-
+#define swap( x, y )		   \
+        ({ typeof(x) temp  = (x);  \
+           x = y; y = temp;	   \
+        })
+        
 * Case Ranges
 
 GCC允许在 switch语句的case中指定连续范围。
 ```C
-int array1[8]={0, 0, 1, 1, 1, 2, 2, 2};
-
-int array1[8]={[2 ... 4]=1, [5 ... 7]=2};
+char ch;
+ ...
+switch( ch ) {
+  case 'a' ... 'z':
+    printf("lowercase\n"); break;
+  case '0' ... '9':
+    printf("number\n"); break;
+}
 ```
-“...”两边的空格是必需的。
+
 
 * Designated Initializers
 
@@ -353,6 +362,236 @@ int array1[8]={0, 0, 0, 3, 0, 5, 0, 0};
 
 int array1[8]={[3]=3, [5]=5};
 ```
+
+初始化也可以使用范围来完成（如case语句所示）。 这些示例是相同的：
+```C
+int array1[8]={0, 0, 1, 1, 1, 2, 2, 2};
+
+int array1[8]={[2 ... 4]=1, [5 ... 7]=2};
+```
+“...”两边的空格是必需的。
+
+* Variable-Length Arrays
+
+GCC允许使用非常量表达式声明数组。 在ISO C99中可行，但在C89中则不可行。 典型的数组声明具有以下形式：
+```C
+int array[ 10 ];
+```
+
+但也可以指定非恒定长度，例如：
+```C
+int array [func（）];
+```
+
+其中数组的大小是func的返回值。 也可以将非恒定大小数组声明为函数的参数。 例如：
+```C
+void check（int len，int array [len]）
+```
+
+创建一个可变长度数组，其长度基于参数列表的第一个参数。
+
+* Zero-Length Arrays
+
+标准C要求所有数组至少包含一个元素，但是在GNU C中，您可以声明零长度数组。 这在需要动态调整数组大小的应用程序中非常有用。 
+例如：
+```C
+typedef struct {
+  int len;
+  char data[0];
+} payload_t;
+
+payload_t *getPayload( int len )
+{
+  payload_t *payload = (payload_t *)0;
+
+  payload = (payload_t *)malloc( sizeof(payload_t) + len );
+  if (payload) payload->len = len;
+
+  return payload;
+}
+```
+
+
+## Using Attributes使用属性
+使用属性，可以指示编译器根据所使用的属性来特别对待函数或变量。传统上，属性已用于标识中断处理程序或强制命名部分中的函数。但是GNU提供了其他一些有用的功能和变量属性。
+
+* Inline control内联控制。
+
+内联函数是帮助提高应用程序性能的常用技术。通过避免调用/返回指令和附加的帧管理，可以提高性能。给定功能大小阈值（并启用了适当的优化级别），GCC可以自动执行此操作，但是在某些情况下，您确切知道要内联什么以及不应该内联什么。为此，可以使用属性noinline和always_inline。
+
+指定每个属性是通过函数原型执行的：
+```C
+void smallFunction( void ) __attribute__ 
+  ((always_inline));
+
+void largeFunction( void ) __attribute__ 
+  ((noinline));
+```
+
+也可以使用内联函数修饰符，但需要启用优化。无论是否启用优化，这些属性都在功能上显式起作用。
+
+* Warning of Unused Return Value Usage未使用返回值使用情况的警告。
+
+每当使用函数属性warn_unused_result忽略函数的返回值时，都可以指示编译器发出警告。指定为：
+```C
+int getTemperature( int sensor) 
+__attribute__ ((warn_unused_result));
+```
+
+随后，编译器将在编译阶段为任何不使用返回值的调用方生成警告消息。
+
+功能参数为空的警告。使用函数属性和编译器选项，可以指示编译器在函数传递了NULL参数时发出警告。您可以使用nonnull函数属性和参数列表来指定哪些参数不能为NULL。在此示例中，可能不会为第一个或第二个参数传递NULL：
+```C
+int sendPacket( void *header, void *payload, int payload_len )
+   __attribute__ ((nonnull (1, 2)));
+```
+
+为了进行此检查，必须在编译器中启用警告选项-Wnonnull。
+
+* Mapping Functions to Sections将功能映射到节。
+ 
+默认情况下，所有功能都映射到一个称为文本的部分。有时有必要创建可以将功能映射到的新部分。嵌入式域中的一个示例是性能路径功能到缓存内存的映射，非性能功能到未缓存内存的映射。第一步是确定将放置这些功能的部分。这是通过section函数属性完成的：
+```C
+int routePacket( packet_t *packet )
+   __attribute__ ((section ("fastpath")));
+```
+
+这会将功能routePacket放入称为fastpath的部分中。然后，可以使用GNU链接程序将此部分映射到具有所需属性的特定内存区域。
+
+* Mapping Variables to Sections将变量映射到节。
+
+您还可以更改变量的默认部分，如功能所示。尽管编译器会将变量放在data节或bss（未初始化的数据）节中，但在某些情况下，您需要提供进一步的映射。例如，如果在性能路径中使用了数据，则需要将其映射到缓存的区域。对于DMA引擎使用的数据，您需要一个未缓存的区域。将变量映射到节类似于函数映射：
+```C
+taskList_t *taskList
+   __attribute__ ((section ("cached"))) = (taskList_t *)0;
+```
+
+请注意，在此示例中，变量初始化遵循属性规范。然后，您可以依靠链接器使用链接器脚本将这些部分放在其适当的内存HASH（0x80bdec）中。
+
+## Function Hooks钩子函数
+
+GCC可以出于各种目的将钩子插入应用程序。我在这里查看三种此类用途。
+
+* Instrument Functions(工具函数)。
+
+一个有趣的GCC扩展是对函数的选择性检测，以在运行时识别其进入和退出点。这可以提供正在运行的应用程序的地址调用跟踪，以及一些其他工具，函数名称和行号信息。
+
+首先，GNU提供了钩子，可以在以下情况下捕获捕获的函数：
+```C
+void __cyg_profile_func_enter 
+   ( void *func_address, void *call_site );
+
+void __cyg_profile_func_exit  
+   ( void *func_address, void *call_site );
+```
+
+在每种情况下，`func_address`参数都是正在输入或正在退出的函数的地址。可以在映射文件中找到给定可执行文件的地址。 `call_site`变量是调用函数的地址（用于_enter）或函数返回的地址（在_exit情况下）。为此，您可以将func_address用于简单的调用跟踪。
+
+要启用功能检测，请使用`-finstrument-functions`编译源文件（与-g一起使用，以确保存在调试数据）：
+
+    gcc -g -o test test.c -finstrument-functions
+
+您可以通过提供或省略`instrument-functions`选项来定义哪些文件具有检测功能，哪些文件没有检测功能。您也可以在已指定工具功能的文件中有选择地禁用该功能的工具。参见清单4。
+
+如下示例中要注意的第一件事是分析函数的属性规范。在这种情况下，您指示编译器不要执行此功能（这将导致递归分析）。性能分析功能（仅适用于入门案例）仅将功能的地址发送到stdout。接下来，创建一些函数来说明样本跟踪。
+```C
+  #include <stdio.h>
+
+  void __cyg_profile_func_enter( void *, void * )
+         __attribute__ ((no_instrument_function));
+
+  void __cyg_profile_func_enter(void *this, void *callsite)
+  {
+    printf("%p\n", (int)this);
+  }
+
+
+  void func_c( void )
+  {
+    return;
+  }
+
+  void func_b( void )
+  {
+    func_c();
+
+    return;
+  }
+
+  void func_a( void )
+  {
+    func_b();
+
+    return;
+  }
+
+
+  int main()
+  {
+    func_a();
+    func_c();
+  }
+```
+
+如果现在运行此应用程序，则结果是打印到stdout的地址流，这并不完全有用。您可以使用addr2line实用程序增加其值，该实用程序可以获取图像和地址并将其转换为函数名称和源代码行号。要获取地址流并将其与addr2line实用程序一起使用，请使用xargs将应用程序的输出作为addr2line的命令行参数进行定向；如下示例中，您现在看到addr2line生成的输出。由检测的应用程序发出的每个地址都转换为函数名称以及该函数文件中的源行。这表示使用简单功能和单个标志启用的示例应用程序的调用跟踪。只需多做一些工作，就可以生成调用树。
+```C
+$ ./instrument | xargs addr2line -e instrument -f
+main
+/home/mtj/gnu-ext/instrument.c:33
+func_a
+/home/mtj/gnu-ext/instrument.c:25
+func_b
+/home/mtj/gnu-ext/instrument.c:18
+func_c
+/home/mtj/gnu-ext/instrument.c:13
+func_c
+/home/mtj/gnu-ext/instrument.c:13
+$
+```
+
+* Wrapping Functions(包装函数)。
+
+使用GNU的内置函数，您可以将现有的函数调用与您自己的函数包装在一起，同时保留参数列表和返回值。三个内置函数提供此功能：
+```C
+void *__builtin_apply_args();
+
+void *__builtin_apply( void (*func)(), void *args, size_t size );
+
+void *__builtin_return( void *result );
+```
+
+`__builtin_apply_args`函数返回传递给该函数的参数列表的空指针。 `__builtin_apply`函数应用保存在args中的参数（来自`__builtin_apply_args`）并将其传递给函数func。 size参数用于计算压入堆栈的数据量。最后，`__ builtin_return`将值从`__builtin_apply`返回到原始调用方。
+
+以下示例中`printf`调用由一个名为`newprintf`的新函数包装。函数newprintf接受格式字符串和变量参数列表（由椭圆“ ...”指示）。使用内置函数，您可以确定参数列表，将其应用于要包装的函数（printf），然后针对原始调用者调整包装函数的返回值。
+```C
+  #include <stdio.h>
+
+  int newprintf( char *fmt, ... )
+  {
+    void *args, *ret;
+
+    args = __builtin_apply_args();
+    ret = __builtin_apply( (void *)printf, args, 1024 );
+
+    __builtin_return( ret );
+  }
+
+  int main()
+  {
+    newprintf( "A %s of the new %s function.\n", "test", "printf" );
+    return 0;
+  }
+```
+
+* Main Function Constructor/Destructor(Main函数的构造函数/析构函数)。
+
+您可以使用C扩展为主要函数提供类似于构造函数和析构函数的函数。这些由两个特殊的函数属性提供，分别称为构造函数和析构函数。通过将构造函数属性应用于函数，可以在C程序的主函数之前调用该函数。相反，使用析构函数功能属性，在C应用程序退出时，将调用析构函数。这些功能可以创建为：
+```C
+void myConstructor( void ) __attribute__ ((constructor));
+
+void myDestructor( void ) __attribute__ ((destructor));
+```
+
 
 ## 参考资料
 [GNU's C Language Extensions](https://www.drdobbs.com/gnus-c-language-extensions/184401956)              
