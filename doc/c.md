@@ -334,11 +334,16 @@ typeof运算符使您可以通过变量本身来引用变量的类型。 它类�
 int i;
 typeof(i) j;
 ```
+创建一个名为i的整数变量，然后使用typeof创建了一个与i变量类型相同的新变量j。
+
+以下示例中使用typeof声明了一个局部变量作为临时交换变量，并引用了一个宏参数。 该例程可用作在任何算术类型（char，int，float，unsigned int等）上运行的通用交换函数。 否则，每种基本类型都需要多个功能。
+```C
 #define swap( x, y )		   \
         ({ typeof(x) temp  = (x);  \
            x = y; y = temp;	   \
         })
-        
+```
+
 * Case Ranges
 
 GCC允许在 switch语句的case中指定连续范围。
@@ -415,7 +420,7 @@ payload_t *getPayload( int len )
 ## Using Attributes使用属性
 使用属性，可以指示编译器根据所使用的属性来特别对待函数或变量。传统上，属性已用于标识中断处理程序或强制命名部分中的函数。但是GNU提供了其他一些有用的功能和变量属性。
 
-* Inline control内联控制。
+* Inline control(内联控制)。
 
 内联函数是帮助提高应用程序性能的常用技术。通过避免调用/返回指令和附加的帧管理，可以提高性能。给定功能大小阈值（并启用了适当的优化级别），GCC可以自动执行此操作，但是在某些情况下，您确切知道要内联什么以及不应该内联什么。为此，可以使用属性noinline和always_inline。
 
@@ -430,7 +435,7 @@ void largeFunction( void ) __attribute__
 
 也可以使用内联函数修饰符，但需要启用优化。无论是否启用优化，这些属性都在功能上显式起作用。
 
-* Warning of Unused Return Value Usage未使用返回值使用情况的警告。
+* Warning of Unused Return Value Usage(未使用返回值使用情况的警告)。
 
 每当使用函数属性warn_unused_result忽略函数的返回值时，都可以指示编译器发出警告。指定为：
 ```C
@@ -448,9 +453,9 @@ int sendPacket( void *header, void *payload, int payload_len )
 
 为了进行此检查，必须在编译器中启用警告选项-Wnonnull。
 
-* Mapping Functions to Sections将功能映射到节。
+* Mapping Functions to Sections(将函数映射到节)。
  
-默认情况下，所有功能都映射到一个称为文本的部分。有时有必要创建可以将功能映射到的新部分。嵌入式域中的一个示例是性能路径功能到缓存内存的映射，非性能功能到未缓存内存的映射。第一步是确定将放置这些功能的部分。这是通过section函数属性完成的：
+默认情况下，所有函数都映射到一个称为文本的部分。有时有必要创建可以将函数映射到的新部分。嵌入式域中的一个示例是函数路径功能到缓存内存的映射，非函数功能到未缓存内存的映射。第一步是确定将放置这些函数的部分。这是通过section函数属性完成的：
 ```C
 int routePacket( packet_t *packet )
    __attribute__ ((section ("fastpath")));
@@ -458,7 +463,7 @@ int routePacket( packet_t *packet )
 
 这会将功能routePacket放入称为fastpath的部分中。然后，可以使用GNU链接程序将此部分映射到具有所需属性的特定内存区域。
 
-* Mapping Variables to Sections将变量映射到节。
+* Mapping Variables to Sections(将变量映射到节)。
 
 您还可以更改变量的默认部分，如功能所示。尽管编译器会将变量放在data节或bss（未初始化的数据）节中，但在某些情况下，您需要提供进一步的映射。例如，如果在性能路径中使用了数据，则需要将其映射到缓存的区域。对于DMA引擎使用的数据，您需要一个未缓存的区域。将变量映射到节类似于函数映射：
 ```C
@@ -468,7 +473,7 @@ taskList_t *taskList
 
 请注意，在此示例中，变量初始化遵循属性规范。然后，您可以依靠链接器使用链接器脚本将这些部分放在其适当的内存HASH（0x80bdec）中。
 
-## Function Hooks钩子函数
+## Function Hooks(钩子函数)
 
 GCC可以出于各种目的将钩子插入应用程序。我在这里查看三种此类用途。
 
