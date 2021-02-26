@@ -340,7 +340,9 @@ int main(int argc, char * const argv[])
 在Turbo C中格式字符串的一般形式为：
 
     [标志][输出最小宽度][.精度][长度]格式字符。
-    
+
+**表格式字符**
+
 |格式字符|	意义    |
 |----|-------------------|
 |d	|以十进制形式输出带符号整数(正数不输出符号)|
@@ -352,7 +354,16 @@ int main(int argc, char * const argv[])
 |g,G	|以%f或%e中较短的输出宽度输出单、双精度实数|
 |c	|输出单个字符|
 |s	|输出字符串|
-|p  |pointer, void *, implementation-dependent, standard between Linux distros|
+|p  |pointer, void \*, implementation-dependent, standard between Linux distros|
+
+**表标志**
+
+|标 志|  意义  |
+|----|----------------|
+|-	|结果左对齐，右边填空格|
+|+	|输出符号(正号或负号)|
+|空格|	输出值为正时冠以空格，为负时冠以负号|
+|#	|对c、s、d、u类无影响；对o类，在输出时加前缀o；对x类，在输出时加前缀0x；对e、g、f 类当结果有小数时才给出小数点。|
 
 
 ## GCC 提供的一些扩展特性
