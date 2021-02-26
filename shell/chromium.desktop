@@ -1,0 +1,9 @@
+[Desktop Entry]                                                                                                                                                                                            
+Name=Chromium
+GenericName=Chromium
+Exec=/opt/chromium/chrome
+Terminal=false
+Icon=/opt/chromium/product_logo_48.png
+Type=Application
+Categories=Application;Network;X-Developer;
+Comment=Chrome Linux Edition Web Browser.
