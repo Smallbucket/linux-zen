@@ -392,7 +392,17 @@ int main(int argc, char * const argv[])
     sprintf(s, "%d", 123);  //把整数123打印成一个字符串保存在s中
     sprintf(s, "%8x", 4567);  //小写16进制，宽度占8个位置，右对齐
 
-`sprintf`的作用是将一个格式化的字符串输出到一个目的字符串中，而printf是将一个格式化的字符串输出到屏幕。sprintf的第一个参数应该是目的字符串，如果不指定这个参数，执行过程中出现 "该程序产生非法操作,即将被关闭...."的提示。
+`sprintf`的作用是将一个格式化的字符串输出到一个目的字符串中，而`printf`是将一个格式化的字符串输出到屏幕。`sprintf`的第一个参数应该是目的字符串，如果不指定这个参数，执行过程中出现 "该程序产生非法操作,即将被关闭...."的提示。
+```C
+#include <stdio.h>
+main()
+{
+    char a = 'a';
+    char buf[80];
+    sprintf(buf, "The ASCII code of a is %d.", a);
+    printf("%s", buf);
+}
+```
 
 sprintf()会根据参数format 字符串来转换并格式化数据，然后将结果复制到参数str 所指的字符串数组，直到出现字符串结束('\0')为止。关于参数format 字符串的格式请参考printf()。
 
