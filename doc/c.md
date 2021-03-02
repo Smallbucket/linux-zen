@@ -370,8 +370,24 @@ int main(int argc, char * const argv[])
 精度:精度格式符以“.”开头，后跟十进制整数。本项的意义是：如果输出数字，则表示小数的位数；如果输出的是字符，则表示输出字符的个数；若实际位数大于所定义的精度数，则截去超过的部分。
 
 长度:长度格式符为h、l两种，h表示按短整型量输出，l表示按长整型量输出。
-
-
+```C
+#include <stdio.h>
+int main(void){
+   int a=15;
+   float b=123.1234567;
+   double c=12345678.1234567;
+   char d='p';
+   printf("a=%d\n", a);
+   printf("a(%%d)=%d, a(%%5d)=%5d, a(%%o)=%o, a(%%x)=%x\n\n",a,a,a,a);  // %% 可以输出 %
+   printf("a=%f\n", b);
+   printf("b(%%f)=%f, b(%%lf)=%lf, b(%%5.4lf)=%5.4lf, b(%%e)=%e\n\n",b,b,b,b);
+   printf("c=%f\n", c);
+   printf("c(%%lf)=%lf, c(%%f)=%f, c(%%8.4lf)=%8.4lf\n\n",c,c,c);
+   printf("d=%c\n", d);
+   printf("d(%%c)=%c, d(%%8c)=%8c\n",d,d);
+   return 0;
+}
+```
 
 ### sprintf函数
 `sprintf`函数用于将格式化的数据写入字符串，其原型为：
