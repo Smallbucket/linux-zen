@@ -1,7 +1,11 @@
 
 - [C语言](#c)        
   - [C语言介绍](#c_intro)       
-  - 
+  - [C程序的结构](#c_struct)          
+  - [C 语言的预处理器和宏](#c_macro)         
+  - [C语言编译过程](#c_compile)        
+  - [C 语言函数](#c_function)          
+  - [指针](#c_pointer)      
 
 # <a id="c">C语言</a>
 
@@ -38,7 +42,7 @@ Benefits of C language
 Riding on these advantages, C became dominant and spread quickly beyond Bell Labs replacing many well-known languages of that time, such as ALGOL, B, PL/I, FORTRAN, etc. C language has become available on a very wide range of platforms, from embedded microcontrollers to supercomputers.
 
 
-## C程序的结构
+## <a id="c_struct">C程序的结构</a>
 经过以上讨论，我们可以正式评估C程序的结构。 通过结构，意味着任何程序都只能以这种结构编写。 因此，以任何其他结构编写C程序都将导致编译错误。
 
 C程序的结构如下：
@@ -77,7 +81,7 @@ C程序的结构如下：
 
 5) 返回语句：任何C程序的最后一部分是返回语句。 return语句是指从函数中返回值。 该返回语句和返回值取决于函数的返回类型。 例如，如果返回类型为void，则将没有return语句。 在任何其他情况下，将有一个return语句，并且返回值将是指定的返回类型的类型。
 
-## C 语言的预处理器和宏
+## <a id="c_macro">C 语言的预处理器和宏</a>
 在C程序中，以＃开头的所有行均由预处理器处理，预处理器是由编译器调用的特殊程序。用一个非常基本的术语来说，预处理器使用一个C程序生成另一个没有任何＃的C程序。
 
 C中预处理器的一些有趣事实：
@@ -241,7 +245,7 @@ int main()
 }
 ```
 
-## C语言编译过程
+## <a id="c_compile">C语言编译过程</a>
 编译器将C程序转换为可执行文件。 C程序成为可执行文件有四个阶段：
 
 * 预处理(Pre-processing)
@@ -274,7 +278,7 @@ $ gcc –Wall –save-temps filename.c –o filename
 ### 链接
 这是最后一个阶段，其中完成了所有函数调用及其定义的链接。 链接器知道所有这些功能的实现位置。 链接器还会做一些额外的工作，它会在程序中添加一些额外的代码，这些代码在程序开始和结束时都需要。 例如，有一个代码需要设置环境，例如传递命令行参数。 使用`$ size filename.o`和`$ size filename`可以轻松验证此任务。通过这些命令，我们知道输出文件如何从目标文件增加到可执行文件。这是因为链接器在我们的程序中添加了额外的代码。
 
-## C 语言函数
+## <a id="c_function">C 语言函数</a>
 
 函数是一组语句，这些语句接受输入，进行一些特定的计算并产生输出。
 
@@ -429,7 +433,7 @@ sprintf()会根据参数format 字符串来转换并格式化数据，然后将�
 
 返回值：成功则返回参数str 字符串长度，失败则返回-1，错误原因存于errno 中。
 
-## 指针
+## <a id="c_pointer">指针</a>
 指针是一个变量，其值为另一个变量的地址，即，内存位置的直接地址。
 
 指针变量声明的一般形式为：
