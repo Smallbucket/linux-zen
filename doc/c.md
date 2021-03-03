@@ -575,12 +575,131 @@ int main ()
    printf("var = %d\n", V );
    printf("Pt1 = %p\n", Pt1 );
    printf("*Pt1 = %d\n", *Pt1 );
-    printf("Pt2 = %p\n", Pt2 );
+   printf("Pt2 = %p\n", Pt2 );
    printf("**Pt2 = %d\n", **Pt2);
  
    return 0;
 }
 
+```
+
+### 传递指针给函数
+传递指针给函数，只需要简单地声明函数参数为指针类型即可。
+例子：
+```C
+#include <stdio.h>
+#include <time.h>
+ 
+void getSeconds(unsigned long *par);
+
+int main ()
+{
+   unsigned long sec;
+
+
+   getSeconds( &sec );
+
+   /* 输出实际值 */
+   printf("Number of seconds: %ld\n", sec );
+
+   return 0;
+}
+
+void getSeconds(unsigned long *par)
+{
+   /* 获取当前的秒数 */
+   *par = time( NULL );
+   return;
+}
+```
+
+能接受指针作为参数的函数，也能接受数组作为参数，如下所示：
+```C
+#include <stdio.h>
+ 
+/* 函数声明 */
+double getAverage(int *arr, int size);
+ 
+int main ()
+{
+   /* 带有 5 个元素的整型数组  */
+   int balance[5] = {1000, 2, 3, 17, 50};
+   double avg;
+ 
+   /* 传递一个指向数组的指针作为参数 */
+   avg = getAverage( balance, 5 ) ;
+ 
+   /* 输出返回值  */
+   printf("Average value is: %f\n", avg );
+   
+   return 0;
+}
+
+double getAverage(int *arr, int size)
+{
+  int    i, sum = 0;      
+  double avg;          
+ 
+  for (i = 0; i < size; ++i)
+  {
+    sum += arr[i];
+  }
+ 
+  avg = (double)sum / size;
+ 
+  return avg;
+}
+```
+### 从函数返回指针
+函数返回指针必须声明一个返回指针的函数:
+```C
+int * myFunction()
+{
+
+}
+```
+C 语言不支持在调用函数时返回局部变量的地址，除非定义局部变量为 static 变量。
+* 因为局部变量是存储在内存的栈区内，当函数调用结束后，局部变量所占的内存地址便被释放了，因此当其函数执行完毕后，函数内的变量便不再拥有那个内存地址，所以不能返回其指针。
+* 除非将其变量定义为 static 变量，static 变量的值存放在内存中的静态数据区，不会随着函数执行的结束而被清除，故能返回其地址。
+
+例子：
+```C
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h> 
+ 
+/* 要生成和返回随机数的函数 */
+int * getRandom( )
+{
+   static int  r[10];
+   int i;
+ 
+   /* 设置种子 */
+   srand( (unsigned)time( NULL ) );
+   for ( i = 0; i < 10; ++i)
+   {
+      r[i] = rand();
+      printf("%d\n", r[i] );
+   }
+ 
+   return r;
+}
+ 
+/* 要调用上面定义函数的主函数 */
+int main ()
+{
+   /* 一个指向整数的指针 */
+   int *p;
+   int i;
+ 
+   p = getRandom();
+   for ( i = 0; i < 10; i++ )
+   {
+       printf("*(p + [%d]) : %d\n", i, *(p + i) );
+   }
+ 
+   return 0;
+}
 ```
 
 ## GCC 提供的一些扩展特性
