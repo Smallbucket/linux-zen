@@ -979,4 +979,5 @@ void myDestructor( void ) __attribute__ ((destructor));
 [GNU's C Language Extensions](https://www.drdobbs.com/gnus-c-language-extensions/184401956)              
 [C programming tutorial](https://linuxconfig.org/c-programming-tutorial)                 
 [C Programming Language](https://www.geeksforgeeks.org/c-programming-language/)            
+[C 语言教程](https://www.runoob.com/cprogramming/c-tutorial.html)             
 
