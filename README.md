@@ -101,6 +101,7 @@ Linux 性能观察工具
 * [Debian/Ubuntu 使用](./distribution/debian.md)   
 * [Shell 使用](./doc/shell/index.md)       
 * [Makefile](./doc/makefile.md)             
+* [C 语言](./doc/c.md)           
 
 
 
