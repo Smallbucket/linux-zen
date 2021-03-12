@@ -103,6 +103,7 @@ Linux 性能观察工具
 * [Makefile](./doc/makefile.md)             
 * [C 语言](./doc/c.md)           
 
+chart.js,chartjs-color,chartjs-color-string,color-name,moment,@types,vue-chartjs
 
 
 ## 参考资料           
