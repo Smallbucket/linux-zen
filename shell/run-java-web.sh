@@ -18,12 +18,13 @@ fi
 }
 
 #启动方法
+#`> /dev/null 2>&1 &` 表示标准输出不输出任何信息到终端，标准错误输出也一样
 start(){
 is_exist
 if [ $? -eq "0" ]; then
 echo "${APP_NAME} is already running. pid=${pid} ."
 else
-nohup java -jar $APP_NAME --spring.profiles.active=pro --server.port=8081 > logs/serv.log 2>&1 &
+nohup java -jar $APP_NAME --spring.profiles.active=prod --server.port=8080 > /dev/null 2>&1 &
 fi
 }
 
